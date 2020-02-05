@@ -1,12 +1,8 @@
 import React from "react";
-import { QuestionaryList } from "./components/questionaryList";
 import { QuestionaryItem } from "./components/questionaryItem";
-import {
-  FoundationQuestions,
-  InfoQuestions,
-  SkinQuestions,
-  UtilQuestions
-} from "./consts";
+import { QuestionaryCheckbox } from "./components/questionaryCheckbox";
+import { QuestionaryRadio } from "./components/questionaryRadio";
+import { QuestionaryList } from "./consts";
 
 export const App = () => {
   return (
@@ -21,51 +17,51 @@ export const App = () => {
         mollit anim id est laborum.
       </h2>
       <form action="">
-        <fieldset>
-          <legend>Ваши данные:</legend>
-          <ol>
-            <QuestionaryItem id={"name"} heading={InfoQuestions.name} />
-            {/*// или сделать в виде checkbox и сделать диапазон возрастов*/}
-            <QuestionaryItem id={"age"} heading={InfoQuestions.age} />
-          </ol>
-        </fieldset>
-
-        <fieldset>
-          <legend>Кожа</legend>
-          <ol>
-            <QuestionaryItem id={"skinType"} heading={SkinQuestions.skinType} />
-            <QuestionaryItem id={"skinCare"} heading={SkinQuestions.skinCare} />
-            <QuestionaryItem
-              id={"skinCleanser"}
-              heading={SkinQuestions.skinCleanser}
-            />
-
-            <QuestionaryItem
-              id={"skinFeedback"}
-              heading={UtilQuestions.comment}
-            />
-          </ol>
-        </fieldset>
-
-        <fieldset>
-          <legend>Тональное средство: </legend>
-          <ol>
-            <QuestionaryItem
-              id={"foundationBase"}
-              heading={FoundationQuestions.base}
-            />
-            <QuestionaryItem id={"skinCare"} heading={SkinQuestions.skinCare} />
-            <QuestionaryItem
-              id={"skinCleanser"}
-              heading={SkinQuestions.skinCleanser}
-            />
-
-            <QuestionaryItem
-              id={"skinFeedback"}
-              heading={UtilQuestions.comment}
-            />
-          </ol>
-        </fieldset>
+        {QuestionaryList.map(section => {
+          return (
+            <fieldset>
+              <legend>{section.name}</legend>
+              <ol>
+                {section.questions.map(question => {
+                  if (question.type === "text") {
+                    return (
+                      <li>
+                        <QuestionaryItem
+                          name={question.name}
+                          question={question.question}
+                        />
+                      </li>
+                    );
+                  } else if (question.type === "radio") {
+                    return (
+                      <li>
+                        <p> {question.question} </p>
+                        {question.options.map((option, index) => {
+                          if (option === "Добавить свой вариант") {
+                            return (
+                              <QuestionaryItem
+                                name={"own-answer"}
+                                question={option}
+                              />
+                            );
+                          }
+                          return (
+                            <QuestionaryRadio
+                              id={index}
+                              name={question.name}
+                              value={option}
+                              text={option}
+                            />
+                          );
+                        })}
+                      </li>
+                    );
+                  }
+                })}
+              </ol>
+            </fieldset>
+          );
+        })}
       </form>
     </div>
   );
