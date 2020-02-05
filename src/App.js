@@ -22,10 +22,8 @@ const FormSubmit = styled.input`
   height: 50px;
   width: 200px;
   color: white;
-  margin: auto;
   display: flex;
-  margin-top: 20px;
-  margin-bottom: 50px;
+  margin: 20px auto 50px;
   justify-content: center;
 `;
 
@@ -41,8 +39,11 @@ export class App extends React.Component {
   handleOnClick = (name, value) => {
     if (value === "Да") {
       this.setState({ [name]: true });
-    } else {
+    } else if (value === "Нет") {
       this.setState({ [name]: false });
+    } else if (value === "Добавить свой вариант") {
+      const personalInput = `${name}-personal`;
+      this.setState({ [personalInput]: true });
     }
   };
 
@@ -88,14 +89,15 @@ export class App extends React.Component {
                           <p> {question.question} </p>
                           {question.options.map((option, index) => {
                             if (option === "Добавить свой вариант") {
-                              const ownId = `${option}-own-answer`;
-                              return (
-                                <QuestionaryItem
-                                  key={`${question.name}-${index}`}
-                                  name={ownId}
-                                  question={option}
-                                />
-                              );
+                              if (this.state[`${question.name}-personal`]) {
+                                return (
+                                  <QuestionaryItem
+                                    key={`${question.name}-personal`}
+                                    name={`${question.name}-personal`}
+                                    question={option}
+                                  />
+                                );
+                              }
                             }
                             return (
                               <QuestionaryRadio
@@ -116,20 +118,30 @@ export class App extends React.Component {
                           <p> {question.question} </p>
                           {question.options.map((option, index) => {
                             if (option === "Добавить свой вариант") {
-                              const ownId = `${question.name}-${index}-own`;
-                              return (
-                                <QuestionaryItem
-                                  key={`${question.name}-${index}`}
-                                  name={ownId}
-                                  question={option}
-                                />
-                              );
+                              {
+                                console.log(
+                                  option,
+                                  `${question.name}-personal`,
+                                  this.state[`${question.name}-personal`]
+                                );
+                              }
+                              if (this.state[`${question.name}-personal`]) {
+                                return (
+                                  <QuestionaryItem
+                                    key={`${question.name}-personal`}
+                                    name={`${question.name}-personal`}
+                                    question={option}
+                                  />
+                                );
+                              }
                             }
                             return (
                               <QuestionaryCheckbox
                                 key={`${question.name}-${index}`}
-                                id={`${option}-index`}
+                                id={`${option}-${index}`}
                                 heading={option}
+                                name={question.name}
+                                handleOnClick={this.handleOnClick}
                               />
                             );
                           })}
