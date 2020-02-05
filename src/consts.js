@@ -6,8 +6,9 @@ const InfoName = {
 
 const InfoAge = {
   name: "personalAge",
-  type: "text",
-  question: `Укажите ваш возраст:`
+  type: "radio",
+  question: `Укажите ваш возраст:`,
+  options: ["до 18", "18-25", "25-35", "35-45", "45+"]
 };
 
 const SkincareType = {
