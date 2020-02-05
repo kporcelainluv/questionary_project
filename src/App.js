@@ -3,6 +3,32 @@ import { QuestionaryItem } from "./components/questionaryItem";
 import { QuestionaryCheckbox } from "./components/questionaryCheckbox";
 import { QuestionaryRadio } from "./components/questionaryRadio";
 import { QuestionaryList } from "./consts";
+import styled from "styled-components";
+
+const Container = styled.section`
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+`;
+
+const FormSubmit = styled.input`
+  background-color: black;
+  height: 50px;
+  width: 200px;
+  color: white;
+  margin: auto;
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  justify-content: center;
+`;
+
+const List = styled.li`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+`;
 
 export class App extends React.Component {
   state = {};
@@ -16,9 +42,8 @@ export class App extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     return (
-      <div className={"container"}>
+      <Container>
         <h2>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -43,17 +68,17 @@ export class App extends React.Component {
                     }
                     if (question.type === "text") {
                       return (
-                        <li key={question.name}>
+                        <List key={question.name}>
                           <QuestionaryItem
                             key={`${question.name}-${index}`}
                             name={question.name}
                             question={question.question}
                           />
-                        </li>
+                        </List>
                       );
                     } else if (question.type === "radio") {
                       return (
-                        <li key={question.name}>
+                        <List key={question.name}>
                           <p> {question.question} </p>
                           {question.options.map((option, index) => {
                             if (option === "Добавить свой вариант") {
@@ -77,11 +102,11 @@ export class App extends React.Component {
                               />
                             );
                           })}
-                        </li>
+                        </List>
                       );
                     } else if (question.type === "checkbox") {
                       return (
-                        <li key={question.name}>
+                        <List key={question.name}>
                           <p> {question.question} </p>
                           {question.options.map((option, index) => {
                             if (option === "Добавить свой вариант") {
@@ -102,7 +127,7 @@ export class App extends React.Component {
                               />
                             );
                           })}
-                        </li>
+                        </List>
                       );
                     }
                   })}
@@ -110,9 +135,9 @@ export class App extends React.Component {
               </fieldset>
             );
           })}
-          <input type="submit" value="Отправить" />
+          <FormSubmit type="submit" value="Отправить" />
         </form>
-      </div>
+      </Container>
     );
   }
 }
