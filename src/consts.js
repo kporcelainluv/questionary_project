@@ -187,12 +187,7 @@ const HighlighterUsage = {
     name: "highlighterPreference",
     type: "checkbox",
     question: `Какой хайлайтер вы любите?`,
-    options: [
-      "Сухой",
-      "Кремовый",
-      "Не использую хайлайтер",
-      "Добавить свой вариант"
-    ]
+    options: ["Сухой", "Кремовый", "Добавить свой вариант"]
   }
 };
 
@@ -227,7 +222,7 @@ const EyesPreference = {
 const ToolsPreference = {
   name: "toolsPreference",
   type: "checkbox",
-  question: `Какие инструменты для макияжа (кисти) вы используете?`,
+  question: `Какие инструменты для макияжа вы используете?`,
   options: [
     "Кисти",
     "Спонж",
