@@ -1,10 +1,21 @@
 import React from "react";
+import styled from "styled-components";
+
+const Label = styled.label`
+  font-size: 16px;
+  font-family: Arial, serif;
+  margin-bottom: 10px;
+`;
+
+const Input = styled.input`
+  font-size: 16px;
+  font-family: Arial, serif;
+`;
 
 export const QuestionaryRadio = ({ id, name, value, text, handleOnClick }) => {
   return (
-    <label htmlFor={id}>
-      {text}
-      <input
+    <Label htmlFor={id}>
+      <Input
         type="radio"
         id={id}
         name={name}
@@ -13,6 +24,7 @@ export const QuestionaryRadio = ({ id, name, value, text, handleOnClick }) => {
           return handleOnClick(name, value);
         }}
       />
-    </label>
+      {text}
+    </Label>
   );
 };
