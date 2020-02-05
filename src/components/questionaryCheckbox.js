@@ -12,10 +12,17 @@ const Input = styled.input`
   font-family: Arial, serif;
 `;
 
-export const QuestionaryCheckbox = ({ heading, id }) => {
+export const QuestionaryCheckbox = ({ heading, id, name, handleOnClick }) => {
   return (
     <Label htmlFor={id}>
-      <Input type="checkbox" id={id} name={id} />
+      <Input
+        type="checkbox"
+        id={id}
+        name={id}
+        onChange={() => {
+          return handleOnClick(name, heading);
+        }}
+      />
       {heading}
     </Label>
   );
