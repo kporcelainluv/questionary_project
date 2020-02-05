@@ -1,12 +1,10 @@
 import React from "react";
 
-export const QuestionaryItem = ({ id, heading, value = undefined }) => {
+export const QuestionaryItem = ({ name, question }) => {
   return (
-    <li>
-      <label htmlFor={id}>
-        {heading}
-        <input type="text" id={id} />
-      </label>
-    </li>
+    <label htmlFor={name}>
+      {question}
+      <input type="text" id={name} />
+    </label>
   );
 };

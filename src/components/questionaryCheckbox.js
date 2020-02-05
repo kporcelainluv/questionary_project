@@ -1,12 +1,10 @@
 import React from "react";
 
-export const questionaryCheckbox = ({ heading, id }) => {
+export const QuestionaryCheckbox = ({ heading, id }) => {
   return (
-    <li>
-      <label htmlFor={id}>
-        {heading}
-        <input type="checkbox" id={id} />
-      </label>
-    </li>
+    <label htmlFor={id}>
+      {heading}
+      <input type="checkbox" id={id} name={id} />
+    </label>
   );
 };
