@@ -5,6 +5,11 @@ import { QuestionaryRadio } from "./components/questionaryRadio";
 import { QuestionaryList } from "./consts";
 import styled from "styled-components";
 
+const Heading = styled.h2`
+  display: flex;
+  justify-content: center;
+  font-family: Arial, serif;
+`;
 const Container = styled.section`
   max-width: 500px;
   display: flex;
@@ -44,10 +49,11 @@ export class App extends React.Component {
   render() {
     return (
       <Container>
-        <h2>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </h2>
+        <Heading>
+          Добрый день! Перед нашей встречей мне бы хотелось познакомиться с вами
+          и вашей косметичкой, чтобы занятие произошло наиболее плодотворно.
+          Заполните, пожалуйста, данную форму.
+        </Heading>
         <form action="">
           {QuestionaryList.map(section => {
             return (
