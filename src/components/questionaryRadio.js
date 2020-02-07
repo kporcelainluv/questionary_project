@@ -12,7 +12,7 @@ const Input = styled.input`
   font-family: Arial, serif;
 `;
 
-export const QuestionaryRadio = ({ id, name, value, text, handleOnClick }) => {
+export const QuestionaryRadio = ({ id, name, value, handleOnClick }) => {
   return (
     <Label htmlFor={id}>
       <Input
@@ -24,7 +24,7 @@ export const QuestionaryRadio = ({ id, name, value, text, handleOnClick }) => {
           return handleOnClick(name, value);
         }}
       />
-      {text}
+      {value}
     </Label>
   );
 };

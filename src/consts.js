@@ -1,11 +1,11 @@
-const InfoName = {
-  name: "personalName",
+const Name = {
+  name: "name",
   type: "text",
   question: `Пожалуйста, представьтесь:`
 };
 
-const InfoAge = {
-  name: "personalAge",
+const Age = {
+  name: "age",
   type: "radio",
   question: `Укажите ваш возраст:`,
   options: ["до 18", "18-25", "25-35", "35-45", "45+"]
@@ -20,8 +20,7 @@ const SkincareType = {
     "Чувствительная",
     "Нормальная",
     "Комбинированная",
-    "Жирная",
-    "Добавить свой вариант"
+    "Жирная"
   ]
 };
 const SkincareProducts = {
@@ -35,17 +34,15 @@ const SkincareCleanser = {
   question: `Какими средствами вы очищаете кожу от макияжа?`
 };
 
-////
-
-const FoundationBase = {
-  name: "foundationBase",
+const MakeupBase = {
+  name: "base",
   type: "radio",
   question: `Используете ли вы базу до макияжа?`,
   options: ["Да", "Нет"]
 };
 
 const Foundation = {
-  name: "foundationCream",
+  name: "foundation",
   type: "radio",
   question: `Используете ли вы тональный крем?`,
   options: ["Да", "Нет"]
@@ -53,21 +50,19 @@ const Foundation = {
 
 const FoundationPreference = {
   type: "test",
-  name: "foundationCream",
+  name: "foundation",
   yes: {
     name: "foundationPreference",
     type: "checkbox",
     question: `Какое тональное средство вы предпочитаете?`,
-    options: ["легкое", "среднее", "плотное", "Добавить свой вариант"]
+    options: ["легкое", "среднее", "плотное"]
   },
   no: {
-    name: "foundationNo",
+    name: "foundationNotUsed",
     type: "text",
     question: `Расскажите, пожалуйста, почему`
   }
 };
-
-///
 
 const Concealer = {
   name: "concealerUsage",
@@ -80,26 +75,24 @@ const ConcealerUsage = {
   type: "test",
   name: "concealerUsage",
   no: {
-    name: "noConcealer",
+    name: "concealerNotUsed",
     type: "text",
     question: `Расскажите, пожалуйста, почему?`
   },
   yes: {}
 };
 
-///
-
 const Powder = {
-  name: "powder",
+  name: "powderUsage",
   type: "radio",
   question: `Используете ли вы пудру?`,
   options: ["Да", "Нет"]
 };
 const PowderUsage = {
   type: "test",
-  name: "powder",
+  name: "powderUsage",
   no: {
-    name: "noPowder",
+    name: "powderNotUsed",
     type: "text",
     question: `Расскажите, пожалуйста, почему?`
   },
@@ -107,7 +100,7 @@ const PowderUsage = {
     name: "powderPreference",
     type: "checkbox",
     question: `Какую пудру вы используете?`,
-    options: ["компактная", "рассыпчатая", "Добавить свой вариант"]
+    options: ["компактная", "рассыпчатая"]
   }
 };
 
@@ -122,7 +115,7 @@ const BlushUsage = {
   type: "test",
   name: "blush",
   no: {
-    name: "noBlush",
+    name: "blushNotUsed",
     type: "text",
     question: `Расскажите, пожалуйста, почему?`
   },
@@ -130,7 +123,7 @@ const BlushUsage = {
     name: "blushPreference",
     type: "checkbox",
     question: `Какие румяна вам нравятся?`,
-    options: ["кремовые", "сухие", "Добавить свой вариант"]
+    options: ["кремовые", "сухие"]
   }
 };
 
@@ -145,7 +138,7 @@ const ContourUsage = {
   type: "test",
   name: "contour",
   no: {
-    name: "noContour",
+    name: "contourNotUsed",
     type: "text",
     question: `Расскажите, пожалуйста, почему?`
   },
@@ -159,7 +152,7 @@ const ContourUsage = {
 const Lipstick = {
   name: "lipstick",
   type: "radio",
-  question: `Какую предпочитаете помаду?`,
+  question: `Какие вам нравятся помады?`,
   options: [
     "Яркие",
     "По случаю",
@@ -169,7 +162,7 @@ const Lipstick = {
 };
 
 const Highlighter = {
-  name: "highlighter",
+  name: "highlighterUsage",
   type: "radio",
   question: `Используете ли вы хайлайтер?`,
   options: ["Да", "Нет"]
@@ -177,9 +170,9 @@ const Highlighter = {
 
 const HighlighterUsage = {
   type: "test",
-  name: "highlighter",
+  name: "highlighterUsage",
   no: {
-    name: "noHighlighter",
+    name: "highlighterNotUsed",
     type: "text",
     question: `Расскажите, пожалуйста, почему?`
   },
@@ -187,7 +180,7 @@ const HighlighterUsage = {
     name: "highlighterPreference",
     type: "checkbox",
     question: `Какой хайлайтер вы любите?`,
-    options: ["Сухой", "Кремовый", "Добавить свой вариант"]
+    options: ["Сухой", "Кремовый"]
   }
 };
 
@@ -195,13 +188,7 @@ const BrowsPreference = {
   name: "browsPreference",
   type: "checkbox",
   question: `Какие продукты для бровей вы используете?`,
-  options: [
-    "Карандаш",
-    "Тени",
-    "Гель для бровей",
-    "Ничего",
-    "Добавить свой вариант"
-  ]
+  options: ["Карандаш", "Тени", "Гель для бровей", "Ничего"]
 };
 
 const EyesPreference = {
@@ -214,8 +201,7 @@ const EyesPreference = {
     "Тени-карандаш",
     "Карандаши для глаз",
     "Подводка",
-    "Не использую ничего",
-    "Добавить свой вариант"
+    "Не использую ничего"
   ]
 };
 
@@ -223,17 +209,11 @@ const ToolsPreference = {
   name: "toolsPreference",
   type: "checkbox",
   question: `Какие инструменты для макияжа вы используете?`,
-  options: [
-    "Кисти",
-    "Спонж",
-    "Керлер",
-    "Ничего не использую",
-    "Добавить свой вариант"
-  ]
+  options: ["Кисти", "Спонж", "Керлер", "Ничего не использую"]
 };
 
 const PricePreference = {
-  name: "pricePreference",
+  name: "userOwnedProducts",
   type: "text",
   question: `В каком сегменте вы приобретаете косметику? Можно перечислить 3-5 брендов вашей косметички.`
 };
@@ -251,7 +231,7 @@ const Expectations = {
 export const QuestionaryList = [
   {
     name: "Ваши данные: ",
-    questions: [InfoName, InfoAge]
+    questions: [Name, Age]
   },
   {
     name: "Уход за кожей: ",
@@ -259,7 +239,7 @@ export const QuestionaryList = [
   },
   {
     name: "Тональный крем: ",
-    questions: [FoundationBase, Foundation, FoundationPreference]
+    questions: [MakeupBase, Foundation, FoundationPreference]
   },
   {
     name: "Консилер: ",

@@ -15,11 +15,15 @@ const Input = styled.input`
   margin-top: 10px;
 `;
 
-export const QuestionaryItem = ({ name, question }) => {
+export const QuestionaryItem = ({ name, question, handleOnClick }) => {
   return (
     <Label htmlFor={name}>
       {question}
-      <Input type="text" id={name} />
+      <Input
+        type="text"
+        id={name}
+        onChange={e => handleOnClick(name, e.target.value)}
+      />
     </Label>
   );
 };

@@ -36,18 +36,31 @@ const List = styled.li`
 export class App extends React.Component {
   state = {};
 
-  handleOnClick = (name, value) => {
+  handleRadioButtonChoice = (name, value) => {
     if (value === "Да") {
       this.setState({ [name]: true });
     } else if (value === "Нет") {
       this.setState({ [name]: false });
-    } else if (value === "Добавить свой вариант") {
-      const personalInput = `${name}-personal`;
-      this.setState({ [personalInput]: true });
+    } else {
+      this.setState({ [name]: value });
     }
   };
 
+  handleCheckboxChoice = (name, value) => {
+    if (this.state[name]) {
+      const list = this.state[name].concat(" " + value);
+      this.setState({ [name]: list });
+    } else {
+      this.setState({ [name]: value });
+    }
+  };
+
+  handleTextareaChoice = (name, value) => {
+    this.setState({ [name]: value });
+  };
+
   render() {
+    console.log({ state: this.state });
     return (
       <Container>
         <Heading>
@@ -55,7 +68,7 @@ export class App extends React.Component {
           и вашей косметичкой, чтобы занятие произошло наиболее плодотворно.
           Заполните, пожалуйста, данную форму.
         </Heading>
-        <form action="">
+        <form action="" method={"http://localhost:3000/"}>
           {QuestionaryList.map(section => {
             return (
               <fieldset key={section.name}>
@@ -80,6 +93,7 @@ export class App extends React.Component {
                             key={`${question.name}-${index}`}
                             name={question.name}
                             question={question.question}
+                            handleOnClick={this.handleTextareaChoice}
                           />
                         </List>
                       );
@@ -88,25 +102,13 @@ export class App extends React.Component {
                         <List key={question.name}>
                           <p> {question.question} </p>
                           {question.options.map((option, index) => {
-                            if (option === "Добавить свой вариант") {
-                              if (this.state[`${question.name}-personal`]) {
-                                return (
-                                  <QuestionaryItem
-                                    key={`${question.name}-personal`}
-                                    name={`${question.name}-personal`}
-                                    question={option}
-                                  />
-                                );
-                              }
-                            }
                             return (
                               <QuestionaryRadio
-                                key={`${question.name}-${index}`}
-                                id={`${question.name}-${index}`}
+                                key={`${question.name}${index}`}
+                                id={`${question.name}${index}`}
                                 name={question.name}
                                 value={option}
-                                text={option}
-                                handleOnClick={this.handleOnClick}
+                                handleOnClick={this.handleRadioButtonChoice}
                               />
                             );
                           })}
@@ -117,31 +119,13 @@ export class App extends React.Component {
                         <List key={question.name}>
                           <p> {question.question} </p>
                           {question.options.map((option, index) => {
-                            if (option === "Добавить свой вариант") {
-                              {
-                                console.log(
-                                  option,
-                                  `${question.name}-personal`,
-                                  this.state[`${question.name}-personal`]
-                                );
-                              }
-                              if (this.state[`${question.name}-personal`]) {
-                                return (
-                                  <QuestionaryItem
-                                    key={`${question.name}-personal`}
-                                    name={`${question.name}-personal`}
-                                    question={option}
-                                  />
-                                );
-                              }
-                            }
                             return (
                               <QuestionaryCheckbox
                                 key={`${question.name}-${index}`}
                                 id={`${option}-${index}`}
                                 heading={option}
                                 name={question.name}
-                                handleOnClick={this.handleOnClick}
+                                handleOnClick={this.handleCheckboxChoice}
                               />
                             );
                           })}
