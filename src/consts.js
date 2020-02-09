@@ -26,7 +26,7 @@ const SkincareType = {
 const SkincareProducts = {
   name: "skincareProducts",
   type: "text",
-  question: `Какими уходовыми средствами вы пользуетесь?`
+  question: `Какими уходовыми средствами вы пользуетесь до макияжа?`
 };
 const SkincareCleanser = {
   name: "skincareCleanser",

@@ -4,12 +4,35 @@ import { QuestionaryCheckbox } from "./components/questionaryCheckbox";
 import { QuestionaryRadio } from "./components/questionaryRadio";
 import { QuestionaryList } from "./consts";
 import styled from "styled-components";
+import * as firebase from "firebase";
+
+firebase.initializeApp({
+  apiKey: "AIzaSyCUGPGe5R6dTPJIXKFVDJ--QnwLvvA49zY",
+  authDomain: "questionary-8ec9b.firebaseapp.com",
+  databaseURL: "https://questionary-8ec9b.firebaseio.com",
+  projectId: "questionary-8ec9b",
+  storageBucket: "questionary-8ec9b.appspot.com",
+  messagingSenderId: "1007269819903",
+  appId: "1:1007269819903:web:e25fe2c1e9e395176ae3ca",
+  measurementId: "G-58ZEK8SJ7P"
+});
+
+const firestore = firebase.firestore();
+const docRef = firestore.doc("survey-results/masha");
+
+console.log({ docRef });
+docRef.get().then(doc => {
+  if (doc && doc.exists) {
+    console.log(doc.data());
+  }
+});
 
 const Heading = styled.h2`
   display: flex;
   justify-content: center;
   font-family: Arial, serif;
 `;
+
 const Container = styled.section`
   max-width: 500px;
   display: flex;
@@ -34,7 +57,38 @@ const List = styled.li`
 `;
 
 export class App extends React.Component {
-  state = {};
+  state = {
+    name: "",
+    age: "",
+    skincareType: "",
+    skincareProducts: "",
+    skincareCleanser: "",
+    base: "",
+    foundation: "",
+    foundationPreference: "",
+    foundationNotUsed: "",
+    concealerUsage: "",
+    concealerNotUsed: "",
+    powderUsage: "",
+    powderNotUsed: "",
+    powderPreference: "",
+    blush: "",
+    blushNotUsed: "",
+    blushPreference: "",
+    contour: "",
+    contourNotUsed: "",
+    contourPreference: "",
+    lipstick: "",
+    highlighterUsage: "",
+    highlighterNotUsed: "",
+    highlighterPreference: "",
+    browsPreference: "",
+    eyesPreference: "",
+    toolsPreference: "",
+    userOwnedProducts: "",
+    frequency: "",
+    expectations: ""
+  };
 
   handleRadioButtonChoice = (name, value) => {
     if (value === "Да") {
@@ -137,7 +191,24 @@ export class App extends React.Component {
               </fieldset>
             );
           })}
-          <FormSubmit type="submit" value="Отправить" />
+          <FormSubmit
+            type="submit"
+            value="Отправить"
+            className="on-form-submit"
+            onClick={e => {
+              e.preventDefault();
+              console.log(this.state);
+              console.log("I'm going to save this to firestore");
+              docRef
+                .set(this.state)
+                .then(res => {
+                  console.log("Success!");
+                })
+                .catch(e => {
+                  console.log("Got an error", e);
+                });
+            }}
+          />
         </form>
       </Container>
     );
