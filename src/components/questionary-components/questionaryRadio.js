@@ -1,15 +1,26 @@
 import React from "react";
 import styled from "styled-components";
+import { MediaWidth } from "../../consts";
 
 const Label = styled.label`
   font-size: 16px;
-  font-family: Arial, serif;
-  margin-bottom: 10px;
+  font-family: "Montserrat", "PT Sans", sans-serif;
+  padding: 10px;
+  cursor: pointer;
 `;
 
 const Input = styled.input`
-  font-size: 16px;
-  font-family: Arial, serif;
+  font-size: 18px;
+  font-family: "Montserrat", "PT Sans", sans-serif;
+`;
+const QuestionWrap = styled.span`
+  padding-left: 20px;
+  max-width: 280px;
+  margin-bottom: 13px;
+  @media ${MediaWidth.TABLET} {
+    max-width: 650px;
+    height: 50px;
+  }
 `;
 
 export const QuestionaryRadio = ({ id, name, value, handleOnClick }) => {
@@ -24,7 +35,7 @@ export const QuestionaryRadio = ({ id, name, value, handleOnClick }) => {
           return handleOnClick(name, value);
         }}
       />
-      {value}
+      <QuestionWrap>{value}</QuestionWrap>
     </Label>
   );
 };

@@ -230,7 +230,7 @@ const Expectations = {
 
 export const QuestionaryList = [
   {
-    name: "Ваши данные: ",
+    name: "",
     questions: [Name, Age]
   },
   {
@@ -282,3 +282,9 @@ export const QuestionaryList = [
     questions: [PricePreference, Frequency, Expectations]
   }
 ];
+
+export const MediaWidth = {
+  MOBILE: `(min-width: 320px)`,
+  TABLET: `(min-width: 750px)`,
+  LAPTOP: `(min-width: 950px)`
+};
