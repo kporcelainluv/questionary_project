@@ -5,7 +5,6 @@ import { QuestionaryRadio } from "./questionary-components/questionaryRadio";
 import { QuestionaryCheckbox } from "./questionary-components/questionaryCheckbox";
 import styled from "styled-components";
 import firebase from "firebase";
-import nanoid from "nanoid";
 
 const Heading = styled.h2`
   display: flex;
@@ -14,7 +13,7 @@ const Heading = styled.h2`
 `;
 
 const Container = styled.section`
-  max-width: 500px;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -38,36 +37,36 @@ const List = styled.li`
 
 export class Form extends React.Component {
   state = {
-    name: "",
-    age: "",
-    skincareType: "",
-    skincareProducts: "",
-    skincareCleanser: "",
-    base: "",
-    foundation: "",
-    foundationPreference: "",
-    foundationNotUsed: "",
-    concealerUsage: "",
-    concealerNotUsed: "",
-    powderUsage: "",
-    powderNotUsed: "",
-    powderPreference: "",
-    blush: "",
-    blushNotUsed: "",
-    blushPreference: "",
-    contour: "",
-    contourNotUsed: "",
-    contourPreference: "",
-    lipstick: "",
-    highlighterUsage: "",
-    highlighterNotUsed: "",
-    highlighterPreference: "",
-    browsPreference: "",
-    eyesPreference: "",
-    toolsPreference: "",
-    userOwnedProducts: "",
-    frequency: "",
-    expectations: ""
+    name: null,
+    age: null,
+    skincareType: null,
+    skincareProducts: null,
+    skincareCleanser: null,
+    base: null,
+    foundation: null,
+    foundationPreference: null,
+    foundationNotUsed: null,
+    concealerUsage: null,
+    concealerNotUsed: null,
+    powderUsage: null,
+    powderNotUsed: null,
+    powderPreference: null,
+    blush: null,
+    blushNotUsed: null,
+    blushPreference: null,
+    contour: null,
+    contourNotUsed: null,
+    contourPreference: null,
+    lipstick: null,
+    highlighterUsage: null,
+    highlighterNotUsed: null,
+    highlighterPreference: null,
+    browsPreference: null,
+    eyesPreference: null,
+    toolsPreference: null,
+    userOwnedProducts: null,
+    frequency: null,
+    expectations: null
   };
 
   handleRadioButtonChoice = (name, value) => {
@@ -94,34 +93,9 @@ export class Form extends React.Component {
   };
 
   render() {
-    console.log({ state: this.state });
-
-    console.log({
-      pathname: window.location.pathname
-    });
-
-    firebase.initializeApp({
-      apiKey: "AIzaSyCUGPGe5R6dTPJIXKFVDJ--QnwLvvA49zY",
-      authDomain: "questionary-8ec9b.firebaseapp.com",
-      databaseURL: "https://questionary-8ec9b.firebaseio.com",
-      projectId: "questionary-8ec9b",
-      storageBucket: "questionary-8ec9b.appspot.com",
-      messagingSenderId: "1007269819903",
-      appId: "1:1007269819903:web:e25fe2c1e9e395176ae3ca",
-      measurementId: "G-58ZEK8SJ7P"
-    });
-    const id = nanoid();
+    const id = this.props.id;
     const firestore = firebase.firestore();
     const docRef = firestore.doc(`survey-results/${id}`);
-
-    console.log({ docRef });
-    docRef.get().then(doc => {
-      if (doc && doc.exists) {
-        console.log(doc.data());
-      }
-    });
-
-    console.log({ id });
 
     return (
       <Container>
@@ -130,7 +104,7 @@ export class Form extends React.Component {
           и вашей косметичкой, чтобы занятие произошло наиболее плодотворно.
           Заполните, пожалуйста, данную форму.
         </Heading>
-        <form action="" method={"http://localhost:3000/"}>
+        <form action="">
           {QuestionaryList.map(section => {
             return (
               <fieldset key={section.name}>
@@ -139,7 +113,7 @@ export class Form extends React.Component {
                   {/* eslint-disable-next-line array-callback-return */}
                   {section.questions.map((question, index) => {
                     if (question.type === "test") {
-                      if (this.state[question.name] === undefined) {
+                      if (!this.state[question.name]) {
                         return null;
                       }
                       if (this.state[question.name] === true) {
@@ -205,22 +179,9 @@ export class Form extends React.Component {
             className="on-form-submit"
             onClick={e => {
               e.preventDefault();
-              console.log(this.state);
-              console.log("I'm going to save this to firestore");
-              docRef
-                .set(this.state)
-                .then(res => {
-                  console.log("Success!");
-                  docRef.get().then(doc => {
-                    if (doc && doc.exists) {
-                      const myData = doc.data();
-                      console.log(myData);
-                    }
-                  });
-                })
-                .catch(e => {
-                  console.log("Got an error", e);
-                });
+              docRef.set(this.state).then(() => {
+                console.log("Succeess");
+              });
             }}
           />
         </form>
