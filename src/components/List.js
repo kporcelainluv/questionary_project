@@ -69,7 +69,7 @@ export const List = () => {
   const events = firestore.collection("survey-results");
 
   useEffect(() => {
-    let firstThree = events.orderBy("name", "asc").limit(1);
+    let firstThree = events.orderBy("name", "asc").limit(5);
     firstThree.get().then(querySnapshot => {
       const tempDoc = [];
       querySnapshot.forEach(doc => {

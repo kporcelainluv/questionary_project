@@ -3,6 +3,7 @@ import { QuestionaryList, MediaWidth } from "../consts";
 import { QuestionaryItem } from "./questionary-components/questionaryItem";
 import { QuestionaryRadio } from "./questionary-components/questionaryRadio";
 import { QuestionaryCheckbox } from "./questionary-components/questionaryCheckbox";
+import { FormCompletion } from "./formCompletion";
 import styled from "styled-components";
 import firebase from "firebase";
 
@@ -117,7 +118,8 @@ export class Form extends React.Component {
     userOwnedProducts: null,
     frequency: null,
     expectations: null,
-    date: new Date()
+    date: new Date(),
+    formIsCompleted: false
   };
 
   handleRadioButtonChoice = (name, value) => {
@@ -149,96 +151,101 @@ export class Form extends React.Component {
     const docRef = firestore.doc(`survey-results/${id}`);
 
     return (
-      <Container>
-        <Heading>Форма знакомства</Heading>
-        <Subheading>
-          Перед нашей встречей мне бы хотелось познакомиться с вами и вашей
-          косметичкой. Тогда занятие произойдет наиболее плодотворно.
-        </Subheading>
-        <form action="">
-          {QuestionaryList.map(section => {
-            return (
-              <fieldset
-                key={section.name}
-                style={{ border: "none", marginBottom: "20px" }}
-              >
-                <FieldsetLegend>{section.name}</FieldsetLegend>
-                <ol style={{ paddingLeft: 0 }}>
-                  {/* eslint-disable-next-line array-callback-return */}
-                  {section.questions.map((question, index) => {
-                    if (question.type === "test") {
-                      if (this.state[question.name] === null) {
-                        return null;
-                      } else if (this.state[question.name] === true) {
-                        question = question.yes;
-                      } else if (this.state[question.name] === false) {
-                        question = question.no;
-                      }
-                    }
-                    if (question.type === "text") {
-                      return (
-                        <List key={question.name}>
-                          <QuestionaryItem
-                            key={`${question.name}-${index}`}
-                            name={question.name}
-                            question={question.question}
-                            handleOnClick={this.handleTextareaChoice}
-                          />
-                        </List>
-                      );
-                    } else if (question.type === "radio") {
-                      return (
-                        <List key={question.name}>
-                          <QuestionWrap> {question.question} </QuestionWrap>
-                          {question.options.map((option, index) => {
-                            return (
-                              <QuestionaryRadio
-                                key={`${question.name}${index}`}
-                                id={`${question.name}${index}`}
-                                name={question.name}
-                                value={option}
-                                handleOnClick={this.handleRadioButtonChoice}
-                              />
-                            );
-                          })}
-                        </List>
-                      );
-                    } else if (question.type === "checkbox") {
-                      return (
-                        <List key={question.name}>
-                          <QuestionWrap> {question.question} </QuestionWrap>
-                          {question.options.map((option, index) => {
-                            return (
-                              <QuestionaryCheckbox
+      <div>
+        {this.state.formIsCompleted && <FormCompletion />}
+
+        {!this.state.formIsCompleted && (
+          <Container>
+            <Heading>Форма знакомства</Heading>
+            <Subheading>
+              Перед нашей встречей мне бы хотелось познакомиться с вами и вашей
+              косметичкой. Тогда занятие произойдет наиболее плодотворно.
+            </Subheading>
+            <form action="">
+              {QuestionaryList.map(section => {
+                return (
+                  <fieldset
+                    key={section.name}
+                    style={{ border: "none", marginBottom: "20px" }}
+                  >
+                    <FieldsetLegend>{section.name}</FieldsetLegend>
+                    <ol style={{ paddingLeft: 0 }}>
+                      {/* eslint-disable-next-line array-callback-return */}
+                      {section.questions.map((question, index) => {
+                        if (question.type === "test") {
+                          if (this.state[question.name] === null) {
+                            return null;
+                          } else if (this.state[question.name] === true) {
+                            question = question.yes;
+                          } else if (this.state[question.name] === false) {
+                            question = question.no;
+                          }
+                        }
+                        if (question.type === "text") {
+                          return (
+                            <List key={question.name}>
+                              <QuestionaryItem
                                 key={`${question.name}-${index}`}
-                                id={`${option}-${index}`}
-                                heading={option}
                                 name={question.name}
-                                handleOnClick={this.handleCheckboxChoice}
+                                question={question.question}
+                                handleOnClick={this.handleTextareaChoice}
                               />
-                            );
-                          })}
-                        </List>
-                      );
-                    }
-                  })}
-                </ol>
-              </fieldset>
-            );
-          })}
-          <FormSubmit
-            type="submit"
-            value="Отправить"
-            className="on-form-submit"
-            onClick={e => {
-              e.preventDefault();
-              docRef.set(this.state).then(() => {
-                console.log("Succeess");
-              });
-            }}
-          />
-        </form>
-      </Container>
+                            </List>
+                          );
+                        } else if (question.type === "radio") {
+                          return (
+                            <List key={question.name}>
+                              <QuestionWrap> {question.question} </QuestionWrap>
+                              {question.options.map((option, index) => {
+                                return (
+                                  <QuestionaryRadio
+                                    key={`${question.name}${index}`}
+                                    id={`${question.name}${index}`}
+                                    name={question.name}
+                                    value={option}
+                                    handleOnClick={this.handleRadioButtonChoice}
+                                  />
+                                );
+                              })}
+                            </List>
+                          );
+                        } else if (question.type === "checkbox") {
+                          return (
+                            <List key={question.name}>
+                              <QuestionWrap> {question.question} </QuestionWrap>
+                              {question.options.map((option, index) => {
+                                return (
+                                  <QuestionaryCheckbox
+                                    key={`${question.name}-${index}`}
+                                    id={`${option}-${index}`}
+                                    heading={option}
+                                    name={question.name}
+                                    handleOnClick={this.handleCheckboxChoice}
+                                  />
+                                );
+                              })}
+                            </List>
+                          );
+                        }
+                      })}
+                    </ol>
+                  </fieldset>
+                );
+              })}
+              <FormSubmit
+                type="submit"
+                value="Отправить"
+                className="on-form-submit"
+                onClick={e => {
+                  e.preventDefault();
+                  docRef.set(this.state).then(() => {});
+                  this.setState({ formIsCompleted: true });
+                }}
+              />
+            </form>
+          </Container>
+        )}
+      </div>
     );
   }
 }
