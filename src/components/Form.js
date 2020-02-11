@@ -116,7 +116,8 @@ export class Form extends React.Component {
     toolsPreference: null,
     userOwnedProducts: null,
     frequency: null,
-    expectations: null
+    expectations: null,
+    date: new Date()
   };
 
   handleRadioButtonChoice = (name, value) => {
