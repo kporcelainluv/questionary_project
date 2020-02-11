@@ -153,7 +153,6 @@ export class Form extends React.Component {
     return (
       <div>
         {this.state.formIsCompleted && <FormCompletion />}
-
         {!this.state.formIsCompleted && (
           <Container>
             <Heading>Форма знакомства</Heading>
