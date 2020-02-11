@@ -38,6 +38,7 @@ const UserNameField = styled.a`
   color: #181919;
   font-family: "Montserrat", "PT Sans", sans-serif;
   font-size: 18px;
+  font-weight: 400;
 `;
 
 const DateField = styled.th`
