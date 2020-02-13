@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import firebase from "firebase";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import styled from "styled-components";
+import { AuthContext } from "../Auth";
+import { Redirect } from "react-router";
 
 const getCurrentDate = timestamp => {
   return format(new Date(timestamp * 1000), "d LLL yyyy k:MM", {
@@ -82,6 +84,13 @@ export const List = () => {
       setDocs(docs => [...docs, ...tempDoc]);
     });
   }, []);
+
+  const { currentUser } = useContext(AuthContext);
+
+  console.log({ currentUser });
+  if (!currentUser) {
+    return <Redirect to="/login" />;
+  }
 
   return (
     <Container>

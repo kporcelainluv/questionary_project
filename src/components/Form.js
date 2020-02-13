@@ -6,6 +6,7 @@ import { QuestionaryCheckbox } from "./questionary-components/questionaryCheckbo
 import { FormCompletion } from "./formCompletion";
 import styled from "styled-components";
 import firebase from "firebase";
+import nanoid from "nanoid";
 
 const Container = styled.section`
   display: flex;
@@ -88,7 +89,7 @@ const QuestionWrap = styled.span`
 
 export class Form extends React.Component {
   state = {
-    id: this.props.id,
+    id: nanoid(),
     name: null,
     age: null,
     skincareType: null,

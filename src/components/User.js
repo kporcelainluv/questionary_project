@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import firebase from "firebase";
 import styled from "styled-components";
+import { AuthContext } from "../Auth";
+import { Redirect } from "react-router";
 
 const Container = styled.div`
   max-width: 600px;
@@ -108,6 +110,14 @@ export const User = ({ id }) => {
       setDocs(myData);
     });
   }, []);
+
+  const { currentUser } = useContext(AuthContext);
+
+  console.log({ currentUser });
+  if (!currentUser) {
+    return <Redirect to="/login" />;
+  }
+
   return (
     <Container>
       <Heading>{docs.name}</Heading>
