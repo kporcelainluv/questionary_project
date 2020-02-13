@@ -1,12 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import completedPic from "../img/finishedAlertPic.jpg";
+import { MediaWidth } from "../consts";
 
 const Container = styled.div`
   width: 340px;
   margin: auto;
   margin-top: 35%;
   background-color: #f9f9f9;
+  @media ${MediaWidth.TABLET} {
+    margin-top: 25%;
+  }
+  @media ${MediaWidth.LAPTOP} {
+    margin-top: 10%;
+  }
 `;
 
 const Heading = styled.h2`
