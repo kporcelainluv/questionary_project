@@ -88,6 +88,7 @@ const QuestionWrap = styled.span`
 
 export class Form extends React.Component {
   state = {
+    id: this.props.id,
     name: null,
     age: null,
     skincareType: null,
