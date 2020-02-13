@@ -93,6 +93,7 @@ const prettifyUserResponse = response => {
     return acc;
   }, ``);
 };
+
 export const User = ({ id }) => {
   const [docs, setDocs] = useState([]);
   const firestore = firebase.firestore();
