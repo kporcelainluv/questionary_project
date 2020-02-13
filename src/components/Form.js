@@ -58,6 +58,7 @@ const FormSubmit = styled.input`
   border-radius: 25px;
   border: 3px solid white;
   width: 300px;
+  font-size: 18px;
   font-family: "Montserrat", "PT Sans", sans-serif;
   @media ${MediaWidth.TABLET} {
     width: 567px;
@@ -88,8 +89,12 @@ const QuestionWrap = styled.span`
 `;
 
 export class Form extends React.Component {
+  constructor() {
+    super();
+  }
+
   state = {
-    id: nanoid(),
+    id: undefined,
     name: null,
     age: null,
     skincareType: null,
@@ -147,10 +152,15 @@ export class Form extends React.Component {
     this.setState({ [name]: value });
   };
 
+  componentDidMount() {
+    const id = nanoid();
+    console.log(id);
+    this.setState({ id: id });
+  }
+
   render() {
-    const id = this.props.id;
     const firestore = firebase.firestore();
-    const docRef = firestore.doc(`survey-results/${id}`);
+    const docRef = firestore.doc(`survey-results/${this.state.id}`);
 
     return (
       <div>

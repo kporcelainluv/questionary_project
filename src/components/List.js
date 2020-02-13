@@ -59,6 +59,7 @@ const Button = styled.button`
   margin: 20px auto 50px;
   justify-content: center;
   color: white;
+  font-size: 18px;
   border-radius: 25px;
   border: 3px solid white;
   width: 300px;
@@ -87,7 +88,6 @@ export const List = () => {
 
   const { currentUser } = useContext(AuthContext);
 
-  console.log({ currentUser });
   if (!currentUser) {
     return <Redirect to="/login" />;
   }
@@ -113,9 +113,7 @@ export const List = () => {
       </Table>
       <Button
         onClick={() => {
-          console.log({ docs });
           const lastQuery = docs[docs.length - 1];
-          console.log({ lastQueryName: lastQuery.name });
           return events.get().then(snapshot => {
             let startAtSnapshot = firestore
               .collection("survey-results")

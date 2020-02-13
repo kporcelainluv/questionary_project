@@ -3,6 +3,7 @@ import firebase from "firebase";
 import styled from "styled-components";
 import { AuthContext } from "../Auth";
 import { Redirect } from "react-router";
+import { MediaWidth } from "../consts";
 
 const Container = styled.div`
   max-width: 600px;
@@ -33,6 +34,9 @@ const Block = styled.div`
   max-width: 315px;
   line-height: 32px;
   padding-left: 16px;
+  @media ${MediaWidth.TABLET} {
+    max-width: 350px;
+  }
 `;
 
 const P2 = styled.p`
@@ -43,6 +47,9 @@ const P2 = styled.p`
   max-width: 315px;
   line-height: 32px;
   padding-left: 16px;
+  @media ${MediaWidth.TABLET} {
+    max-width: 350px;
+  }
 `;
 const P3 = styled.p`
   font-family: "Montserrat", "PT Sans", sans-serif;
@@ -53,6 +60,17 @@ const P3 = styled.p`
   line-height: 32px;
   margin: 0;
   padding: 0;
+  @media ${MediaWidth.TABLET} {
+    max-width: 350px;
+  }
+`;
+
+const ReasonP = styled.p`
+  max-width: 315px;
+  margin-bottom: 10px;
+  @media ${MediaWidth.TABLET} {
+    max-width: 350px;
+  }
 `;
 const ListElement = styled.li`
   font-family: "Montserrat", "PT Sans", sans-serif;
@@ -63,6 +81,9 @@ const ListElement = styled.li`
   line-height: 32px;
   padding-left: 16px;
   margin-bottom: 10px;
+  @media ${MediaWidth.TABLET} {
+    max-width: 350px;
+  }
 `;
 const Value = styled.span`
   font-size: 20px;
@@ -111,13 +132,6 @@ export const User = ({ id }) => {
     });
   }, []);
 
-  const { currentUser } = useContext(AuthContext);
-
-  console.log({ currentUser });
-  if (!currentUser) {
-    return <Redirect to="/login" />;
-  }
-
   return (
     <Container>
       <Heading>{docs.name}</Heading>
@@ -146,10 +160,13 @@ export const User = ({ id }) => {
         <ListElement>
           <P3>Использует тональный крем:</P3>
           <Value>{handleUserUsage(docs.foundation)}</Value>
+        </ListElement>
+        <ListElement>
           {docs.foundationNotUsed ? (
-            <P3>
-              Причина: <Value>{docs.foundationNotUsed}</Value>
-            </P3>
+            <div>
+              <P3>Причина:</P3>
+              <Value>{docs.foundationNotUsed}</Value>
+            </div>
           ) : (
             ``
           )}
@@ -168,10 +185,13 @@ export const User = ({ id }) => {
         <ListElement>
           <P3> Использует консилер:</P3>
           <Value>{handleUserUsage(docs.concealerUsage)}</Value>
+        </ListElement>
+        <ListElement>
           {docs.concealerNotUsed ? (
-            <P3>
-              Причина: <Value>{docs.concealerNotUsed}</Value>
-            </P3>
+            <div>
+              <P3>Причина:</P3>
+              <Value>{docs.concealerNotUsed}</Value>
+            </div>
           ) : (
             ``
           )}
@@ -184,14 +204,16 @@ export const User = ({ id }) => {
           <P3>Использует пудру:</P3>
           <Value>{handleUserUsage(docs.powderUsage)}</Value>
         </ListElement>
-
-        {docs.powderNotUsed ? (
-          <ListElement>
-            <P3>Причина:</P3> <Value>{docs.powderNotUsed}</Value>
-          </ListElement>
-        ) : (
-          ``
-        )}
+        <ListElement>
+          {docs.powderNotUsed ? (
+            <div>
+              <P3>Причина:</P3>
+              <Value>{docs.powderNotUsed}</Value>
+            </div>
+          ) : (
+            ``
+          )}
+        </ListElement>
 
         {docs.powderPreference ? (
           <ListElement>
@@ -210,13 +232,16 @@ export const User = ({ id }) => {
           <Value>{handleUserUsage(docs.blush)}</Value>
         </ListElement>
 
-        {docs.blushNotUsed ? (
-          <ListElement>
-            <P3>Причина:</P3> <Value>{docs.blushNotUsed}</Value>
-          </ListElement>
-        ) : (
-          ``
-        )}
+        <ListElement>
+          {docs.blushNotUsed ? (
+            <div>
+              <P3>Причина:</P3>
+              <Value>{docs.blushNotUsed}</Value>
+            </div>
+          ) : (
+            ``
+          )}
+        </ListElement>
 
         {docs.blushPreference ? (
           <ListElement>
@@ -235,13 +260,17 @@ export const User = ({ id }) => {
           <Value>{handleUserUsage(docs.contour)}</Value>
         </ListElement>
 
-        {docs.contourNotUsed ? (
-          <ListElement>
-            <P3>Причина:</P3> <Value>{docs.contourNotUsed}</Value>
-          </ListElement>
-        ) : (
-          ``
-        )}
+        <ListElement>
+          {docs.contourNotUsed ? (
+            <div>
+              <P3>Причина:</P3>
+              <Value>{docs.contourNotUsed}</Value>
+            </div>
+          ) : (
+            ``
+          )}
+        </ListElement>
+
         {docs.contourPreference ? (
           <ListElement>
             <P3>Предпочитаемые продукты для контуринга:</P3>
@@ -265,17 +294,21 @@ export const User = ({ id }) => {
           <P3>Использует хайлайтер: </P3>
           <Value>{handleUserUsage(docs.highlighterUsage)}</Value>
         </ListElement>
-        {docs.highlighterNotUsed ? (
-          <ListElement>
-            <P3> Причина:</P3> <Value>{docs.highlighterNotUsed}</Value>
-          </ListElement>
-        ) : (
-          ``
-        )}
+
+        <ListElement>
+          {docs.highlighterNotUsed ? (
+            <div>
+              <P3>Причина:</P3>
+              <Value>{docs.highlighterNotUsed}</Value>
+            </div>
+          ) : (
+            ``
+          )}
+        </ListElement>
 
         {docs.highlighterPreference ? (
           <ListElement>
-            <P3> Предпочитает хайлайтеры</P3>
+            <P3> Предпочитает хайлайтеры:</P3>
             <Value>{docs.highlighterPreference || ` не указано`}</Value>
           </ListElement>
         ) : (
@@ -284,13 +317,13 @@ export const User = ({ id }) => {
       </UL>
       <Heading>Брови </Heading>
       <Block>
-        <P3>Использует продукты для бровей </P3>
+        <P3>Использует продукты для бровей: </P3>
         <Value>{docs.browsPreference || ` не указано`}</Value>
       </Block>
 
       <Heading>Глаза </Heading>
       <Block>
-        <P3> Использует продукты для глаз</P3>
+        <P3> Использует продукты для глаз:</P3>
         <Value> {docs.eyesPreference || ` не указано`}</Value>
       </Block>
 

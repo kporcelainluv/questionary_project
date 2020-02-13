@@ -17,6 +17,7 @@ const Button = styled.button`
   border-radius: 25px;
   border: 3px solid white;
   width: 300px;
+  font-size: 18px;
   font-family: "Montserrat", "PT Sans", sans-serif;
   @media ${MediaWidth.TABLET} {
     width: 567px;
