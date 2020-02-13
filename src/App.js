@@ -4,7 +4,6 @@ import { List } from "./components/List";
 import { User } from "./components/User";
 import nanoid from "nanoid";
 import firebase from "firebase";
-
 const PAGES = {
   LIST: "/list",
   FORM: "/form",
@@ -13,7 +12,6 @@ const PAGES = {
 
 export const App = () => {
   const id = nanoid();
-  console.log({ id });
   const currentLocation = window.location.pathname;
   firebase.initializeApp({
     apiKey: "AIzaSyCUGPGe5R6dTPJIXKFVDJ--QnwLvvA49zY",
@@ -31,7 +29,6 @@ export const App = () => {
   } else if (currentLocation === PAGES.FORM) {
     return <Form id={id} />;
   } else if (currentLocation.includes(PAGES.USER)) {
-    console.log({ currentLocation });
     const currentPath = currentLocation.split("/");
     return <User id={currentPath[currentPath.length - 1]} />;
   } else {

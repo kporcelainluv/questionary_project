@@ -23,7 +23,7 @@ const SubHeading = styled.h3`
   font-weight: 500;
   text-align: center;
 `;
-const P1 = styled.p`
+const Block = styled.div`
   font-family: "Montserrat", "PT Sans", sans-serif;
   color: #808080;
   font-size: 20px;
@@ -272,22 +272,22 @@ export const User = ({ id }) => {
         )}
       </UL>
       <Heading>Брови </Heading>
-      <P1>
+      <Block>
         <P3>Использует продукты для бровей </P3>
         <Value>{docs.browsPreference || ` не указано`}</Value>
-      </P1>
+      </Block>
 
       <Heading>Глаза </Heading>
-      <P1>
+      <Block>
         <P3> Использует продукты для глаз</P3>
         <Value> {docs.eyesPreference || ` не указано`}</Value>
-      </P1>
+      </Block>
 
       <Heading>Сегмент косметики </Heading>
-      <P1>
+      <Block>
         <P3>В косметичке уже есть:</P3>
         <Value>{docs.userOwnedProducts || ` не указано`}</Value>
-      </P1>
+      </Block>
 
       <Heading>Как часто делает макияж </Heading>
       <P2>{docs.frequency || ` не указано`}</P2>
