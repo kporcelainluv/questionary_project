@@ -7,7 +7,7 @@ import { AuthContext } from "../Auth";
 import { Redirect } from "react-router";
 
 const getCurrentDate = timestamp => {
-  return format(new Date(timestamp * 1000), "d LLL yyyy k:MM", {
+  return format(new Date(timestamp["seconds"] * 1000), "d LLL yyyy k:MM", {
     locale: ru
   });
 };
@@ -72,14 +72,14 @@ export const List = () => {
   const events = firestore.collection("survey-results");
 
   useEffect(() => {
-    let firstThree = events.orderBy("name", "asc").limit(5);
-    firstThree.get().then(querySnapshot => {
+    let userDocs = events.orderBy("date", "desc").limit(5);
+    userDocs.get().then(querySnapshot => {
       const tempDoc = [];
       querySnapshot.forEach(doc => {
         tempDoc.push({
           id: doc.id,
           name: doc.data()["name"],
-          date: doc.data()["date"]["seconds"]
+          date: doc.data()["date"]
         });
       });
       setDocs(docs => [...docs, ...tempDoc]);
@@ -114,28 +114,22 @@ export const List = () => {
       <Button
         onClick={() => {
           const lastQuery = docs[docs.length - 1];
-          return events.get().then(snapshot => {
-            let startAtSnapshot = firestore
-              .collection("survey-results")
-              .orderBy("date", "asc")
-              .startAfter(lastQuery.date);
 
-            startAtSnapshot
-              .limit(1)
-              .get()
-              .then(querySnapshot => {
-                const tempDoc = [];
-                querySnapshot.forEach(doc => {
-                  tempDoc.push({
-                    id: doc.id,
-                    name: doc.data()["name"],
-                    date: doc.data()["date"]["seconds"]
-                  });
-                });
-                console.log(tempDoc);
-                setDocs(docs => [...docs, ...tempDoc]);
-                console.log({ docs });
+          let userDocs = events
+            .orderBy("date", "desc")
+            .startAfter(lastQuery.date)
+            .limit(5);
+          userDocs.get().then(querySnapshot => {
+            const tempDoc = [];
+            querySnapshot.forEach(doc => {
+              tempDoc.push({
+                id: doc.id,
+                name: doc.data()["name"],
+                date: doc.data()["date"]
               });
+            });
+
+            setDocs(docs => [...docs, ...tempDoc]);
           });
         }}
       >
