@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import firebase from "firebase";
-// TODO use more specific file
 import format from "date-fns/format";
 import fromUnixTime from "date-fns/fromUnixTime";
-// TODO use more specific file
-import { ru } from "date-fns/locale";
+import ru from "date-fns/locale/ru";
 import styled from "styled-components";
 // TODO: separate libraries from your code!
 import { AuthContext } from "../Auth";
