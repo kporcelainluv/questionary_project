@@ -9,6 +9,7 @@ import styled from "styled-components";
 import differenceInDays from "date-fns/differenceInDays";
 
 import { AuthContext } from "../Auth";
+import { Loader } from "./Loader";
 
 const formatCompletionDate = timestamp => {
   const date = fromUnixTime(timestamp["seconds"]);
@@ -125,13 +126,12 @@ export const List = () => {
 
   return (
     <Container>
+      {/*TODO: refactor to isUserLoading*/}
       <h2>Список заполнивших форму</h2>
-      {/* */}
+      {!users.length && <Loader />}
       <Table>
         <tbody>
-          {/* TODO: put loader */}
           {users.map(user => {
-            console.log({ user });
             return (
               <tr key={user.date.seconds}>
                 <th>
