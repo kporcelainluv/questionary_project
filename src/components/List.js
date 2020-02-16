@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, Fragment } from "react";
 import firebase from "firebase";
 import { Redirect } from "react-router";
 import format from "date-fns/format";
@@ -77,8 +77,9 @@ const DateField = styled.th`
 `;
 
 const getUsersWhoCompletedSurvey = ({ startAfter, perPage }) => {
-  const collection = firebase.firestore().collection("survey-results");
-  return collection
+  return firebase
+    .firestore()
+    .collection("survey-results")
     .orderBy("date", "desc")
     .startAfter(startAfter)
     .limit(perPage)
@@ -120,33 +121,38 @@ export const List = () => {
   }, [page]);
 
   const { currentUser, isUserLoading } = useContext(AuthContext);
-  if (!currentUser) {
+
+  if (!currentUser && !isUserLoading) {
     return <Redirect to="/login" />;
   }
 
   return (
     <Container>
-      {/*TODO: refactor to isUserLoading*/}
-      <h2>Список заполнивших форму</h2>
-      {!users.length && <Loader />}
-      <Table>
-        <tbody>
-          {users.map(user => {
-            return (
-              <tr key={user.date.seconds}>
-                <th>
-                  <a href={getLinkToUserProfile(user.id)}>
-                    {user.name ? user.name : "Имя не указано"}
-                  </a>
-                </th>
-                <DateField>{formatCompletionDate(user.date)}</DateField>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-      {!noMoreData && (
-        <button onClick={() => setPage(x => x + 1)}>Загрузить еще</button>
+      {isUserLoading ? (
+        <Loader />
+      ) : (
+        <Fragment>
+          <h2>Список заполнивших форму</h2>
+          <Table>
+            <tbody>
+              {users.map(user => {
+                return (
+                  <tr key={user.date.seconds}>
+                    <th>
+                      <a href={getLinkToUserProfile(user.id)}>
+                        {user.name ? user.name : "Имя не указано"}
+                      </a>
+                    </th>
+                    <DateField>{formatCompletionDate(user.date)}</DateField>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+          {!noMoreData && (
+            <button onClick={() => setPage(x => x + 1)}>Загрузить еще</button>
+          )}
+        </Fragment>
       )}
     </Container>
   );
