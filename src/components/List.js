@@ -97,8 +97,7 @@ const getUsersWhoCompletedSurvey = ({ startAfter, perPage }) => {
 };
 
 export const List = () => {
-  // TODO: rename as users
-  const [docs, setDocs] = useState([]);
+  const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [error, setError] = useState(undefined);
   const [noMoreData, setNoMoreData] = useState(false);
@@ -108,13 +107,13 @@ export const List = () => {
     // page === 1 ? new Date() : docs[docs.length - 1].date
     getUsersWhoCompletedSurvey({
       perPage: 5,
-      startAfter: page === 1 ? new Date() : docs[docs.length - 1].date
+      startAfter: page === 1 ? new Date() : users[users.length - 1].date
     })
       .then(x => {
         if (x.length < 5) {
           setNoMoreData(true);
         } else {
-          setDocs(docs => [...docs, ...x]);
+          setUsers(docs => [...docs, ...x]);
         }
       })
       .catch(setError);
@@ -134,7 +133,7 @@ export const List = () => {
           {/* TODO: userData -> user, docs -> users */}
           {/* TODO: why id is not unique */}
           {/* TODO: put loader */}
-          {docs.map(userData => {
+          {users.map(userData => {
             return (
               <tr key={userData.id}>
                 <th>
