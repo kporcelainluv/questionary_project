@@ -20,9 +20,8 @@ const getCurrentDate = timestamp => {
   });
 };
 
-// TODO it won't work online, use window.location to get current url
 const getLinktoUserProfile = id => {
-  return `http://localhost:3000/user/${id}`;
+  return `${window.location.origin}/${id}`;
 };
 
 const Container = styled.div`
