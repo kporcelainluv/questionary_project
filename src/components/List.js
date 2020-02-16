@@ -28,13 +28,27 @@ const Container = styled.div`
   max-width: 600px;
   margin: 50px auto;
   color: #181919;
-`;
-const Heading = styled.h2`
-  // TODO: make one font family
   font-family: "Montserrat", "PT Sans", sans-serif;
-  color: #181919;
-  font-weight: 500;
-  text-align: center;
+  h2 {
+    font-weight: 500;
+    text-align: center;
+  }
+  button {
+    background-color: #181919;
+    cursor: pointer;
+    width: 300px;
+    height: 50px;
+    display: flex;
+    margin: 20px auto 50px;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    border-radius: 25px;
+    border: 3px solid white;
+    &:hover {
+      background-color: #454747;
+    }
+  }
 `;
 
 const Table = styled.table`
@@ -45,37 +59,18 @@ const Table = styled.table`
     text-align: left;
     line-height: 30px;
   }
-
   a {
     color: #181919;
-    font-family: "Montserrat", "PT Sans", sans-serif;
     font-size: 18px;
     font-weight: 400;
   }
 `;
 
 const DateField = styled.th`
-  color: #181919;
-  font-family: "Montserrat", "PT Sans", sans-serif;
   font-size: 12px;
   font-weight: 400;
   vertical-align: center;
   padding-left: 20px;
-`;
-
-// TODO: add hover style, add cursor:pointer
-const Button = styled.button`
-  background-color: #181919;
-  height: 50px;
-  display: flex;
-  margin: 20px auto 50px;
-  justify-content: center;
-  color: white;
-  font-size: 18px;
-  border-radius: 25px;
-  border: 3px solid white;
-  width: 300px;
-  font-family: "Montserrat", "PT Sans", sans-serif;
 `;
 
 const getUsersWhoCompletedSurvey = ({ startAfter, perPage }) => {
@@ -132,7 +127,7 @@ export const List = () => {
 
   return (
     <Container>
-      <Heading>Список заполнивших форму</Heading>
+      <h2>Список заполнивших форму</h2>
       {/* */}
       <Table>
         <tbody>
@@ -147,14 +142,13 @@ export const List = () => {
                     {userData.name}
                   </a>
                 </th>
-                {/* TODO: move DateField to table */}
                 <DateField>{getCurrentDate(userData.date)}</DateField>
               </tr>
             );
           })}
         </tbody>
       </Table>
-      <Button onClick={() => setPage(x => x + 1)}>Загрузить еще</Button>
+      <button onClick={() => setPage(x => x + 1)}>Загрузить еще</button>
     </Container>
   );
 };
