@@ -7,42 +7,41 @@ import { firebaseApp } from "../base";
 import { AuthContext } from "../Auth.js";
 import { MediaWidth } from "../consts";
 
-const Button = styled.button`
-  background-color: #181919;
-  height: 50px;
-  display: flex;
-  margin: 20px auto 50px;
-  justify-content: center;
-  color: white;
-  border-radius: 25px;
-  border: 3px solid white;
-  width: 300px;
-  font-size: 18px;
+const Container = styled.div`
+  margin: auto;
   font-family: "Montserrat", "PT Sans", sans-serif;
-  @media ${MediaWidth.TABLET} {
-    width: 567px;
-    height: 55px;
+
+  h2 {
+    color: #181919;
+    font-weight: 500;
+    text-align: center;
+    margin: 50px auto 20px;
+    max-width: 300px;
   }
-`;
-const Heading = styled.h2`
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  color: #181919;
-  font-weight: 500;
-  text-align: center;
-  margin: 50px auto 20px;
-  max-width: 300px;
+  button {
+    background-color: #181919;
+    height: 50px;
+    display: flex;
+    margin: 20px auto 50px;
+    justify-content: center;
+    color: white;
+    border-radius: 25px;
+    border: 3px solid white;
+    width: 300px;
+    font-size: 18px;
+
+    @media ${MediaWidth.TABLET} {
+      width: 567px;
+      height: 55px;
+    }
+  }
 `;
 
 const Login = ({ history }) => {
-  const handleLogin = useCallback(
+  useCallback(
     async event => {
       event.preventDefault();
       const { email, password } = event.target.elements;
-
-      console.log({
-        email,
-        password
-      });
       try {
         await firebaseApp
           .auth()
@@ -62,9 +61,7 @@ const Login = ({ history }) => {
       .auth()
       .signInWithPopup(provider)
       .then(function(result) {
-        const token = result.credential.accessToken;
         const user = result.user;
-        console.log({ token, user });
         console.log(user.email);
         if (
           user.email !== "zhukovaksusha@gmail.com" &&
@@ -84,10 +81,7 @@ const Login = ({ history }) => {
         }
       })
       .catch(function(error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        const credential = error.credential;
+        console.log(error);
       });
   };
 
@@ -98,10 +92,10 @@ const Login = ({ history }) => {
   }
 
   return (
-    <div>
-      <Heading>Авторизуйтесь в Google для получения доступа</Heading>
-      <Button onClick={handleGoogleAuth}>Авторизоваться в Google</Button>
-    </div>
+    <Container>
+      <h2>Авторизуйтесь в Google для получения доступа</h2>
+      <button onClick={handleGoogleAuth}>Авторизоваться в Google</button>
+    </Container>
   );
 };
 
