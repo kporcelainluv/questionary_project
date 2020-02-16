@@ -22,7 +22,7 @@ const formatCompletionDate = timestamp => {
   return `${formatDistance(date, new Date())} ago`;
 };
 
-const getLinktoUserProfile = id => {
+const getLinkToUserProfile = id => {
   return `${window.location.origin}/${id}`;
 };
 
@@ -138,7 +138,7 @@ export const List = () => {
             return (
               <tr key={user.date.seconds}>
                 <th>
-                  <a href={getLinktoUserProfile(user.id)}>
+                  <a href={getLinkToUserProfile(user.id)}>
                     {user.name ? user.name : "Имя не указано"}
                   </a>
                 </th>
