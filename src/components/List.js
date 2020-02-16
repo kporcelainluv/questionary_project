@@ -4,20 +4,22 @@ import { Redirect } from "react-router";
 import format from "date-fns/format";
 import fromUnixTime from "date-fns/fromUnixTime";
 import ru from "date-fns/locale/ru";
+import formatDistance from "date-fns/formatDistance";
 import styled from "styled-components";
+import differenceInDays from "date-fns/differenceInDays";
 
 import { AuthContext } from "../Auth";
 
-// TODO use timeago
-// TODO it's not getCurrentDate
-// console.log(userData);
-// console.log(fromUnixTime(userData.date.seconds));
-// https://date-fns.org/v2.0.0-alpha.25/docs/formatDistance
-const getCurrentDate = timestamp => {
-  console.log(timestamp);
-  return format(new Date(timestamp["seconds"] * 1000), "d LLL yyyy k:MM", {
-    locale: ru
-  });
+const formatCompletionDate = timestamp => {
+  const date = fromUnixTime(timestamp["seconds"]);
+  const daysDifference = differenceInDays(new Date(), date);
+
+  if (daysDifference > 7) {
+    return format(date, "d LLL yyyy k:MM", {
+      locale: ru
+    });
+  }
+  return `${formatDistance(date, new Date())} ago`;
 };
 
 const getLinktoUserProfile = id => {
@@ -132,6 +134,7 @@ export const List = () => {
         <tbody>
           {/* TODO: put loader */}
           {users.map(user => {
+            console.log({ user });
             return (
               <tr key={user.date.seconds}>
                 <th>
@@ -139,7 +142,7 @@ export const List = () => {
                     {user.name ? user.name : "Имя не указано"}
                   </a>
                 </th>
-                <DateField>{getCurrentDate(user.date)}</DateField>
+                <DateField>{formatCompletionDate(user.date)}</DateField>
               </tr>
             );
           })}
