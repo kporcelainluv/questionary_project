@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import firebase from "firebase";
+import { Redirect } from "react-router";
 import format from "date-fns/format";
 import fromUnixTime from "date-fns/fromUnixTime";
 import ru from "date-fns/locale/ru";
 import styled from "styled-components";
-// TODO: separate libraries from your code!
+
 import { AuthContext } from "../Auth";
-import { Redirect } from "react-router";
 
 // TODO use timeago
 // TODO it's not getCurrentDate
