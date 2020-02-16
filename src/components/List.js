@@ -79,10 +79,9 @@ const Button = styled.button`
 `;
 
 const getUsersWhoCompletedSurvey = ({ startAfter, perPage }) => {
-  return firebase
-    .firestore()
-    .collection("survey-results")
-    .events.orderBy("date", "desc")
+  const collection = firebase.firestore().collection("survey-results");
+  return collection
+    .orderBy("date", "desc")
     .startAfter(startAfter)
     .limit(perPage)
     .get()
