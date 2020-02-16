@@ -130,18 +130,16 @@ export const List = () => {
       {/* */}
       <Table>
         <tbody>
-          {/* TODO: userData -> user, docs -> users */}
-          {/* TODO: why id is not unique */}
           {/* TODO: put loader */}
-          {users.map(userData => {
+          {users.map(user => {
             return (
-              <tr key={userData.id}>
+              <tr key={user.date.seconds}>
                 <th>
-                  <a href={getLinktoUserProfile(userData.id)}>
-                    {userData.name}
+                  <a href={getLinktoUserProfile(user.id)}>
+                    {user.name ? user.name : "Имя не указано"}
                   </a>
                 </th>
-                <DateField>{getCurrentDate(userData.date)}</DateField>
+                <DateField>{getCurrentDate(user.date)}</DateField>
               </tr>
             );
           })}
