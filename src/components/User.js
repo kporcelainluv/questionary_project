@@ -1,100 +1,69 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import firebase from "firebase";
 import styled from "styled-components";
-import { AuthContext } from "../Auth";
-import { Redirect } from "react-router";
+
 import { MediaWidth } from "../consts";
 
 const Container = styled.div`
-  max-width: 600px;
+  max-width: 350px;
   margin: 50px auto;
   color: #181919;
-`;
-const Heading = styled.h2`
+  line-height: 32px;
   font-family: "Montserrat", "PT Sans", sans-serif;
-  color: #181919;
-  font-weight: 500;
-  text-align: center;
-  margin: 50px auto 20px;
-  max-width: 300px;
+  @media ${MediaWidth.TABLET} {
+    max-width: 600px;
+  }
+  h2 {
+    text-align: center;
+    margin: 50px auto 20px;
+    max-width: 300px;
+  }
+  h3 {
+    font-size: 16px;
+    text-align: center;
+  }
+  ul {
+    padding-left: 10px;
+  }
+  li {
+    color: #808080;
+    font-size: 20px;
+    list-style-type: none;
+    max-width: 315px;
+    padding-left: 16px;
+    margin-bottom: 10px;
+    @media ${MediaWidth.TABLET} {
+      max-width: 350px;
+    }
+  }
+  span {
+    font-size: 20px;
+    color: #181919;
+  }
+  p {
+    color: #808080;
+    font-size: 20px;
+    list-style-type: none;
+    max-width: 315px;
+    margin: 0;
+    padding: 0;
+    @media ${MediaWidth.TABLET} {
+      max-width: 350px;
+    }
+  }
 `;
 
-const SubHeading = styled.h3`
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  font-size: 16px;
-  color: #181919;
-  font-weight: 500;
-  text-align: center;
-`;
 const Block = styled.div`
-  font-family: "Montserrat", "PT Sans", sans-serif;
   color: #808080;
   font-size: 20px;
-  list-style-type: none;
   max-width: 315px;
-  line-height: 32px;
   padding-left: 16px;
   @media ${MediaWidth.TABLET} {
     max-width: 350px;
   }
 `;
 
-const P2 = styled.p`
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  color: #181919;
-  font-size: 20px;
-  list-style-type: none;
-  max-width: 315px;
-  line-height: 32px;
-  padding-left: 16px;
-  @media ${MediaWidth.TABLET} {
-    max-width: 350px;
-  }
-`;
-const P3 = styled.p`
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  color: #808080;
-  font-size: 20px;
-  list-style-type: none;
-  max-width: 315px;
-  line-height: 32px;
-  margin: 0;
-  padding: 0;
-  @media ${MediaWidth.TABLET} {
-    max-width: 350px;
-  }
-`;
-
-const ReasonP = styled.p`
-  max-width: 315px;
-  margin-bottom: 10px;
-  @media ${MediaWidth.TABLET} {
-    max-width: 350px;
-  }
-`;
-const ListElement = styled.li`
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  color: #808080;
-  font-size: 20px;
-  list-style-type: none;
-  max-width: 315px;
-  line-height: 32px;
-  padding-left: 16px;
-  margin-bottom: 10px;
-  @media ${MediaWidth.TABLET} {
-    max-width: 350px;
-  }
-`;
-const Value = styled.span`
-  font-size: 20px;
-  color: #181919;
-`;
-
-const UL = styled.ul`
-  padding-left: 10px;
-`;
-
-const handleUserUsage = status => {
+const handleUsage = status => {
   if (status === null) {
     return ` не указано`;
   } else if (status) {
@@ -104,240 +73,229 @@ const handleUserUsage = status => {
   }
 };
 
-const prettifyUserResponse = response => {
-  console.log({ response });
-  const splittedResponse = response.split(" ");
-  splittedResponse.reduce((acc, elm, index) => {
-    if (index === splittedResponse.length - 1) {
-      acc += `${elm}`;
-    } else {
-      acc += `${elm}, `;
-    }
-    return acc;
-  }, ``);
-};
-
 export const User = ({ id }) => {
-  const [docs, setDocs] = useState([]);
+  const [user, setUser] = useState([]);
   const firestore = firebase.firestore();
 
   useEffect(() => {
-    let myData = undefined;
-    const docRef = firestore.doc(`survey-results/${id}`);
-    docRef.get().then(doc => {
-      if (doc && doc.exists) {
-        myData = doc.data();
+    let user = undefined;
+    const survey = firestore.doc(`survey-results/${id}`);
+    survey.get().then(result => {
+      if (result && result.exists) {
+        user = result.data();
       }
-      setDocs(myData);
+      setUser(user);
     });
   }, []);
 
   return (
     <Container>
-      <Heading>{docs.name}</Heading>
-      <SubHeading>Возвраст: {docs.age || ` не указано`}</SubHeading>
-      <Heading>Уход за кожей: </Heading>
-      <UL>
-        <ListElement>
-          <P3> Тип кожи:</P3>
-          <Value>{docs.skincareType || ` не указано`}</Value>
-        </ListElement>
-        <ListElement>
-          <P3>До макияжа использует:</P3>
-          <Value>{docs.skincareProducts || ` не указано`}</Value>
-        </ListElement>
-        <ListElement>
-          <P3>Очищает кожу от макияжа:</P3>
-          <Value>{docs.skincareCleanser || ` не указано`}</Value>
-        </ListElement>
-      </UL>
-      <Heading>Основа </Heading>
-      <UL>
-        <ListElement>
-          <P3>Использует базу до макияжа:</P3>
-          <Value>{handleUserUsage(docs.base)}</Value>
-        </ListElement>
-        <ListElement>
-          <P3>Использует тональный крем:</P3>
-          <Value>{handleUserUsage(docs.foundation)}</Value>
-        </ListElement>
-        <ListElement>
-          {docs.foundationNotUsed ? (
+      <h2>{user.name}</h2>
+      <h3>Возвраст: {user.age || ` не указано`}</h3>
+      <h2>Уход за кожей: </h2>
+      <ul>
+        <li>
+          <p> Тип кожи:</p>
+          <span>{user.skincareType || ` не указано`}</span>
+        </li>
+        <li>
+          <p>До макияжа использует:</p>
+          <span>{user.skincareProducts || ` не указано`}</span>
+        </li>
+        <li>
+          <p>Очищает кожу от макияжа:</p>
+          <span>{user.skincareCleanser || ` не указано`}</span>
+        </li>
+      </ul>
+      <h2>Основа </h2>
+      <ul>
+        <li>
+          <p>Использует базу до макияжа:</p>
+          <span>{handleUsage(user.base)}</span>
+        </li>
+        <li>
+          <p>Использует тональный крем:</p>
+          <span>{handleUsage(user.foundation)}</span>
+        </li>
+        <li>
+          {user.foundationNotUsed ? (
             <div>
-              <P3>Причина:</P3>
-              <Value>{docs.foundationNotUsed}</Value>
+              <p>Причина:</p>
+              <span>{user.foundationNotUsed}</span>
             </div>
           ) : (
             ``
           )}
-        </ListElement>
-        {docs.foundationPreference ? (
-          <ListElement>
-            <P3>Предпочитаемая плотность тонального крема:</P3>
-            <Value>{docs.foundationPreference || ` не указано`}</Value>
-          </ListElement>
+        </li>
+        {user.foundationPreference ? (
+          <li>
+            <p>Предпочитаемая плотность тонального крема:</p>
+            <span>{user.foundationPreference || ` не указано`}</span>
+          </li>
         ) : (
           ``
         )}
-      </UL>
-      <Heading>Консилер</Heading>
-      <UL>
-        <ListElement>
-          <P3> Использует консилер:</P3>
-          <Value>{handleUserUsage(docs.concealerUsage)}</Value>
-        </ListElement>
-        <ListElement>
-          {docs.concealerNotUsed ? (
+      </ul>
+      <h2>Консилер</h2>
+      <ul>
+        <li>
+          <p> Использует консилер:</p>
+          <span>{handleUsage(user.concealerUsage)}</span>
+        </li>
+        <li>
+          {user.concealerNotUsed ? (
             <div>
-              <P3>Причина:</P3>
-              <Value>{docs.concealerNotUsed}</Value>
+              <p>Причина:</p>
+              <span>{user.concealerNotUsed}</span>
             </div>
           ) : (
             ``
           )}
-        </ListElement>
-      </UL>
+        </li>
+      </ul>
 
-      <Heading>Пудра </Heading>
-      <UL>
-        <ListElement>
-          <P3>Использует пудру:</P3>
-          <Value>{handleUserUsage(docs.powderUsage)}</Value>
-        </ListElement>
-        <ListElement>
-          {docs.powderNotUsed ? (
+      <h2>Пудра </h2>
+      <ul>
+        <li>
+          <p>Использует пудру:</p>
+          <span>{handleUsage(user.powderUsage)}</span>
+        </li>
+        <li>
+          {user.powderNotUsed ? (
             <div>
-              <P3>Причина:</P3>
-              <Value>{docs.powderNotUsed}</Value>
+              <p>Причина:</p>
+              <span>{user.powderNotUsed}</span>
             </div>
           ) : (
             ``
           )}
-        </ListElement>
+        </li>
 
-        {docs.powderPreference ? (
-          <ListElement>
-            <P3>Предпочитаемая пудра:</P3>
-            <Value>{docs.powderPreference || ` не указано`}</Value>
-          </ListElement>
+        {user.powderPreference ? (
+          <li>
+            <p>Предпочитаемая пудра:</p>
+            <span>{user.powderPreference || ` не указано`}</span>
+          </li>
         ) : (
           ``
         )}
-      </UL>
+      </ul>
 
-      <Heading>Румяна </Heading>
-      <UL>
-        <ListElement>
-          <P3> Использует румяна: </P3>
-          <Value>{handleUserUsage(docs.blush)}</Value>
-        </ListElement>
+      <h2>Румяна </h2>
+      <ul>
+        <li>
+          <p> Использует румяна: </p>
+          <span>{handleUsage(user.blush)}</span>
+        </li>
 
-        <ListElement>
-          {docs.blushNotUsed ? (
+        <li>
+          {user.blushNotUsed ? (
             <div>
-              <P3>Причина:</P3>
-              <Value>{docs.blushNotUsed}</Value>
+              <p>Причина:</p>
+              <span>{user.blushNotUsed}</span>
             </div>
           ) : (
             ``
           )}
-        </ListElement>
+        </li>
 
-        {docs.blushPreference ? (
-          <ListElement>
-            <P3>Предпочитаемые румяна:</P3>
-            <Value> {docs.blushPreference || ` не указано`}</Value>
-          </ListElement>
+        {user.blushPreference ? (
+          <li>
+            <p>Предпочитаемые румяна:</p>
+            <span> {user.blushPreference || ` не указано`}</span>
+          </li>
         ) : (
           ``
         )}
-      </UL>
+      </ul>
 
-      <Heading>Контуринг </Heading>
-      <UL>
-        <ListElement>
-          <P3> Использует контуринг: </P3>
-          <Value>{handleUserUsage(docs.contour)}</Value>
-        </ListElement>
+      <h2>Контуринг </h2>
+      <ul>
+        <li>
+          <p> Использует контуринг: </p>
+          <span>{handleUsage(user.contour)}</span>
+        </li>
 
-        <ListElement>
-          {docs.contourNotUsed ? (
+        <li>
+          {user.contourNotUsed ? (
             <div>
-              <P3>Причина:</P3>
-              <Value>{docs.contourNotUsed}</Value>
+              <p>Причина:</p>
+              <span>{user.contourNotUsed}</span>
             </div>
           ) : (
             ``
           )}
-        </ListElement>
+        </li>
 
-        {docs.contourPreference ? (
-          <ListElement>
-            <P3>Предпочитаемые продукты для контуринга:</P3>
-            <Value> {docs.contourPreference || ` не указано`}</Value>
-          </ListElement>
+        {user.contourPreference ? (
+          <li>
+            <p>Предпочитаемые продукты для контуринга:</p>
+            <span> {user.contourPreference || ` не указано`}</span>
+          </li>
         ) : (
           ``
         )}
-      </UL>
+      </ul>
 
-      <Heading>Помада </Heading>
-      <UL>
-        <ListElement>
-          <P3>Использует помады:</P3> <Value>{docs.lipstick}</Value>
-        </ListElement>
-      </UL>
+      <h2>Помада </h2>
+      <ul>
+        <li>
+          <p>Использует помады:</p> <span>{user.lipstick}</span>
+        </li>
+      </ul>
 
-      <Heading>Хайлайтер </Heading>
-      <UL>
-        <ListElement>
-          <P3>Использует хайлайтер: </P3>
-          <Value>{handleUserUsage(docs.highlighterUsage)}</Value>
-        </ListElement>
+      <h2>Хайлайтер </h2>
+      <ul>
+        <li>
+          <p>Использует хайлайтер: </p>
+          <span>{handleUsage(user.highlighterUsage)}</span>
+        </li>
 
-        <ListElement>
-          {docs.highlighterNotUsed ? (
+        <li>
+          {user.highlighterNotUsed ? (
             <div>
-              <P3>Причина:</P3>
-              <Value>{docs.highlighterNotUsed}</Value>
+              <p>Причина:</p>
+              <span>{user.highlighterNotUsed}</span>
             </div>
           ) : (
             ``
           )}
-        </ListElement>
+        </li>
 
-        {docs.highlighterPreference ? (
-          <ListElement>
-            <P3> Предпочитает хайлайтеры:</P3>
-            <Value>{docs.highlighterPreference || ` не указано`}</Value>
-          </ListElement>
+        {user.highlighterPreference ? (
+          <li>
+            <p> Предпочитает хайлайтеры:</p>
+            <span>{user.highlighterPreference || ` не указано`}</span>
+          </li>
         ) : (
           ``
         )}
-      </UL>
-      <Heading>Брови </Heading>
+      </ul>
+      <h2>Брови </h2>
       <Block>
-        <P3>Использует продукты для бровей: </P3>
-        <Value>{docs.browsPreference || ` не указано`}</Value>
+        <p>Использует продукты для бровей: </p>
+        <span>{user.browsPreference || ` не указано`}</span>
       </Block>
 
-      <Heading>Глаза </Heading>
+      <h2>Глаза </h2>
       <Block>
-        <P3> Использует продукты для глаз:</P3>
-        <Value> {docs.eyesPreference || ` не указано`}</Value>
+        <p> Использует продукты для глаз:</p>
+        <span> {user.eyesPreference || ` не указано`}</span>
       </Block>
 
-      <Heading>Сегмент косметики </Heading>
+      <h2>Прочее </h2>
       <Block>
-        <P3>В косметичке уже есть:</P3>
-        <Value>{docs.userOwnedProducts || ` не указано`}</Value>
+        <p>В косметичке уже есть:</p>
+        <span>{user.userOwnedProducts || ` не указано`}</span>
       </Block>
-
-      <Heading>Как часто делает макияж </Heading>
-      <P2>{docs.frequency || ` не указано`}</P2>
-
-      <Heading>От занятия ожидает </Heading>
-      <P2> {docs.expectations || ` не указано`}</P2>
+      <Block>
+        <p>Как часто делает макияж </p>
+        <span>{user.frequency || ` не указано`}</span>
+      </Block>
+      <Block>
+        <p>От занятия ожидает </p>
+        <span> {user.expectations || ` не указано`}</span>
+      </Block>
     </Container>
   );
 };
