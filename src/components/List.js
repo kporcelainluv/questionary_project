@@ -104,17 +104,15 @@ export const List = () => {
   const [noMoreData, setNoMoreData] = useState(false);
 
   useEffect(() => {
-    // TODO survey results
-    // page === 1 ? new Date() : docs[docs.length - 1].date
     getUsersWhoCompletedSurvey({
       perPage: 5,
       startAfter: page === 1 ? new Date() : users[users.length - 1].date
     })
-      .then(x => {
-        if (x.length < 5) {
+      .then(surveyResult => {
+        if (surveyResult.length < 5) {
           setNoMoreData(true);
         } else {
-          setUsers(docs => [...docs, ...x]);
+          setUsers(users => [...users, ...surveyResult]);
         }
       })
       .catch(setError);
