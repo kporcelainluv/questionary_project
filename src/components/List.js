@@ -145,7 +145,9 @@ export const List = () => {
           })}
         </tbody>
       </Table>
-      <button onClick={() => setPage(x => x + 1)}>Загрузить еще</button>
+      {!noMoreData && (
+        <button onClick={() => setPage(x => x + 1)}>Загрузить еще</button>
+      )}
     </Container>
   );
 };
