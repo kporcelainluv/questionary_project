@@ -82,19 +82,18 @@ const getUsersWhoCompletedSurvey = ({ startAfter, perPage }) => {
     .startAfter(startAfter)
     .limit(perPage)
     .get()
-    .then(querySnapshot => {
-      // TODO: rename
-      const tempDoc = [];
-      querySnapshot.forEach(doc => {
-        const { id, name, date } = doc.data();
-        tempDoc.push({
+    .then(surveys => {
+      const users = [];
+      surveys.forEach(user => {
+        const { id, name, date } = user.data();
+        users.push({
           id,
           name,
           date
         });
       });
 
-      return tempDoc;
+      return users;
     });
 };
 
