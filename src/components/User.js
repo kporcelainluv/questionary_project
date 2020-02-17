@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, Fragment } from "react";
 import firebase from "firebase";
 import styled from "styled-components";
 
 import { MediaWidth } from "../consts";
+import { Loader } from "./Loader";
+import { AuthContext } from "../Auth";
 
 const Container = styled.div`
   max-width: 350px;
@@ -87,215 +89,222 @@ export const User = ({ id }) => {
       setUser(user);
     });
   }, []);
-
+  // TODO: fix Loading parameter error
   return (
     <Container>
-      <h2>{user.name}</h2>
-      <h3>Возвраст: {user.age || ` не указано`}</h3>
-      <h2>Уход за кожей: </h2>
-      <ul>
-        <li>
-          <p> Тип кожи:</p>
-          <span>{user.skincareType || ` не указано`}</span>
-        </li>
-        <li>
-          <p>До макияжа использует:</p>
-          <span>{user.skincareProducts || ` не указано`}</span>
-        </li>
-        <li>
-          <p>Очищает кожу от макияжа:</p>
-          <span>{user.skincareCleanser || ` не указано`}</span>
-        </li>
-      </ul>
-      <h2>Основа </h2>
-      <ul>
-        <li>
-          <p>Использует базу до макияжа:</p>
-          <span>{handleUsage(user.base)}</span>
-        </li>
-        <li>
-          <p>Использует тональный крем:</p>
-          <span>{handleUsage(user.foundation)}</span>
-        </li>
-        <li>
-          {user.foundationNotUsed ? (
-            <div>
-              <p>Причина:</p>
-              <span>{user.foundationNotUsed}</span>
-            </div>
-          ) : (
-            ``
-          )}
-        </li>
-        {user.foundationPreference ? (
-          <li>
-            <p>Предпочитаемая плотность тонального крема:</p>
-            <span>{user.foundationPreference || ` не указано`}</span>
-          </li>
-        ) : (
-          ``
-        )}
-      </ul>
-      <h2>Консилер</h2>
-      <ul>
-        <li>
-          <p> Использует консилер:</p>
-          <span>{handleUsage(user.concealerUsage)}</span>
-        </li>
-        <li>
-          {user.concealerNotUsed ? (
-            <div>
-              <p>Причина:</p>
-              <span>{user.concealerNotUsed}</span>
-            </div>
-          ) : (
-            ``
-          )}
-        </li>
-      </ul>
+      {console.log({ user, date: user.date })}
+      {!user.date ? (
+        <Loader />
+      ) : (
+        <Fragment>
+          <h2>{user.name}</h2>
+          <h3>Возвраст: {user.age || ` не указано`}</h3>
+          <h2>Уход за кожей: </h2>
+          <ul>
+            <li>
+              <p> Тип кожи:</p>
+              <span>{user.skincareType || ` не указано`}</span>
+            </li>
+            <li>
+              <p>До макияжа использует:</p>
+              <span>{user.skincareProducts || ` не указано`}</span>
+            </li>
+            <li>
+              <p>Очищает кожу от макияжа:</p>
+              <span>{user.skincareCleanser || ` не указано`}</span>
+            </li>
+          </ul>
+          <h2>Основа </h2>
+          <ul>
+            <li>
+              <p>Использует базу до макияжа:</p>
+              <span>{handleUsage(user.base)}</span>
+            </li>
+            <li>
+              <p>Использует тональный крем:</p>
+              <span>{handleUsage(user.foundation)}</span>
+            </li>
+            <li>
+              {user.foundationNotUsed ? (
+                <div>
+                  <p>Причина:</p>
+                  <span>{user.foundationNotUsed}</span>
+                </div>
+              ) : (
+                ``
+              )}
+            </li>
+            {user.foundationPreference ? (
+              <li>
+                <p>Предпочитаемая плотность тонального крема:</p>
+                <span>{user.foundationPreference || ` не указано`}</span>
+              </li>
+            ) : (
+              ``
+            )}
+          </ul>
+          <h2>Консилер</h2>
+          <ul>
+            <li>
+              <p> Использует консилер:</p>
+              <span>{handleUsage(user.concealerUsage)}</span>
+            </li>
+            <li>
+              {user.concealerNotUsed ? (
+                <div>
+                  <p>Причина:</p>
+                  <span>{user.concealerNotUsed}</span>
+                </div>
+              ) : (
+                ``
+              )}
+            </li>
+          </ul>
 
-      <h2>Пудра </h2>
-      <ul>
-        <li>
-          <p>Использует пудру:</p>
-          <span>{handleUsage(user.powderUsage)}</span>
-        </li>
-        <li>
-          {user.powderNotUsed ? (
-            <div>
-              <p>Причина:</p>
-              <span>{user.powderNotUsed}</span>
-            </div>
-          ) : (
-            ``
-          )}
-        </li>
+          <h2>Пудра </h2>
+          <ul>
+            <li>
+              <p>Использует пудру:</p>
+              <span>{handleUsage(user.powderUsage)}</span>
+            </li>
+            <li>
+              {user.powderNotUsed ? (
+                <div>
+                  <p>Причина:</p>
+                  <span>{user.powderNotUsed}</span>
+                </div>
+              ) : (
+                ``
+              )}
+            </li>
 
-        {user.powderPreference ? (
-          <li>
-            <p>Предпочитаемая пудра:</p>
-            <span>{user.powderPreference || ` не указано`}</span>
-          </li>
-        ) : (
-          ``
-        )}
-      </ul>
+            {user.powderPreference ? (
+              <li>
+                <p>Предпочитаемая пудра:</p>
+                <span>{user.powderPreference || ` не указано`}</span>
+              </li>
+            ) : (
+              ``
+            )}
+          </ul>
 
-      <h2>Румяна </h2>
-      <ul>
-        <li>
-          <p> Использует румяна: </p>
-          <span>{handleUsage(user.blush)}</span>
-        </li>
+          <h2>Румяна </h2>
+          <ul>
+            <li>
+              <p> Использует румяна: </p>
+              <span>{handleUsage(user.blush)}</span>
+            </li>
 
-        <li>
-          {user.blushNotUsed ? (
-            <div>
-              <p>Причина:</p>
-              <span>{user.blushNotUsed}</span>
-            </div>
-          ) : (
-            ``
-          )}
-        </li>
+            <li>
+              {user.blushNotUsed ? (
+                <div>
+                  <p>Причина:</p>
+                  <span>{user.blushNotUsed}</span>
+                </div>
+              ) : (
+                ``
+              )}
+            </li>
 
-        {user.blushPreference ? (
-          <li>
-            <p>Предпочитаемые румяна:</p>
-            <span> {user.blushPreference || ` не указано`}</span>
-          </li>
-        ) : (
-          ``
-        )}
-      </ul>
+            {user.blushPreference ? (
+              <li>
+                <p>Предпочитаемые румяна:</p>
+                <span> {user.blushPreference || ` не указано`}</span>
+              </li>
+            ) : (
+              ``
+            )}
+          </ul>
 
-      <h2>Контуринг </h2>
-      <ul>
-        <li>
-          <p> Использует контуринг: </p>
-          <span>{handleUsage(user.contour)}</span>
-        </li>
+          <h2>Контуринг </h2>
+          <ul>
+            <li>
+              <p> Использует контуринг: </p>
+              <span>{handleUsage(user.contour)}</span>
+            </li>
 
-        <li>
-          {user.contourNotUsed ? (
-            <div>
-              <p>Причина:</p>
-              <span>{user.contourNotUsed}</span>
-            </div>
-          ) : (
-            ``
-          )}
-        </li>
+            <li>
+              {user.contourNotUsed ? (
+                <div>
+                  <p>Причина:</p>
+                  <span>{user.contourNotUsed}</span>
+                </div>
+              ) : (
+                ``
+              )}
+            </li>
 
-        {user.contourPreference ? (
-          <li>
-            <p>Предпочитаемые продукты для контуринга:</p>
-            <span> {user.contourPreference || ` не указано`}</span>
-          </li>
-        ) : (
-          ``
-        )}
-      </ul>
+            {user.contourPreference ? (
+              <li>
+                <p>Предпочитаемые продукты для контуринга:</p>
+                <span> {user.contourPreference || ` не указано`}</span>
+              </li>
+            ) : (
+              ``
+            )}
+          </ul>
 
-      <h2>Помада </h2>
-      <ul>
-        <li>
-          <p>Использует помады:</p> <span>{user.lipstick}</span>
-        </li>
-      </ul>
+          <h2>Помада </h2>
+          <ul>
+            <li>
+              <p>Использует помады:</p> <span>{user.lipstick}</span>
+            </li>
+          </ul>
 
-      <h2>Хайлайтер </h2>
-      <ul>
-        <li>
-          <p>Использует хайлайтер: </p>
-          <span>{handleUsage(user.highlighterUsage)}</span>
-        </li>
+          <h2>Хайлайтер </h2>
+          <ul>
+            <li>
+              <p>Использует хайлайтер: </p>
+              <span>{handleUsage(user.highlighterUsage)}</span>
+            </li>
 
-        <li>
-          {user.highlighterNotUsed ? (
-            <div>
-              <p>Причина:</p>
-              <span>{user.highlighterNotUsed}</span>
-            </div>
-          ) : (
-            ``
-          )}
-        </li>
+            <li>
+              {user.highlighterNotUsed ? (
+                <div>
+                  <p>Причина:</p>
+                  <span>{user.highlighterNotUsed}</span>
+                </div>
+              ) : (
+                ``
+              )}
+            </li>
 
-        {user.highlighterPreference ? (
-          <li>
-            <p> Предпочитает хайлайтеры:</p>
-            <span>{user.highlighterPreference || ` не указано`}</span>
-          </li>
-        ) : (
-          ``
-        )}
-      </ul>
-      <h2>Брови </h2>
-      <Block>
-        <p>Использует продукты для бровей: </p>
-        <span>{user.browsPreference || ` не указано`}</span>
-      </Block>
+            {user.highlighterPreference ? (
+              <li>
+                <p> Предпочитает хайлайтеры:</p>
+                <span>{user.highlighterPreference || ` не указано`}</span>
+              </li>
+            ) : (
+              ``
+            )}
+          </ul>
+          <h2>Брови </h2>
+          <Block>
+            <p>Использует продукты для бровей: </p>
+            <span>{user.browsPreference || ` не указано`}</span>
+          </Block>
 
-      <h2>Глаза </h2>
-      <Block>
-        <p> Использует продукты для глаз:</p>
-        <span> {user.eyesPreference || ` не указано`}</span>
-      </Block>
+          <h2>Глаза </h2>
+          <Block>
+            <p> Использует продукты для глаз:</p>
+            <span> {user.eyesPreference || ` не указано`}</span>
+          </Block>
 
-      <h2>Прочее </h2>
-      <Block>
-        <p>В косметичке уже есть:</p>
-        <span>{user.userOwnedProducts || ` не указано`}</span>
-      </Block>
-      <Block>
-        <p>Как часто делает макияж </p>
-        <span>{user.frequency || ` не указано`}</span>
-      </Block>
-      <Block>
-        <p>От занятия ожидает </p>
-        <span> {user.expectations || ` не указано`}</span>
-      </Block>
+          <h2>Прочее </h2>
+          <Block>
+            <p>В косметичке уже есть:</p>
+            <span>{user.userOwnedProducts || ` не указано`}</span>
+          </Block>
+          <Block>
+            <p>Как часто делает макияж </p>
+            <span>{user.frequency || ` не указано`}</span>
+          </Block>
+          <Block>
+            <p>От занятия ожидает </p>
+            <span> {user.expectations || ` не указано`}</span>
+          </Block>
+        </Fragment>
+      )}
     </Container>
   );
 };
