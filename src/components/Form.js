@@ -89,10 +89,6 @@ const QuestionWrap = styled.span`
 `;
 
 export class Form extends React.Component {
-  constructor() {
-    super();
-  }
-
   state = {
     id: undefined,
     name: null,
@@ -154,7 +150,6 @@ export class Form extends React.Component {
 
   componentDidMount() {
     const id = nanoid();
-    console.log(id);
     this.setState({ id: id });
   }
 

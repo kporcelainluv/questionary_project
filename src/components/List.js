@@ -118,6 +118,8 @@ export const List = () => {
         }
       })
       .catch(setError);
+
+    document.title = "Список пользователей";
   }, [page]);
 
   const { currentUser, isUserLoading } = useContext(AuthContext);

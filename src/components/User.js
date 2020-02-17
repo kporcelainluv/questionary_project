@@ -88,11 +88,12 @@ export const User = ({ id }) => {
       }
       setUser(user);
     });
+
+    document.title = "Страница пользователя";
   }, []);
   // TODO: fix Loading parameter error
   return (
     <Container>
-      {console.log({ user, date: user.date })}
       {!user.date ? (
         <Loader />
       ) : (
