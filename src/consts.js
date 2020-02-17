@@ -283,6 +283,7 @@ export const QuestionaryList = [
   }
 ];
 
+// TODO: should be 320px
 export const MediaWidth = {
   MOBILE: `(min-width: 320px)`,
   TABLET: `(min-width: 750px)`,

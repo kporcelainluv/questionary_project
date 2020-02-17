@@ -28,10 +28,12 @@ const getLinkToUserProfile = id => {
 };
 
 const Container = styled.div`
+  // TODO: move to App
   max-width: 600px;
   margin: 50px auto;
   color: #181919;
   font-family: "Montserrat", "PT Sans", sans-serif;
+
   h2 {
     font-weight: 500;
     text-align: center;

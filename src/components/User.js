@@ -56,6 +56,7 @@ const Container = styled.div`
   }
 `;
 
+// TODO: use classes
 const Block = styled.div`
   color: #808080;
   font-size: 20px;
@@ -66,33 +67,61 @@ const Block = styled.div`
   }
 `;
 
+// TODO remove string literals
 const handleUsage = status => {
   if (status === null) {
     return ` не указано`;
   } else if (status) {
-    return `Да`;
+    return "Да";
   } else {
     return `Нет`;
   }
 };
 
+const Question = ({ label, value }) => {
+  // TODO: if value is boolean => da/net
+  const v = (() => {
+    if (typeof value === "boolean") {
+      return value ? "Да" : "Нет";
+    }
+    return value || "Не указано";
+  })();
+
+  return (
+    <div>
+      <p>{label}:</p>
+      <span>{v}</span>
+    </div>
+  );
+};
+
 export const User = ({ id }) => {
-  const [user, setUser] = useState([]);
-  const firestore = firebase.firestore();
+  const [state, setState] = useState({
+    survey: undefined,
+    isLoading: true,
+    error: undefined
+  });
 
   useEffect(() => {
-    let user = undefined;
-    const survey = firestore.doc(`survey-results/${id}`);
-    survey.get().then(result => {
-      if (result && result.exists) {
-        user = result.data();
-      }
-      setUser(user);
-    });
+    firebase
+      .firestore()
+      .doc(`survey-results/${id}`)
+      .get()
+      .then(result => {
+        if (result && result.exists) {
+          setState(s => ({
+            ...s,
+            survey: result.data(),
+            isLoading: false
+          }));
+        }
+      });
+    // TODO: add catch, check it with internet disable, add error message component
 
     document.title = "Страница пользователя";
   }, []);
-  // TODO: fix Loading parameter error
+
+  console.log(state);
 
   const { currentUser, isUserLoading } = useContext(AuthContext);
 
@@ -100,9 +129,11 @@ export const User = ({ id }) => {
     return <Redirect to="/login" />;
   }
 
+  const user = state.survey;
+
   return (
     <Container>
-      {!user.date ? (
+      {state.isLoading ? (
         <Loader />
       ) : (
         <Fragment>
@@ -111,8 +142,7 @@ export const User = ({ id }) => {
           <h2>Уход за кожей: </h2>
           <ul>
             <li>
-              <p> Тип кожи:</p>
-              <span>{user.skincareType || ` не указано`}</span>
+              <Question label={"Тип кожи"} value={user.skincareType} />
             </li>
             <li>
               <p>До макияжа использует:</p>
@@ -133,16 +163,13 @@ export const User = ({ id }) => {
               <p>Использует тональный крем:</p>
               <span>{handleUsage(user.foundation)}</span>
             </li>
-            <li>
-              {user.foundationNotUsed ? (
-                <div>
-                  <p>Причина:</p>
-                  <span>{user.foundationNotUsed}</span>
-                </div>
-              ) : (
-                ``
-              )}
-            </li>
+            {/* TODO refactor other elements */}
+            {user.foundationNotUsed && (
+              <li>
+                <p>Причина:</p>
+                <span>{user.foundationNotUsed}</span>
+              </li>
+            )}
             {user.foundationPreference ? (
               <li>
                 <p>Предпочитаемая плотность тонального крема:</p>
