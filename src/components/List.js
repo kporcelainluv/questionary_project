@@ -24,7 +24,7 @@ const formatCompletionDate = timestamp => {
 };
 
 const getLinkToUserProfile = id => {
-  return `${window.location.origin}/${id}`;
+  return `${window.location.origin}/user/${id}`;
 };
 
 const Container = styled.div`

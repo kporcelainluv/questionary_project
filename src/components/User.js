@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { MediaWidth } from "../consts";
 import { Loader } from "./Loader";
 import { AuthContext } from "../Auth";
+import { Redirect } from "react-router";
 
 const Container = styled.div`
   max-width: 350px;
@@ -92,6 +93,13 @@ export const User = ({ id }) => {
     document.title = "Страница пользователя";
   }, []);
   // TODO: fix Loading parameter error
+
+  const { currentUser, isUserLoading } = useContext(AuthContext);
+
+  if (!currentUser && !isUserLoading) {
+    return <Redirect to="/login" />;
+  }
+
   return (
     <Container>
       {!user.date ? (
