@@ -1,67 +1,36 @@
-.spin-container {
-  text-align: center;
-  margin-top: 100px;
+.lds-ring {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  margin: 50% auto;
 }
-.spin {
-  border: 3px solid #b2b5ba;
-  width: 200px;
-  height: 200px;
-  margin: 0 auto;
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid #8c8c8c;
   border-radius: 50%;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  animation: rotate 2s cubic-bezier(0.26, 1.36, 0.74, -0.29) infinite;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #8c8c8c transparent transparent transparent;
 }
-#loader2 {
-  border: 3px solid #7f8084;
-  width: 220px;
-  height: 220px;
-  position: relative;
-  top: -216px;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  animation: rotate2 2s cubic-bezier(0.26, 1.36, 0.74, -0.29) infinite;
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
 }
-#loader3 {
-  border: 3px solid #181919;
-  width: 240px;
-  height: 240px;
-  position: relative;
-  top: -452px;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  animation: rotate 2s cubic-bezier(0.26, 1.36, 0.74, -0.29) infinite;
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
 }
-#loader4 {
-  border: 3px solid #34558b;
-  width: 260px;
-  height: 260px;
-  position: relative;
-  top: -708px;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  animation: rotate2 2s cubic-bezier(0.26, 1.36, 0.74, -0.29) infinite;
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
 }
-@keyframes rotate {
+@keyframes lds-ring {
   0% {
-    transform: rotateZ(-360deg);
+    transform: rotate(0deg);
   }
   100% {
-    transform: rotateZ(0deg);
+    transform: rotate(360deg);
   }
-}
-@keyframes rotate2 {
-  0% {
-    transform: rotateZ(360deg);
-  }
-  100% {
-    transform: rotateZ(0deg);
-  }
-}
-#text {
-  font-size: 15px;
-  position: relative;
-  top: -857px;
-  color: #181919;
-  font-family: "Montserrat", "PT Sans", sans-serif;
 }
