@@ -10,6 +10,7 @@ import differenceInDays from "date-fns/differenceInDays";
 
 import { AuthContext } from "../Auth";
 import { Loader } from "./Loader";
+import { Error } from "./Error";
 
 const formatCompletionDate = timestamp => {
   const date = fromUnixTime(timestamp["seconds"]);
@@ -20,7 +21,7 @@ const formatCompletionDate = timestamp => {
       locale: ru
     });
   }
-  return `${formatDistance(date, new Date())} ago`;
+  return `${formatDistance(date, new Date(), { locale: ru })} назад`;
 };
 
 const getLinkToUserProfile = id => {
@@ -54,12 +55,10 @@ const Container = styled.div`
       background-color: #454747;
     }
   }
-`;
-
-const Table = styled.table`
-  display: table;
-  margin: auto;
-
+  table {
+    display: table;
+    margin: auto;
+  }
   tbody {
     text-align: left;
     line-height: 30px;
@@ -69,13 +68,12 @@ const Table = styled.table`
     font-size: 18px;
     font-weight: 400;
   }
-`;
-
-const DateField = styled.th`
-  font-size: 12px;
-  font-weight: 400;
-  vertical-align: center;
-  padding-left: 20px;
+  th:last-of-type {
+    font-size: 12px;
+    font-weight: 400;
+    vertical-align: center;
+    padding-left: 20px;
+  }
 `;
 
 const getUsersWhoCompletedSurvey = ({ startAfter, perPage }) => {
@@ -96,8 +94,10 @@ const getUsersWhoCompletedSurvey = ({ startAfter, perPage }) => {
           date
         });
       });
-
       return users;
+    })
+    .catch(e => {
+      console.log("ОШИБКА", { e });
     });
 };
 
@@ -108,27 +108,18 @@ export const List = () => {
     error: false,
     noMoreData: false
   });
-  // const [users, setUsers] = useState([]);
-  // const [page, setPage] = useState(1);
-  // const [error, setError] = useState(undefined);
-  // const [noMoreData, setNoMoreData] = useState(false);
-
   useEffect(() => {
     getUsersWhoCompletedSurvey({
       perPage: 5,
       startAfter:
         state.page === 1 ? new Date() : state.users[state.users.length - 1].date
-    })
-      .then(surveyResult => {
-        if (surveyResult.length < 5) {
-          setState(s => ({ ...s, noMoreData: true }));
-        } else {
-          setState(s => ({ ...s, users: [...state.users, ...surveyResult] }));
-        }
-      })
-      .catch(() => {
-        setState(s => ({ ...s, error: true }));
-      });
+    }).then(surveyResult => {
+      if (surveyResult.length < 5) {
+        setState(s => ({ ...s, noMoreData: true, users: surveyResult }));
+      } else {
+        setState(s => ({ ...s, users: [...state.users, ...surveyResult] }));
+      }
+    });
 
     document.title = "Список пользователей";
   }, [state.page]);
@@ -138,6 +129,13 @@ export const List = () => {
   if (!currentUser && !isUserLoading) {
     return <Redirect to="/login" />;
   }
+  if (state.error) {
+    return (
+      <Container>
+        <Error />
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -146,7 +144,7 @@ export const List = () => {
       ) : (
         <Fragment>
           <h2>Список заполнивших форму</h2>
-          <Table>
+          <table>
             <tbody>
               {state.users.map(user => {
                 return (
@@ -156,12 +154,12 @@ export const List = () => {
                         {user.name ? user.name : "Имя не указано"}
                       </a>
                     </th>
-                    <DateField>{formatCompletionDate(user.date)}</DateField>
+                    <th>{formatCompletionDate(user.date)}</th>
                   </tr>
                 );
               })}
             </tbody>
-          </Table>
+          </table>
           {!state.noMoreData && (
             <button
               onClick={() => {
