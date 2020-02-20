@@ -7,8 +7,6 @@ import { Loader } from "./Loader";
 import { AuthContext } from "../Auth";
 import { Redirect } from "react-router";
 
-import "../css/style.css";
-
 const Container = styled.div`
   max-width: 350px;
   margin: 50px auto;
@@ -18,13 +16,16 @@ const Container = styled.div`
   @media (min-width: ${MediaWidth.TABLET}) {
     max-width: 600px;
   }
-  h2 {
+  h1 {
     text-align: center;
     margin: 50px auto 20px;
     max-width: 300px;
   }
-  h3 {
+  h2 {
     font-size: 16px;
+    text-align: center;
+  }
+  h3 {
     text-align: center;
   }
   ul {
@@ -59,19 +60,24 @@ const Container = styled.div`
 `;
 
 const Question = ({ label, value }) => {
-  // TODO: if value is boolean => da/net
-  const v = (() => {
-    if (typeof value === "boolean") {
-      return value ? "Да" : "Нет";
-    }
-    return value || "Не указано";
-  })();
-
+  if (label === "Причина" && !value) {
+    return true;
+  }
   return (
     <div>
       <p>{label}:</p>
-      <span>{v}</span>
+      <span>{value ? value : "Не указано"}</span>
     </div>
+  );
+};
+
+const Block = ({ questions }) => {
+  return (
+    <ul>
+      {questions.map(q => {
+        return <Question value={q.value} label={q.label} />;
+      })}
+    </ul>
   );
 };
 
@@ -117,222 +123,166 @@ export const User = ({ id }) => {
         <Loader />
       ) : (
         <Fragment>
-          <h2>{user.name}</h2>
-          <h3>Возвраст: {user.age || ` не указано`}</h3>
-          <h2>Уход за кожей: </h2>
-          <ul>
-            <li>
-              <Question label={"Тип кожи"} value={user.skincareType} />
-            </li>
-            <li>
-              <Question
-                label={"До макияжа использует:"}
-                value={user.skincareProducts}
-              />
-            </li>
-            <li>
-              <Question
-                label={"Очищает кожу от макияжа:"}
-                value={user.skincareCleanser}
-              />
-            </li>
-          </ul>
-          <h2>Основа </h2>
-          <ul>
-            <li>
-              <Question
-                label={"Использует базу до макияжа:"}
-                value={user.base}
-              />
-            </li>
-            <li>
-              <Question
-                label={"Использует тональный крем:"}
-                value={user.foundation}
-              />
-            </li>
-            {/* TODO refactor other elements */}
-            {user.foundationNotUsed && (
-              <li>
-                <Question label={"Причина:"} value={user.foundationNotUsed} />
-              </li>
-            )}
-            {user.foundationPreference ? (
-              <li>
-                <Question
-                  label={"Предпочитаемая плотность тонального крема:"}
-                  value={user.foundationPreference}
-                />
-              </li>
-            ) : (
-              ``
-            )}
-          </ul>
-          <h2>Консилер</h2>
-          <ul>
-            <li>
-              <Question
-                label={"Использует консилер:"}
-                value={user.concealerUsage}
-              />
-            </li>
-            <li>
-              {user.concealerNotUsed ? (
-                <div>
-                  <Question label={"Причина:"} value={user.concealerNotUsed} />
-                </div>
-              ) : (
-                ``
-              )}
-            </li>
-          </ul>
+          <h1>{user.name}</h1>
+          {user.age && <h2>Возвраст: ${user.age}</h2>}
+          <h3>Уход за кожей </h3>
+          <Block
+            questions={[
+              { label: "Тип кожи", value: user.skincareType },
+              { label: "До макияжа использует:", value: user.skincareProducts },
+              {
+                label: "Очищает кожу от макияжа:",
+                value: user.skincareCleanser
+              }
+            ]}
+          />
 
-          <h2>Пудра </h2>
-          <ul>
-            <li>
-              <Question label={"Использует пудру:"} value={user.powderUsage} />
-            </li>
-            <li>
-              {user.powderNotUsed ? (
-                <div>
-                  <Question label={"Причина:"} value={user.powderNotUsed} />
-                </div>
-              ) : (
-                ``
-              )}
-            </li>
+          <h3>Основа </h3>
+          <Block
+            questions={[
+              { label: "Использует базу до макияжа:", value: user.base },
+              { label: "Использует тональный крем:", value: user.foundation },
+              { label: "Причина", value: user.foundationNotUsed },
+              {
+                label: "Предпочитаемая плотность тонального крема:",
+                value: user.foundationPreference
+              }
+            ]}
+          />
 
-            {user.powderPreference ? (
-              <li>
-                <Question
-                  label={"Предпочитаемая пудра:"}
-                  value={user.powderPreference}
-                />
-              </li>
-            ) : (
-              ``
-            )}
-          </ul>
+          <h3>Консилер</h3>
+          <Block
+            questions={[
+              {
+                label: "Использует консилер:",
+                value: user.concealerUsage
+              },
+              {
+                label: "Причина",
+                value: user.concealerNotUsed
+              }
+            ]}
+          />
 
-          <h2>Румяна </h2>
-          <ul>
-            <li>
-              <Question label={"Использует румяна:"} value={user.blush} />
-            </li>
+          <h3>Пудра </h3>
+          <Block
+            questions={[
+              {
+                label: "Использует пудру:",
+                value: user.powderUsage
+              },
+              {
+                label: "Причина",
+                value: user.powderNotUsed
+              },
+              {
+                label: "Предпочитаемая пудра:",
+                value: user.powderPreference
+              }
+            ]}
+          />
 
-            <li>
-              {user.blushNotUsed ? (
-                <div>
-                  <Question label={"Причина:"} value={user.blushNotUsed} />
-                </div>
-              ) : (
-                ``
-              )}
-            </li>
+          <h3>Румяна </h3>
+          <Block
+            questions={[
+              {
+                label: "Использует румяна:",
+                value: user.blush
+              },
+              {
+                label: "Причина",
+                value: user.blushNotUsed
+              },
+              {
+                label: "Предпочитаемые румяна:",
+                value: user.blushPreference
+              }
+            ]}
+          />
 
-            {user.blushPreference ? (
-              <li>
-                <Question
-                  label={"Предпочитаемые румяна:"}
-                  value={user.blushPreference}
-                />
-              </li>
-            ) : (
-              ``
-            )}
-          </ul>
+          <h3>Контуринг </h3>
+          <Block
+            questions={[
+              {
+                label: "Использует контуринг:",
+                value: user.contour
+              },
+              {
+                label: "Причина",
+                value: user.contourNotUsed
+              },
+              {
+                label: "Предпочитаемые продукты для контуринга:",
+                value: user.contourPreference
+              }
+            ]}
+          />
 
-          <h2>Контуринг </h2>
-          <ul>
-            <li>
-              <Question label={"Использует контуринг:"} value={user.contour} />
-            </li>
-
-            <li>
-              {user.contourNotUsed ? (
-                <div>
-                  <Question label={"Причина:"} value={user.contourNotUsed} />
-                </div>
-              ) : (
-                ``
-              )}
-            </li>
-
-            {user.contourPreference ? (
-              <li>
-                <Question
-                  label={"Предпочитаемые продукты для контуринга:"}
-                  value={user.contourPreference}
-                />
-              </li>
-            ) : (
-              ``
-            )}
-          </ul>
-
-          <h2>Помада </h2>
-          <ul>
-            <li>
-              <p>Использует помады:</p> <span>{user.lipstick}</span>
-            </li>
-          </ul>
+          <h3>Помада </h3>
+          <Block
+            questions={[
+              {
+                label: "Использует помады:",
+                value: user.lipstick
+              }
+            ]}
+          />
 
           <h2>Хайлайтер </h2>
-          <ul>
-            <li>
-              <Question
-                label={"Использует хайлайтер:"}
-                value={user.highlighterUsage}
-              />
-            </li>
+          <Block
+            questions={[
+              {
+                label: "Использует хайлайтер:",
+                value: user.highlighterUsage
+              },
+              {
+                label: "Причина",
+                value: user.highlighterNotUsed
+              },
+              {
+                label: "Предпочитает хайлайтеры:",
+                value: user.highlighterPreference
+              }
+            ]}
+          />
 
-            <li>
-              {user.highlighterNotUsed ? (
-                <div>
-                  <p>Причина:</p>
-                  <span>{user.highlighterNotUsed}</span>
-                </div>
-              ) : (
-                ``
-              )}
-            </li>
+          <h3>Брови </h3>
+          <Block
+            questions={[
+              {
+                label: "Использует продукты для бровей:",
+                value: user.browsPreference
+              }
+            ]}
+          />
 
-            {user.highlighterPreference ? (
-              <li>
-                <Question
-                  label={"Предпочитает хайлайтеры:"}
-                  value={user.highlighterPreference}
-                />
-              </li>
-            ) : (
-              ``
-            )}
-          </ul>
-          <h2>Брови </h2>
-          <div className="block">
-            <p>Использует продукты для бровей: </p>
-            <span>{user.browsPreference || ` не указано`}</span>
-          </div>
+          <h3>Глаза </h3>
+          <Block
+            questions={[
+              {
+                label: "Использует продукты для глаз:",
+                value: user.eyesPreference
+              }
+            ]}
+          />
 
-          <h2>Глаза </h2>
-          <div className="block">
-            <p> Использует продукты для глаз:</p>
-            <span> {user.eyesPreference || ` не указано`}</span>
-          </div>
-
-          <h2>Прочее </h2>
-          <div className="block">
-            <p>В косметичке уже есть:</p>
-            <span>{user.userOwnedProducts || ` не указано`}</span>
-          </div>
-          <div className="block">
-            <p>Как часто делает макияж </p>
-            <span>{user.frequency || ` не указано`}</span>
-          </div>
-          <div className="block">
-            <p>От занятия ожидает </p>
-            <span> {user.expectations || ` не указано`}</span>
-          </div>
+          <h3>Прочее </h3>
+          <Block
+            questions={[
+              {
+                label: "В косметичке уже есть:",
+                value: user.userOwnedProducts
+              },
+              {
+                label: "Как часто делает макияж:",
+                value: user.frequency
+              },
+              {
+                label: "От занятия ожидает:",
+                value: user.expectations
+              }
+            ]}
+          />
         </Fragment>
       )}
     </Container>
