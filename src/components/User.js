@@ -7,6 +7,8 @@ import { Loader } from "./Loader";
 import { AuthContext } from "../Auth";
 import { Redirect } from "react-router";
 
+import "../css/style.css";
+
 const Container = styled.div`
   max-width: 350px;
   margin: 50px auto;
@@ -53,17 +55,6 @@ const Container = styled.div`
     @media (min-width: ${MediaWidth.TABLET}) {
       max-width: 350px;
     }
-  }
-`;
-
-// TODO: use classes
-const Block = styled.div`
-  color: #808080;
-  font-size: 20px;
-  max-width: 315px;
-  padding-left: 16px;
-  @media (min-width: ${MediaWidth.TABLET}) {
-    max-width: 350px;
   }
 `;
 
@@ -315,30 +306,30 @@ export const User = ({ id }) => {
             )}
           </ul>
           <h2>Брови </h2>
-          <Block>
+          <div className="block">
             <p>Использует продукты для бровей: </p>
             <span>{user.browsPreference || ` не указано`}</span>
-          </Block>
+          </div>
 
           <h2>Глаза </h2>
-          <Block>
+          <div className="block">
             <p> Использует продукты для глаз:</p>
             <span> {user.eyesPreference || ` не указано`}</span>
-          </Block>
+          </div>
 
           <h2>Прочее </h2>
-          <Block>
+          <div className="block">
             <p>В косметичке уже есть:</p>
             <span>{user.userOwnedProducts || ` не указано`}</span>
-          </Block>
-          <Block>
+          </div>
+          <div className="block">
             <p>Как часто делает макияж </p>
             <span>{user.frequency || ` не указано`}</span>
-          </Block>
-          <Block>
+          </div>
+          <div className="block">
             <p>От занятия ожидает </p>
             <span> {user.expectations || ` не указано`}</span>
-          </Block>
+          </div>
         </Fragment>
       )}
     </Container>
