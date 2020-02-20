@@ -58,17 +58,6 @@ const Container = styled.div`
   }
 `;
 
-// TODO remove string literals
-const handleUsage = status => {
-  if (status === null) {
-    return ` не указано`;
-  } else if (status) {
-    return "Да";
-  } else {
-    return `Нет`;
-  }
-};
-
 const Question = ({ label, value }) => {
   // TODO: if value is boolean => da/net
   const v = (() => {
@@ -136,35 +125,44 @@ export const User = ({ id }) => {
               <Question label={"Тип кожи"} value={user.skincareType} />
             </li>
             <li>
-              <p>До макияжа использует:</p>
-              <span>{user.skincareProducts || ` не указано`}</span>
+              <Question
+                label={"До макияжа использует:"}
+                value={user.skincareProducts}
+              />
             </li>
             <li>
-              <p>Очищает кожу от макияжа:</p>
-              <span>{user.skincareCleanser || ` не указано`}</span>
+              <Question
+                label={"Очищает кожу от макияжа:"}
+                value={user.skincareCleanser}
+              />
             </li>
           </ul>
           <h2>Основа </h2>
           <ul>
             <li>
-              <p>Использует базу до макияжа:</p>
-              <span>{handleUsage(user.base)}</span>
+              <Question
+                label={"Использует базу до макияжа:"}
+                value={user.base}
+              />
             </li>
             <li>
-              <p>Использует тональный крем:</p>
-              <span>{handleUsage(user.foundation)}</span>
+              <Question
+                label={"Использует тональный крем:"}
+                value={user.foundation}
+              />
             </li>
             {/* TODO refactor other elements */}
             {user.foundationNotUsed && (
               <li>
-                <p>Причина:</p>
-                <span>{user.foundationNotUsed}</span>
+                <Question label={"Причина:"} value={user.foundationNotUsed} />
               </li>
             )}
             {user.foundationPreference ? (
               <li>
-                <p>Предпочитаемая плотность тонального крема:</p>
-                <span>{user.foundationPreference || ` не указано`}</span>
+                <Question
+                  label={"Предпочитаемая плотность тонального крема:"}
+                  value={user.foundationPreference}
+                />
               </li>
             ) : (
               ``
@@ -173,14 +171,15 @@ export const User = ({ id }) => {
           <h2>Консилер</h2>
           <ul>
             <li>
-              <p> Использует консилер:</p>
-              <span>{handleUsage(user.concealerUsage)}</span>
+              <Question
+                label={"Использует консилер:"}
+                value={user.concealerUsage}
+              />
             </li>
             <li>
               {user.concealerNotUsed ? (
                 <div>
-                  <p>Причина:</p>
-                  <span>{user.concealerNotUsed}</span>
+                  <Question label={"Причина:"} value={user.concealerNotUsed} />
                 </div>
               ) : (
                 ``
@@ -191,14 +190,12 @@ export const User = ({ id }) => {
           <h2>Пудра </h2>
           <ul>
             <li>
-              <p>Использует пудру:</p>
-              <span>{handleUsage(user.powderUsage)}</span>
+              <Question label={"Использует пудру:"} value={user.powderUsage} />
             </li>
             <li>
               {user.powderNotUsed ? (
                 <div>
-                  <p>Причина:</p>
-                  <span>{user.powderNotUsed}</span>
+                  <Question label={"Причина:"} value={user.powderNotUsed} />
                 </div>
               ) : (
                 ``
@@ -207,8 +204,10 @@ export const User = ({ id }) => {
 
             {user.powderPreference ? (
               <li>
-                <p>Предпочитаемая пудра:</p>
-                <span>{user.powderPreference || ` не указано`}</span>
+                <Question
+                  label={"Предпочитаемая пудра:"}
+                  value={user.powderPreference}
+                />
               </li>
             ) : (
               ``
@@ -218,15 +217,13 @@ export const User = ({ id }) => {
           <h2>Румяна </h2>
           <ul>
             <li>
-              <p> Использует румяна: </p>
-              <span>{handleUsage(user.blush)}</span>
+              <Question label={"Использует румяна:"} value={user.blush} />
             </li>
 
             <li>
               {user.blushNotUsed ? (
                 <div>
-                  <p>Причина:</p>
-                  <span>{user.blushNotUsed}</span>
+                  <Question label={"Причина:"} value={user.blushNotUsed} />
                 </div>
               ) : (
                 ``
@@ -235,8 +232,10 @@ export const User = ({ id }) => {
 
             {user.blushPreference ? (
               <li>
-                <p>Предпочитаемые румяна:</p>
-                <span> {user.blushPreference || ` не указано`}</span>
+                <Question
+                  label={"Предпочитаемые румяна:"}
+                  value={user.blushPreference}
+                />
               </li>
             ) : (
               ``
@@ -246,15 +245,13 @@ export const User = ({ id }) => {
           <h2>Контуринг </h2>
           <ul>
             <li>
-              <p> Использует контуринг: </p>
-              <span>{handleUsage(user.contour)}</span>
+              <Question label={"Использует контуринг:"} value={user.contour} />
             </li>
 
             <li>
               {user.contourNotUsed ? (
                 <div>
-                  <p>Причина:</p>
-                  <span>{user.contourNotUsed}</span>
+                  <Question label={"Причина:"} value={user.contourNotUsed} />
                 </div>
               ) : (
                 ``
@@ -263,8 +260,10 @@ export const User = ({ id }) => {
 
             {user.contourPreference ? (
               <li>
-                <p>Предпочитаемые продукты для контуринга:</p>
-                <span> {user.contourPreference || ` не указано`}</span>
+                <Question
+                  label={"Предпочитаемые продукты для контуринга:"}
+                  value={user.contourPreference}
+                />
               </li>
             ) : (
               ``
@@ -281,8 +280,10 @@ export const User = ({ id }) => {
           <h2>Хайлайтер </h2>
           <ul>
             <li>
-              <p>Использует хайлайтер: </p>
-              <span>{handleUsage(user.highlighterUsage)}</span>
+              <Question
+                label={"Использует хайлайтер:"}
+                value={user.highlighterUsage}
+              />
             </li>
 
             <li>
@@ -298,8 +299,10 @@ export const User = ({ id }) => {
 
             {user.highlighterPreference ? (
               <li>
-                <p> Предпочитает хайлайтеры:</p>
-                <span>{user.highlighterPreference || ` не указано`}</span>
+                <Question
+                  label={"Предпочитает хайлайтеры:"}
+                  value={user.highlighterPreference}
+                />
               </li>
             ) : (
               ``
