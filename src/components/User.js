@@ -6,6 +6,7 @@ import { MediaWidth } from "../consts";
 import { Loader } from "./Loader";
 import { AuthContext } from "../Auth";
 import { Redirect } from "react-router";
+import { Error } from "./Error";
 
 const Container = styled.div`
   max-width: 350px;
@@ -85,7 +86,7 @@ export const User = ({ id }) => {
   const [state, setState] = useState({
     survey: undefined,
     isLoading: true,
-    error: undefined
+    error: false
   });
 
   useEffect(() => {
@@ -101,8 +102,8 @@ export const User = ({ id }) => {
             isLoading: false
           }));
         }
-      });
-    // TODO: add catch, check it with internet disable, add error message component
+      })
+      .catch(() => setState(s => ({ ...s, error: true })));
 
     document.title = "Страница пользователя";
   }, []);
@@ -117,6 +118,14 @@ export const User = ({ id }) => {
 
   const user = state.survey;
 
+  if (state.error) {
+    return (
+      <Container>
+        <Error />
+      </Container>
+    );
+  }
+
   return (
     <Container>
       {state.isLoading ? (
@@ -124,7 +133,7 @@ export const User = ({ id }) => {
       ) : (
         <Fragment>
           <h1>{user.name}</h1>
-          {user.age && <h2>Возвраст: ${user.age}</h2>}
+          {user.age && <h2>Возвраст: {user.age}</h2>}
           <h3>Уход за кожей </h3>
           <Block
             questions={[
