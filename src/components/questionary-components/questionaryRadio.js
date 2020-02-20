@@ -7,26 +7,26 @@ const Label = styled.label`
   font-family: "Montserrat", "PT Sans", sans-serif;
   padding: 10px;
   cursor: pointer;
-`;
 
-const Input = styled.input`
-  font-size: 18px;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-`;
-const QuestionWrap = styled.span`
-  padding-left: 20px;
-  max-width: 280px;
-  margin-bottom: 13px;
-  @media (min-width: ${MediaWidth.TABLET}) {
-    max-width: 650px;
-    height: 50px;
+  input {
+    font-size: 18px;
+  }
+
+  span {
+    padding-left: 20px;
+    max-width: 280px;
+    margin-bottom: 13px;
+    @media (min-width: ${MediaWidth.TABLET}) {
+      max-width: 650px;
+      height: 50px;
+    }
   }
 `;
 
 export const QuestionaryRadio = ({ id, name, value, handleOnClick }) => {
   return (
     <Label htmlFor={id}>
-      <Input
+      <input
         type="radio"
         id={id}
         name={name}
@@ -35,7 +35,7 @@ export const QuestionaryRadio = ({ id, name, value, handleOnClick }) => {
           return handleOnClick(name, value);
         }}
       />
-      <QuestionWrap>{value}</QuestionWrap>
+      <span>{value}</span>
     </Label>
   );
 };

@@ -8,14 +8,12 @@ const Label = styled.label`
   padding: 10px;
   cursor: pointer;
   font-family: "Montserrat", "PT Sans", sans-serif;
-`;
-
-const Input = styled.input`
+  
+  input{
   font-size: 16px;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-`;
-
-const QuestionWrap = styled.span`
+  }
+  
+  span{
   padding-left: 20px;
   max-width: 280px;
   margin-bottom: 10px;
@@ -28,7 +26,7 @@ const QuestionWrap = styled.span`
 export const QuestionaryCheckbox = ({ heading, id, name, handleOnClick }) => {
   return (
     <Label htmlFor={id}>
-      <Input
+      <input
         type="checkbox"
         id={id}
         name={id}
@@ -36,7 +34,7 @@ export const QuestionaryCheckbox = ({ heading, id, name, handleOnClick }) => {
           return handleOnClick(name, heading);
         }}
       />
-      <QuestionWrap> {heading}</QuestionWrap>
+      <span> {heading}</span>
     </Label>
   );
 };
