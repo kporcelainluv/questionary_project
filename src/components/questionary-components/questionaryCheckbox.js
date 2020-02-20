@@ -19,7 +19,7 @@ const QuestionWrap = styled.span`
   padding-left: 20px;
   max-width: 280px;
   margin-bottom: 10px;
-  @media ${MediaWidth.TABLET} {
+  @media (min-width: ${MediaWidth.TABLET}) {
     max-width: 650px;
     height: 50px;
   }

@@ -14,10 +14,10 @@ const Container = styled.div`
     font-weight: 400;
     text-align: center;
   }
-  @media ${MediaWidth.TABLET} {
+  @media (min-width: ${MediaWidth.TABLET}) {
     margin-top: 25%;
   }
-  @media ${MediaWidth.LAPTOP} {
+  @media (min-width: ${MediaWidth.TABLET}) {
     margin-top: 10%;
   }
 `;

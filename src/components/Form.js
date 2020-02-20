@@ -13,11 +13,9 @@ const Container = styled.section`
   flex-direction: column;
   margin: auto;
   color: #181919;
-  @media ${MediaWidth.MOBILE} {
-    max-width: 350px;
-    margin: auto;
-  }
-  @media ${MediaWidth.TABLET} {
+  max-width: 350px;
+
+  @media (min-width: ${MediaWidth.TABLET}) {
     max-width: 650px;
     margin: auto;
   }
@@ -42,7 +40,7 @@ const Subheading = styled.p`
   font-family: "Montserrat", "PT Sans", sans-serif;
   color: #181919;
   max-width: 310px;
-  @media ${MediaWidth.TABLET} {
+  @media (min-width: ${MediaWidth.TABLET}) {
     max-width: 650px;
     margin: auto;
   }
@@ -60,7 +58,7 @@ const FormSubmit = styled.input`
   width: 300px;
   font-size: 18px;
   font-family: "Montserrat", "PT Sans", sans-serif;
-  @media ${MediaWidth.TABLET} {
+  @media (min-width: ${MediaWidth.TABLET}) {
     width: 567px;
     height: 55px;
   }

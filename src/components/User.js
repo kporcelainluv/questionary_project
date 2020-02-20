@@ -13,7 +13,7 @@ const Container = styled.div`
   color: #181919;
   line-height: 32px;
   font-family: "Montserrat", "PT Sans", sans-serif;
-  @media ${MediaWidth.TABLET} {
+  @media (min-width: ${MediaWidth.TABLET}) {
     max-width: 600px;
   }
   h2 {
@@ -35,7 +35,7 @@ const Container = styled.div`
     max-width: 315px;
     padding-left: 16px;
     margin-bottom: 10px;
-    @media ${MediaWidth.TABLET} {
+    @media (min-width: ${MediaWidth.TABLET}) {
       max-width: 350px;
     }
   }
@@ -50,7 +50,7 @@ const Container = styled.div`
     max-width: 315px;
     margin: 0;
     padding: 0;
-    @media ${MediaWidth.TABLET} {
+    @media (min-width: ${MediaWidth.TABLET}) {
       max-width: 350px;
     }
   }
@@ -62,7 +62,7 @@ const Block = styled.div`
   font-size: 20px;
   max-width: 315px;
   padding-left: 16px;
-  @media ${MediaWidth.TABLET} {
+  @media (min-width: ${MediaWidth.TABLET}) {
     max-width: 350px;
   }
 `;
