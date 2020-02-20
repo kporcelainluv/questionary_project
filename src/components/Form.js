@@ -1,5 +1,10 @@
-import React from "react";
-import { QuestionaryList, MediaWidth } from "../consts";
+import React, { useState, useEffect } from "react";
+import {
+  QuestionaryList,
+  MediaWidth,
+  QuestionResponse,
+  QuestionType
+} from "../consts";
 import { QuestionaryItem } from "./questionary-components/questionaryItem";
 import { QuestionaryRadio } from "./questionary-components/questionaryRadio";
 import { QuestionaryCheckbox } from "./questionary-components/questionaryCheckbox";
@@ -14,80 +19,78 @@ const Container = styled.section`
   margin: auto;
   color: #181919;
   max-width: 350px;
+  font-family: "Montserrat", "PT Sans", sans-serif;
 
   @media (min-width: ${MediaWidth.TABLET}) {
     max-width: 650px;
     margin: auto;
   }
-`;
 
-const Heading = styled.h2`
-  display: flex;
-  margin-top: 40px;
-  padding: 10px;
-  justify-content: center;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  color: #181919;
-`;
+  h2 {
+    display: flex;
+    margin-top: 40px;
+    padding: 10px;
+    justify-content: center;
+  }
+  p {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    line-height: 25px;
+    text-align: center;
+    max-width: 310px;
+    @media (min-width: ${MediaWidth.TABLET}) {
+      max-width: 650px;
+      margin: auto;
+    }
+  }
 
-const Subheading = styled.p`
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-  line-height: 25px;
-  text-align: center;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  color: #181919;
-  max-width: 310px;
-  @media (min-width: ${MediaWidth.TABLET}) {
-    max-width: 650px;
-    margin: auto;
+  button {
+    background-color: #181919;
+    height: 50px;
+    display: flex;
+    margin: 20px auto 50px;
+    justify-content: center;
+    color: white;
+    border-radius: 25px;
+    border: 3px solid white;
+    width: 300px;
+    font-size: 18px;
+    @media (min-width: ${MediaWidth.TABLET}) {
+      width: 567px;
+      height: 55px;
+    }
+  }
+  fieldset {
+    border: none;
+    margin-bottom: 20px;
+  }
+  legend {
+    font-weight: 600;
+    margin: 20px auto;
+    font-size: 18px;
+    text-align: center;
+  }
+  ol {
+    padding-left: 0;
+  }
+  li {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    border-radius: 25px;
+  }
+
+  span {
+    padding-left: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
   }
 `;
 
-const FormSubmit = styled.input`
-  background-color: #181919;
-  height: 50px;
-  display: flex;
-  margin: 20px auto 50px;
-  justify-content: center;
-  color: white;
-  border-radius: 25px;
-  border: 3px solid white;
-  width: 300px;
-  font-size: 18px;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  @media (min-width: ${MediaWidth.TABLET}) {
-    width: 567px;
-    height: 55px;
-  }
-`;
-const FieldsetLegend = styled.legend`
-  color: #181919;
-  font-weight: 600;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  margin: 20px auto;
-  font-size: 18px;
-  text-align: center;
-`;
-const List = styled.li`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  border-radius: 25px;
-  position: relative;
-`;
-
-const QuestionWrap = styled.span`
-  padding-left: 20px;
-  font-size: 16px;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  margin-bottom: 10px;
-`;
-
-export class Form extends React.Component {
-  state = {
+export const Form = () => {
+  const [state, setState] = useState({
     id: undefined,
     name: null,
     age: null,
@@ -121,129 +124,135 @@ export class Form extends React.Component {
     expectations: null,
     date: new Date(),
     formIsCompleted: false
+  });
+
+  useEffect(() => {
+    setState(s => ({
+      ...s,
+      id: nanoid()
+    }));
+  }, []);
+
+  const updateStateValue = (name, value) => {
+    setState(s => ({
+      ...s,
+      [name]: value
+    }));
   };
 
-  handleRadioButtonChoice = (name, value) => {
-    this.setState({ [name]: value });
-  };
-
-  handleCheckboxChoice = (name, value) => {
-    if (this.state[name]) {
-      const list = this.state[name].concat(" " + value);
-      this.setState({ [name]: list });
+  // TODO: Refactor
+  const updateCheckboxValue = (name, value) => {
+    if (state[name]) {
+      const list = state[name].concat(" " + value);
+      setState(s => ({
+        ...s,
+        [name]: list
+      }));
     } else {
-      this.setState({ [name]: value });
+      updateStateValue(name, value);
     }
   };
 
-  handleTextareaChoice = (name, value) => {
-    this.setState({ [name]: value });
-  };
+  const survey = firebase.firestore().doc(`survey-results/${state.id}`);
 
-  componentDidMount() {
-    const id = nanoid();
-    this.setState({ id: id });
-  }
-
-  render() {
-    const firestore = firebase.firestore();
-    const docRef = firestore.doc(`survey-results/${this.state.id}`);
-
-    return (
-      <div>
-        {this.state.formIsCompleted && <FormCompletion />}
-        {!this.state.formIsCompleted && (
-          <Container>
-            <Heading>Форма знакомства</Heading>
-            <Subheading>
-              Перед нашей встречей мне бы хотелось познакомиться с вами и вашей
-              косметичкой. Тогда занятие произойдет наиболее плодотворно.
-            </Subheading>
-            <form action="">
-              {QuestionaryList.map(section => {
-                return (
-                  <fieldset
-                    key={section.name}
-                    style={{ border: "none", marginBottom: "20px" }}
-                  >
-                    <FieldsetLegend>{section.name}</FieldsetLegend>
-                    <ol style={{ paddingLeft: 0 }}>
-                      {/* eslint-disable-next-line array-callback-return */}
-                      {section.questions.map((question, index) => {
-                        if (question.type === "test") {
-                          if (this.state[question.name] === null) {
-                            return null;
-                          } else if (this.state[question.name] === "Да") {
-                            question = question.yes;
-                          } else if (this.state[question.name] === "Нет") {
-                            question = question.no;
-                          }
+  return (
+    <div>
+      {state.formIsCompleted && <FormCompletion />}
+      {!state.formIsCompleted && (
+        <Container>
+          <h2>Форма знакомства</h2>
+          <p>
+            Перед нашей встречей мне бы хотелось познакомиться с вами и вашей
+            косметичкой. Тогда занятие произойдет наиболее плодотворно.
+          </p>
+          <form action="">
+            {QuestionaryList.map(section => {
+              return (
+                <fieldset key={section.name}>
+                  <legend>{section.name}</legend>
+                  <ol>
+                    {section.questions.map((question, index) => {
+                      // TODO: Refactor
+                      if (question.type === QuestionType.TEST) {
+                        if (state[question.name] === null) {
+                          return null;
+                        } else if (
+                          state[question.name] === QuestionResponse.TRUE
+                        ) {
+                          question = question.yes;
+                        } else if (
+                          state[question.name] === QuestionResponse.FALSE
+                        ) {
+                          question = question.no;
                         }
-                        if (question.type === "text") {
-                          return (
-                            <List key={question.name}>
-                              <QuestionaryItem
-                                key={`${question.name}-${index}`}
-                                name={question.name}
-                                question={question.question}
-                                handleOnClick={this.handleTextareaChoice}
-                              />
-                            </List>
-                          );
-                        } else if (question.type === "radio") {
-                          return (
-                            <List key={question.name}>
-                              <QuestionWrap> {question.question} </QuestionWrap>
-                              {question.options.map((option, index) => {
-                                return (
-                                  <QuestionaryRadio
-                                    key={`${question.name}${index}`}
-                                    id={`${question.name}${index}`}
-                                    name={question.name}
-                                    value={option}
-                                    handleOnClick={this.handleRadioButtonChoice}
-                                  />
-                                );
-                              })}
-                            </List>
-                          );
-                        } else if (question.type === "checkbox") {
-                          return (
-                            <List key={question.name}>
-                              <QuestionWrap> {question.question} </QuestionWrap>
-                              {question.options.map((option, index) => {
-                                return (
-                                  <QuestionaryCheckbox
-                                    key={`${question.name}-${index}`}
-                                    id={`${option}-${index}`}
-                                    heading={option}
-                                    name={question.name}
-                                    handleOnClick={this.handleCheckboxChoice}
-                                  />
-                                );
-                              })}
-                            </List>
-                          );
-                        }
-                      })}
-                    </ol>
-                  </fieldset>
-                );
-              })}
-              <FormSubmit
-                type="submit"
-                value="Отправить"
-                className="on-form-submit"
-                onClick={e => {
-                  e.preventDefault();
-                  docRef.set(this.state).then(() => {});
-                  this.setState({ formIsCompleted: true });
-                }}
-              />
-            </form>
-          </Container>
-        )}
-      </div>
-    );
-  }
-}
+                      }
+                      if (question.type === QuestionType.TEXT) {
+                        return (
+                          <li key={question.name}>
+                            <QuestionaryItem
+                              key={`${question.name}-${index}`}
+                              name={question.name}
+                              question={question.question}
+                              handleOnClick={updateStateValue}
+                            />
+                          </li>
+                        );
+                      } else if (question.type === QuestionType.RADIO) {
+                        return (
+                          <li key={question.name}>
+                            <span> {question.question} </span>
+                            {question.options.map((option, index) => {
+                              return (
+                                <QuestionaryRadio
+                                  key={`${question.name}${index}`}
+                                  id={`${question.name}${index}`}
+                                  name={question.name}
+                                  value={option}
+                                  handleOnClick={updateStateValue}
+                                />
+                              );
+                            })}
+                          </li>
+                        );
+                      } else if (question.type === QuestionType.CHECKBOX) {
+                        return (
+                          <li key={question.name}>
+                            <span> {question.question} </span>
+                            {question.options.map((option, index) => {
+                              return (
+                                <QuestionaryCheckbox
+                                  key={`${question.name}-${index}`}
+                                  id={`${option}-${index}`}
+                                  heading={option}
+                                  name={question.name}
+                                  handleOnClick={updateCheckboxValue}
+                                />
+                              );
+                            })}
+                          </li>
+                        );
+                      }
+                    })}
+                  </ol>
+                </fieldset>
+              );
+            })}
+            <button
+              type="submit"
+              onClick={e => {
+                e.preventDefault();
+                survey.set(state).then(() => {});
+                setState(s => ({
+                  ...s,
+                  formIsCompleted: true
+                }));
+              }}
+            >
+              Отправить
+            </button>
+          </form>
+        </Container>
+      )}
+    </div>
+  );
+};

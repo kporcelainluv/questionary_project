@@ -129,6 +129,7 @@ export const List = () => {
   if (!currentUser && !isUserLoading) {
     return <Redirect to="/login" />;
   }
+  console.log(state.error);
   if (state.error) {
     return (
       <Container>
