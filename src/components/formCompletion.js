@@ -14,9 +14,7 @@ const Container = styled.div`
     font-weight: 400;
     text-align: center;
   }
-  @media (min-width: ${MediaWidth.TABLET}) {
-    margin-top: 25%;
-  }
+
   @media (min-width: ${MediaWidth.TABLET}) {
     margin-top: 10%;
   }

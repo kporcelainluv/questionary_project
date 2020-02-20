@@ -124,13 +124,7 @@ export class Form extends React.Component {
   };
 
   handleRadioButtonChoice = (name, value) => {
-    if (value === "Да") {
-      this.setState({ [name]: true });
-    } else if (value === "Нет") {
-      this.setState({ [name]: false });
-    } else {
-      this.setState({ [name]: value });
-    }
+    this.setState({ [name]: value });
   };
 
   handleCheckboxChoice = (name, value) => {
@@ -179,9 +173,9 @@ export class Form extends React.Component {
                         if (question.type === "test") {
                           if (this.state[question.name] === null) {
                             return null;
-                          } else if (this.state[question.name] === true) {
+                          } else if (this.state[question.name] === "Да") {
                             question = question.yes;
-                          } else if (this.state[question.name] === false) {
+                          } else if (this.state[question.name] === "Нет") {
                             question = question.no;
                           }
                         }
