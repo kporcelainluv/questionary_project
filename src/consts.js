@@ -288,3 +288,14 @@ export const MediaWidth = {
   TABLET: `750px`,
   LAPTOP: `950px`
 };
+
+export const QuestionResponse = {
+  TRUE: "Да",
+  FALSE: "Нет"
+};
+
+export const QuestionType = {
+  TEXT: "text",
+  RADIO: "radio",
+  CHECKBOX: "checkbox"
+};
