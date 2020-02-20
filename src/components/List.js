@@ -102,27 +102,36 @@ const getUsersWhoCompletedSurvey = ({ startAfter, perPage }) => {
 };
 
 export const List = () => {
-  const [users, setUsers] = useState([]);
-  const [page, setPage] = useState(1);
-  const [error, setError] = useState(undefined);
-  const [noMoreData, setNoMoreData] = useState(false);
+  const [state, setState] = useState({
+    users: [],
+    page: 1,
+    error: false,
+    noMoreData: false
+  });
+  // const [users, setUsers] = useState([]);
+  // const [page, setPage] = useState(1);
+  // const [error, setError] = useState(undefined);
+  // const [noMoreData, setNoMoreData] = useState(false);
 
   useEffect(() => {
     getUsersWhoCompletedSurvey({
       perPage: 5,
-      startAfter: page === 1 ? new Date() : users[users.length - 1].date
+      startAfter:
+        state.page === 1 ? new Date() : state.users[state.users.length - 1].date
     })
       .then(surveyResult => {
         if (surveyResult.length < 5) {
-          setNoMoreData(true);
+          setState(s => ({ ...s, noMoreData: true }));
         } else {
-          setUsers(users => [...users, ...surveyResult]);
+          setState(s => ({ ...s, users: [...state.users, ...surveyResult] }));
         }
       })
-      .catch(setError);
+      .catch(() => {
+        setState(s => ({ ...s, error: true }));
+      });
 
     document.title = "Список пользователей";
-  }, [page]);
+  }, [state.page]);
 
   const { currentUser, isUserLoading } = useContext(AuthContext);
 
@@ -139,7 +148,7 @@ export const List = () => {
           <h2>Список заполнивших форму</h2>
           <Table>
             <tbody>
-              {users.map(user => {
+              {state.users.map(user => {
                 return (
                   <tr key={user.date.seconds}>
                     <th>
@@ -153,8 +162,14 @@ export const List = () => {
               })}
             </tbody>
           </Table>
-          {!noMoreData && (
-            <button onClick={() => setPage(x => x + 1)}>Загрузить еще</button>
+          {!state.noMoreData && (
+            <button
+              onClick={() => {
+                setState(s => ({ ...s, page: s.page + 1 }));
+              }}
+            >
+              Загрузить еще
+            </button>
           )}
         </Fragment>
       )}
