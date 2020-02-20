@@ -297,5 +297,6 @@ export const QuestionResponse = {
 export const QuestionType = {
   TEXT: "text",
   RADIO: "radio",
-  CHECKBOX: "checkbox"
+  CHECKBOX: "checkbox",
+  TEST: "test"
 };
