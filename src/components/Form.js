@@ -5,7 +5,7 @@ import {
   QuestionResponse,
   QuestionType
 } from "../consts";
-import { QuestionaryItem } from "./questionary-components/questionaryItem";
+import { QuestionaryText } from "./questionary-components/questionaryText";
 import { QuestionaryRadio } from "./questionary-components/questionaryRadio";
 import { QuestionaryCheckbox } from "./questionary-components/questionaryCheckbox";
 import { FormCompletion } from "./formCompletion";
@@ -94,7 +94,7 @@ const Container = styled.section`
 
 export const Form = () => {
   const [state, setState] = useState({
-    id: undefined,
+    id: nanoid(),
     name: null,
     age: null,
     skincareType: null,
@@ -129,14 +129,6 @@ export const Form = () => {
     formIsCompleted: false,
     img: null
   });
-
-  // TODO: should be in initial state
-  useEffect(() => {
-    setState(s => ({
-      ...s,
-      id: nanoid()
-    }));
-  }, []);
 
   const updateStateValue = (name, value) => {
     setState(s => ({
@@ -185,11 +177,7 @@ export const Form = () => {
                       // TODO: Refactor
 
                       if (question.type === QuestionType.TEST) {
-                        if (state[question.name] === null) {
-                          return null;
-                        } else if (
-                          state[question.name] === QuestionResponse.TRUE
-                        ) {
+                        if (state[question.name] === QuestionResponse.TRUE) {
                           question = question.yes;
                         } else if (
                           state[question.name] === QuestionResponse.FALSE
@@ -199,55 +187,35 @@ export const Form = () => {
                       }
 
                       // if (question.type === QuestionType.TEST) {
-                      //   return state[question.name] === QuestionResponse.TRUE ?
-                      //     <Question question={question.true}> : <Question question={question.false}>
+                      //   return state[question.name] === QuestionResponse.TRUE
+                      //     ? (question = question.true)
+                      //     : (question = question.false);
                       // }
 
                       if (question.type === QuestionType.TEXT) {
                         return (
-                          <li key={question.name}>
-                            {/* QuestionaryText */}
-                            <QuestionaryItem
-                              key={`${question.name}-${index}`}
-                              name={question.name}
-                              question={question.question}
-                              handleOnClick={updateStateValue}
-                            />
-                          </li>
+                          <QuestionaryText
+                            key={question.name}
+                            question={question}
+                            index={index}
+                            updateStateValue={updateStateValue}
+                          />
                         );
                       } else if (question.type === QuestionType.RADIO) {
                         return (
-                          <li key={question.name}>
-                            <span> {question.question} </span>
-                            {question.options.map((option, index) => {
-                              return (
-                                <QuestionaryRadio
-                                  key={`${question.name}${index}`}
-                                  id={`${question.name}${index}`}
-                                  name={question.name}
-                                  value={option}
-                                  handleOnClick={updateStateValue}
-                                />
-                              );
-                            })}
-                          </li>
+                          <QuestionaryRadio
+                            key={`${question.name}${index}`}
+                            question={question}
+                            updateStateValue={updateStateValue}
+                          />
                         );
                       } else if (question.type === QuestionType.CHECKBOX) {
                         return (
-                          <li key={question.name}>
-                            <span> {question.question} </span>
-                            {question.options.map((option, index) => {
-                              return (
-                                <QuestionaryCheckbox
-                                  key={`${question.name}-${index}`}
-                                  id={`${option}-${index}`}
-                                  heading={option}
-                                  name={question.name}
-                                  handleOnClick={updateCheckboxValue}
-                                />
-                              );
-                            })}
-                          </li>
+                          <QuestionaryCheckbox
+                            key={`${question.name}-${index}`}
+                            question={question}
+                            updateCheckboxValue={updateCheckboxValue}
+                          />
                         );
                       } else if (question.type === "photo") {
                         return (
