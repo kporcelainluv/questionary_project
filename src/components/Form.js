@@ -88,39 +88,74 @@ const Container = styled.section`
   }
 `;
 
+const Question = ({
+  question,
+  state,
+  updateStateValue,
+  updateCheckboxValue
+}) => {
+  if (question.type === QuestionType.TEXT) {
+    return (
+      <QuestionaryText
+        key={question.name}
+        question={question}
+        updateStateValue={updateStateValue}
+      />
+    );
+  } else if (question.type === QuestionType.RADIO) {
+    return (
+      <QuestionaryRadio
+        key={question.name}
+        question={question}
+        updateStateValue={updateStateValue}
+      />
+    );
+  } else if (question.type === QuestionType.CHECKBOX) {
+    return (
+      <QuestionaryCheckbox
+        key={question.name}
+        question={question}
+        updateCheckboxValue={updateCheckboxValue}
+      />
+    );
+  } else if (question.type === "photo") {
+    return (
+      <div key={question.name}>
+        <p style={{ marginLeft: 0 }}>{question.question}</p>
+        <UploadButton updateStateValue={updateStateValue} />
+      </div>
+    );
+  } else if (
+    question.type === QuestionType.TEST &&
+    state[question.name] === QuestionResponse.TRUE
+  ) {
+    return (
+      <Question
+        question={question.true}
+        state={state}
+        updateCheckboxValue={updateCheckboxValue}
+        updateStateValue={updateStateValue}
+      />
+    );
+  } else if (
+    question.type === QuestionType.TEST &&
+    state[question.name] === QuestionResponse.FALSE
+  ) {
+    return (
+      <Question
+        question={question.false}
+        state={state}
+        updateCheckboxValue={updateCheckboxValue}
+        updateStateValue={updateStateValue}
+      />
+    );
+  }
+  return null;
+};
+
 export const Form = () => {
   const [state, setState] = useState({
     id: nanoid(),
-    name: null,
-    age: null,
-    skincareType: null,
-    skincareProducts: null,
-    skincareCleanser: null,
-    base: null,
-    foundation: null,
-    foundationPreference: null,
-    foundationNotUsed: null,
-    concealerUsage: null,
-    concealerNotUsed: null,
-    powderUsage: null,
-    powderNotUsed: null,
-    powderPreference: null,
-    blush: null,
-    blushNotUsed: null,
-    blushPreference: null,
-    contour: null,
-    contourNotUsed: null,
-    contourPreference: null,
-    lipstick: null,
-    highlighterUsage: null,
-    highlighterNotUsed: null,
-    highlighterPreference: null,
-    browsPreference: null,
-    eyesPreference: null,
-    toolsPreference: null,
-    userOwnedProducts: null,
-    frequency: null,
-    expectations: null,
     date: new Date(),
     formIsCompleted: false,
     img: null
@@ -172,58 +207,18 @@ export const Form = () => {
                 <fieldset key={section.name}>
                   <legend>{section.name}</legend>
                   <ol>
-                    {section.questions.map((question, index) => {
-                      // TODO: Refactor
-
-                      if (question.type === QuestionType.TEST) {
-                        if (state[question.name] === QuestionResponse.TRUE) {
-                          question = question.yes;
-                        } else if (
-                          state[question.name] === QuestionResponse.FALSE
-                        ) {
-                          question = question.no;
-                        }
-                      }
-
-                      // if (question.type === QuestionType.TEST) {
-                      //   return state[question.name] === QuestionResponse.TRUE
-                      //     ? (question = question.true)
-                      //     : (question = question.false);
-                      // }
-
-                      if (question.type === QuestionType.TEXT) {
-                        return (
-                          <QuestionaryText
-                            key={question.name}
+                    {section.questions.map(question => {
+                      console.log({ question });
+                      return (
+                        <li key={question.question}>
+                          <Question
                             question={question}
-                            index={index}
+                            state={state}
                             updateStateValue={updateStateValue}
-                          />
-                        );
-                      } else if (question.type === QuestionType.RADIO) {
-                        return (
-                          <QuestionaryRadio
-                            key={`${question.name}${index}`}
-                            question={question}
-                            updateStateValue={updateStateValue}
-                          />
-                        );
-                      } else if (question.type === QuestionType.CHECKBOX) {
-                        return (
-                          <QuestionaryCheckbox
-                            key={`${question.name}-${index}`}
-                            question={question}
                             updateCheckboxValue={updateCheckboxValue}
                           />
-                        );
-                      } else if (question.type === "photo") {
-                        return (
-                          <li key={question.name}>
-                            <p style={{ marginLeft: 0 }}>{question.question}</p>
-                            <UploadButton updateStateValue={updateStateValue} />
-                          </li>
-                        );
-                      }
+                        </li>
+                      );
                     })}
                   </ol>
                 </fieldset>
