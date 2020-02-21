@@ -153,7 +153,7 @@ const BlushPreference = {
   label: "Предпочитаемые румяна"
 };
 
-const blushNotUsed = {
+const BlushNotUsed = {
   name: "blushNotUsed",
   type: "text",
   question: `Расскажите, пожалуйста, почему?`,
@@ -164,7 +164,7 @@ const BlushTest = {
   type: "test",
   name: "blush",
   true: BlushPreference,
-  false: blushNotUsed
+  false: BlushNotUsed
 };
 
 const Contour = {
@@ -362,13 +362,53 @@ export const QuestionType = {
 };
 
 export const Result = [
-  { name: "", questions: [Name, Age] },
+  // { name: "", questions: [Name, Age] },
   {
     name: "Уход за кожей",
     questions: [SkincareType, SkincareProducts, SkincareCleanser]
   },
   {
     name: "Основа",
-    questions: [MakeupBase, Foundation, FoundationTest]
+    questions: [MakeupBase, Foundation, FoundationNotUsed, FoundationPreference]
+  },
+  {
+    name: "Консилер",
+    questions: [Concealer, concealerNotUsed]
+  },
+  {
+    name: "Пудра",
+    questions: [Powder, PowderNotUsed, PowderPreference]
+  },
+  {
+    name: "Румяна",
+    questions: [Blush, BlushPreference, BlushNotUsed]
+  },
+  {
+    name: "Контуринг",
+    questions: [Contour, contourNotUsed, contourPreference]
+  },
+  {
+    name: "Помада",
+    questions: [Lipstick]
+  },
+  {
+    name: "Хайлайтер",
+    questions: [Highlighter, highlighterNotUsed, highlighterPreference]
+  },
+  {
+    name: "Брови",
+    questions: [BrowsPreference]
+  },
+  {
+    name: "Глаза",
+    questions: [EyesPreference]
+  },
+  {
+    name: "Инструменты",
+    questions: [ToolsPreference]
+  },
+  {
+    name: "Прочее",
+    questions: [PricePreference, Frequency, Expectations]
   }
 ];
