@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import styled from "styled-components";
+import firebase from "firebase";
+import nanoid from "nanoid";
+
 import {
   QuestionaryList,
   MediaWidth,
@@ -9,11 +13,7 @@ import { QuestionaryText } from "./questionary-components/questionaryText";
 import { QuestionaryRadio } from "./questionary-components/questionaryRadio";
 import { QuestionaryCheckbox } from "./questionary-components/questionaryCheckbox";
 import { FormCompletion } from "./formCompletion";
-import styled from "styled-components";
-import firebase from "firebase";
-import nanoid from "nanoid";
 import { UploadButton } from "./questionary-components/UploadButton";
-// TODO: sort imports
 
 const Container = styled.section`
   display: flex;
@@ -27,7 +27,6 @@ const Container = styled.section`
     max-width: 650px;
     margin: auto;
   }
-
   h2 {
     display: flex;
     margin-top: 40px;
@@ -47,7 +46,6 @@ const Container = styled.section`
       margin: auto;
     }
   }
-
   button {
     background-color: #181919;
     height: 50px;
@@ -83,14 +81,12 @@ const Container = styled.section`
     margin-bottom: 20px;
     border-radius: 25px;
   }
-
   span {
     padding-left: 20px;
     font-size: 16px;
     margin-bottom: 10px;
   }
 `;
-// TODO: spaces between css selectors should be consistent
 
 export const Form = () => {
   const [state, setState] = useState({
@@ -137,26 +133,17 @@ export const Form = () => {
     }));
   };
 
-  // TODO: Refactor
   const updateCheckboxValue = (name, value) => {
-    if (state[name]) {
-      const list = state[name].concat(" " + value);
-      setState(s => ({
-        ...s,
-        [name]: list
-      }));
-    } else {
-      updateStateValue(name, value);
-    }
-    // setState(s => ({
-    //   ...s,
-    //   [name]: [...(s[name] || []), value]
-    // }))
+    setState(s => ({
+      ...s,
+      [name]: [...(s[name] || []), value]
+    }));
   };
 
   const survey = firebase.firestore().doc(`survey-results/${state.id}`);
   const storageRef = firebase.storage().ref();
 
+  console.log({ state });
   return (
     <div>
       {state.formIsCompleted && <FormCompletion />}
@@ -167,7 +154,19 @@ export const Form = () => {
             Перед нашей встречей мне бы хотелось познакомиться с вами и вашей
             косметичкой. Тогда занятие произойдет наиболее плодотворно.
           </p>
-          <form action="">
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              // storageRef.put(state.img.files[0].name).then(function(snapshot) {
+              //   console.log("Uploaded a blob or file!");
+              // })
+              survey.set(state).then(() => {});
+              setState(s => ({
+                ...s,
+                formIsCompleted: true
+              }));
+            }}
+          >
             {QuestionaryList.map(section => {
               return (
                 <fieldset key={section.name}>
@@ -230,25 +229,7 @@ export const Form = () => {
                 </fieldset>
               );
             })}
-            {/* TODO: add onSubmit to the form */}
-            <button
-              type="submit"
-              onClick={e => {
-                e.preventDefault();
-                storageRef
-                  .put(state.img.files[0].name)
-                  .then(function(snapshot) {
-                    console.log("Uploaded a blob or file!");
-                  });
-                survey.set(state).then(() => {});
-                setState(s => ({
-                  ...s,
-                  formIsCompleted: true
-                }));
-              }}
-            >
-              Отправить
-            </button>
+            <button type="submit">Отправить</button>
           </form>
         </Container>
       )}
