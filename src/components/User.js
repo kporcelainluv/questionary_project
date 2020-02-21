@@ -275,6 +275,16 @@ export const User = ({ id }) => {
             ]}
           />
 
+          <h3>Инструменты </h3>
+          <Block
+            questions={[
+              {
+                label: "Использует инструменты:",
+                value: user.toolsPreference
+              }
+            ]}
+          />
+
           <h3>Прочее </h3>
           <Block
             questions={[
