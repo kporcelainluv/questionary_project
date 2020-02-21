@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import { MediaWidth } from "../../consts";
 
@@ -41,7 +41,7 @@ const Question = ({ heading, id, name, updateCheckboxValue }) => {
 
 export const QuestionaryCheckbox = ({ question, updateCheckboxValue }) => {
   return (
-    <li key={question.name}>
+    <Fragment>
       <span> {question.question} </span>
       {question.options.map((option, index) => {
         return (
@@ -54,6 +54,6 @@ export const QuestionaryCheckbox = ({ question, updateCheckboxValue }) => {
           />
         );
       })}
-    </li>
+    </Fragment>
   );
 };

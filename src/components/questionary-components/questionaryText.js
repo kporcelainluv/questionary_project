@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import { MediaWidth } from "../../consts";
 
@@ -47,13 +47,13 @@ const Question = ({ question, name, updateStateValue }) => {
 
 export const QuestionaryText = ({ question, updateStateValue, index }) => {
   return (
-    <li key={question.name}>
+    <Fragment>
       <Question
         key={`${question.name}-${index}`}
         name={question.name}
         question={question.question}
         updateStateValue={updateStateValue}
       />
-    </li>
+    </Fragment>
   );
 };

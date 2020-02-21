@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import { MediaWidth } from "../../consts";
 
@@ -42,7 +42,7 @@ const Question = ({ id, name, value, updateStateValue }) => {
 
 export const QuestionaryRadio = ({ question, updateStateValue }) => {
   return (
-    <li key={question.name}>
+    <Fragment>
       <span> {question.question} </span>
       {question.options.map((option, index) => {
         return (
@@ -55,6 +55,6 @@ export const QuestionaryRadio = ({ question, updateStateValue }) => {
           />
         );
       })}
-    </li>
+    </Fragment>
   );
 };
