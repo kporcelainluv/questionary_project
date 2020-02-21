@@ -23,7 +23,7 @@ const Label = styled.label`
   }
 `;
 
-export const QuestionaryCheckbox = ({ heading, id, name, handleOnClick }) => {
+const Question = ({ heading, id, name, updateCheckboxValue }) => {
   return (
     <Label htmlFor={id}>
       <input
@@ -31,10 +31,29 @@ export const QuestionaryCheckbox = ({ heading, id, name, handleOnClick }) => {
         id={id}
         name={id}
         onChange={() => {
-          return handleOnClick(name, heading);
+          return updateCheckboxValue(name, heading);
         }}
       />
       <span> {heading}</span>
     </Label>
+  );
+};
+
+export const QuestionaryCheckbox = ({ question, updateCheckboxValue }) => {
+  return (
+    <li key={question.name}>
+      <span> {question.question} </span>
+      {question.options.map((option, index) => {
+        return (
+          <Question
+            key={`${question.name}-${index}`}
+            id={`${option}-${index}`}
+            heading={option}
+            name={question.name}
+            updateCheckboxValue={updateCheckboxValue}
+          />
+        );
+      })}
+    </li>
   );
 };

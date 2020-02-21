@@ -23,7 +23,7 @@ const Label = styled.label`
   }
 `;
 
-export const QuestionaryRadio = ({ id, name, value, handleOnClick }) => {
+const Question = ({ id, name, value, updateStateValue }) => {
   return (
     <Label htmlFor={id}>
       <input
@@ -32,10 +32,29 @@ export const QuestionaryRadio = ({ id, name, value, handleOnClick }) => {
         name={name}
         value={value}
         onChange={() => {
-          return handleOnClick(name, value);
+          return updateStateValue(name, value);
         }}
       />
       <span>{value}</span>
     </Label>
+  );
+};
+
+export const QuestionaryRadio = ({ question, updateStateValue }) => {
+  return (
+    <li key={question.name}>
+      <span> {question.question} </span>
+      {question.options.map((option, index) => {
+        return (
+          <Question
+            key={`${question.name}${index}`}
+            id={`${question.name}${index}`}
+            name={question.name}
+            value={option}
+            updateStateValue={updateStateValue}
+          />
+        );
+      })}
+    </li>
   );
 };

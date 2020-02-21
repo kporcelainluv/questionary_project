@@ -11,7 +11,6 @@ const Label = styled.label`
   @media (min-width: ${MediaWidth.TABLET}) {
     margin-bottom: 20px;
   }
-
   textarea {
     padding-left: 10px;
     font-size: 18px;
@@ -24,7 +23,6 @@ const Label = styled.label`
       height: 50px;
     }
   }
-
   span {
     padding-left: 20px;
     max-width: 280px;
@@ -35,15 +33,27 @@ const Label = styled.label`
     }
   }
 `;
-
-export const QuestionaryItem = ({ name, question, handleOnClick }) => {
+const Question = ({ question, name, updateStateValue }) => {
   return (
     <Label htmlFor={name}>
       <span>{question}</span>
       <textarea
         name={name}
-        onChange={e => handleOnClick(name, e.target.value)}
+        onChange={e => updateStateValue(name, e.target.value)}
       />
     </Label>
+  );
+};
+
+export const QuestionaryText = ({ question, updateStateValue, index }) => {
+  return (
+    <li key={question.name}>
+      <Question
+        key={`${question.name}-${index}`}
+        name={question.name}
+        question={question.question}
+        updateStateValue={updateStateValue}
+      />
+    </li>
   );
 };
