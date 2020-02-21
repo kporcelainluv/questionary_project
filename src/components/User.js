@@ -134,7 +134,7 @@ export const User = ({ id }) => {
           {user.age && <h2>Возвраст: {user.age}</h2>}
           {Result.map((res, index) => {
             return (
-              <div>
+              <div key={index}>
                 <h3>{res.name}</h3>
                 <Block
                   key={index}
