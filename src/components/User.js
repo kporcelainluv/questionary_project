@@ -67,7 +67,7 @@ const Question = ({ label, value }) => {
   return (
     <div>
       <p>{label}:</p>
-      <span>{value ? value : "Не указано"}</span>
+      <span>{typeof value === "object" ? value.join(", ") : value}</span>
     </div>
   );
 };
