@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, Fragment } from "react";
 import firebase from "firebase";
 import styled from "styled-components";
 
-import { MediaWidth } from "../consts";
+import { MediaWidth, Result } from "../consts";
 import { Loader } from "./Loader";
 import { AuthContext } from "../Auth";
 import { Redirect } from "react-router";
@@ -61,7 +61,7 @@ const Container = styled.div`
 `;
 
 const Question = ({ label, value }) => {
-  if (label === "Причина" && !value) {
+  if (!value) {
     return true;
   }
   return (
@@ -76,7 +76,7 @@ const Block = ({ questions }) => {
   return (
     <ul>
       {questions.map(q => {
-        return <Question value={q.value} label={q.label} />;
+        return <Question value={q.value} label={q.label} key={q.label} />;
       })}
     </ul>
   );
@@ -108,8 +108,6 @@ export const User = ({ id }) => {
     document.title = "Страница пользователя";
   }, []);
 
-  console.log(state);
-
   const { currentUser, isUserLoading } = useContext(AuthContext);
 
   if (!currentUser && !isUserLoading) {
@@ -134,174 +132,19 @@ export const User = ({ id }) => {
         <Fragment>
           <h1>{user.name}</h1>
           {user.age && <h2>Возвраст: {user.age}</h2>}
-          <h3>Уход за кожей </h3>
-          <Block
-            questions={[
-              { label: "Тип кожи", value: user.skincareType },
-              { label: "До макияжа использует:", value: user.skincareProducts },
-              {
-                label: "Очищает кожу от макияжа:",
-                value: user.skincareCleanser
-              }
-            ]}
-          />
-
-          <h3>Основа </h3>
-          <Block
-            questions={[
-              { label: "Использует базу до макияжа:", value: user.base },
-              { label: "Использует тональный крем:", value: user.foundation },
-              { label: "Причина", value: user.foundationNotUsed },
-              {
-                label: "Предпочитаемая плотность тонального крема:",
-                value: user.foundationPreference
-              }
-            ]}
-          />
-
-          <h3>Консилер</h3>
-          <Block
-            questions={[
-              {
-                label: "Использует консилер:",
-                value: user.concealerUsage
-              },
-              {
-                label: "Причина",
-                value: user.concealerNotUsed
-              }
-            ]}
-          />
-
-          <h3>Пудра </h3>
-          <Block
-            questions={[
-              {
-                label: "Использует пудру:",
-                value: user.powderUsage
-              },
-              {
-                label: "Причина",
-                value: user.powderNotUsed
-              },
-              {
-                label: "Предпочитаемая пудра:",
-                value: user.powderPreference
-              }
-            ]}
-          />
-
-          <h3>Румяна </h3>
-          <Block
-            questions={[
-              {
-                label: "Использует румяна:",
-                value: user.blush
-              },
-              {
-                label: "Причина",
-                value: user.blushNotUsed
-              },
-              {
-                label: "Предпочитаемые румяна:",
-                value: user.blushPreference
-              }
-            ]}
-          />
-
-          <h3>Контуринг </h3>
-          <Block
-            questions={[
-              {
-                label: "Использует контуринг:",
-                value: user.contour
-              },
-              {
-                label: "Причина",
-                value: user.contourNotUsed
-              },
-              {
-                label: "Предпочитаемые продукты для контуринга:",
-                value: user.contourPreference
-              }
-            ]}
-          />
-
-          <h3>Помада </h3>
-          <Block
-            questions={[
-              {
-                label: "Использует помады:",
-                value: user.lipstick
-              }
-            ]}
-          />
-
-          <h2>Хайлайтер </h2>
-          <Block
-            questions={[
-              {
-                label: "Использует хайлайтер:",
-                value: user.highlighterUsage
-              },
-              {
-                label: "Причина",
-                value: user.highlighterNotUsed
-              },
-              {
-                label: "Предпочитает хайлайтеры:",
-                value: user.highlighterPreference
-              }
-            ]}
-          />
-
-          <h3>Брови </h3>
-          <Block
-            questions={[
-              {
-                label: "Использует продукты для бровей:",
-                value: user.browsPreference
-              }
-            ]}
-          />
-
-          <h3>Глаза </h3>
-          <Block
-            questions={[
-              {
-                label: "Использует продукты для глаз:",
-                value: user.eyesPreference
-              }
-            ]}
-          />
-
-          <h3>Инструменты </h3>
-          <Block
-            questions={[
-              {
-                label: "Использует инструменты:",
-                value: user.toolsPreference
-              }
-            ]}
-          />
-
-          <h3>Прочее </h3>
-          <Block
-            questions={[
-              {
-                label: "В косметичке уже есть:",
-                value: user.userOwnedProducts
-              },
-              {
-                label: "Как часто делает макияж:",
-                value: user.frequency
-              },
-              {
-                label: "От занятия ожидает:",
-                value: user.expectations
-              }
-            ]}
-          />
+          {Result.map((res, index) => {
+            return (
+              <div>
+                <h3>{res.name}</h3>
+                <Block
+                  key={index}
+                  questions={res.questions.map(q => {
+                    return { label: q.label, value: user[q.name] };
+                  })}
+                />
+              </div>
+            );
+          })}
         </Fragment>
       )}
     </Container>
