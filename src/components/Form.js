@@ -12,6 +12,8 @@ import { FormCompletion } from "./formCompletion";
 import styled from "styled-components";
 import firebase from "firebase";
 import nanoid from "nanoid";
+import { UploadButton } from "./questionary-components/UploadButton";
+// TODO: sort imports
 
 const Container = styled.section`
   display: flex;
@@ -88,6 +90,7 @@ const Container = styled.section`
     margin-bottom: 10px;
   }
 `;
+// TODO: spaces between css selectors should be consistent
 
 export const Form = () => {
   const [state, setState] = useState({
@@ -123,9 +126,11 @@ export const Form = () => {
     frequency: null,
     expectations: null,
     date: new Date(),
-    formIsCompleted: false
+    formIsCompleted: false,
+    img: null
   });
 
+  // TODO: should be in initial state
   useEffect(() => {
     setState(s => ({
       ...s,
@@ -151,9 +156,14 @@ export const Form = () => {
     } else {
       updateStateValue(name, value);
     }
+    // setState(s => ({
+    //   ...s,
+    //   [name]: [...(s[name] || []), value]
+    // }))
   };
 
   const survey = firebase.firestore().doc(`survey-results/${state.id}`);
+  const storageRef = firebase.storage().ref();
 
   return (
     <div>
@@ -173,6 +183,7 @@ export const Form = () => {
                   <ol>
                     {section.questions.map((question, index) => {
                       // TODO: Refactor
+
                       if (question.type === QuestionType.TEST) {
                         if (state[question.name] === null) {
                           return null;
@@ -186,9 +197,16 @@ export const Form = () => {
                           question = question.no;
                         }
                       }
+
+                      // if (question.type === QuestionType.TEST) {
+                      //   return state[question.name] === QuestionResponse.TRUE ?
+                      //     <Question question={question.true}> : <Question question={question.false}>
+                      // }
+
                       if (question.type === QuestionType.TEXT) {
                         return (
                           <li key={question.name}>
+                            {/* QuestionaryText */}
                             <QuestionaryItem
                               key={`${question.name}-${index}`}
                               name={question.name}
@@ -231,16 +249,29 @@ export const Form = () => {
                             })}
                           </li>
                         );
+                      } else if (question.type === "photo") {
+                        return (
+                          <li key={question.name}>
+                            <p style={{ marginLeft: 0 }}>{question.question}</p>
+                            <UploadButton updateStateValue={updateStateValue} />
+                          </li>
+                        );
                       }
                     })}
                   </ol>
                 </fieldset>
               );
             })}
+            {/* TODO: add onSubmit to the form */}
             <button
               type="submit"
               onClick={e => {
                 e.preventDefault();
+                storageRef
+                  .put(state.img.files[0].name)
+                  .then(function(snapshot) {
+                    console.log("Uploaded a blob or file!");
+                  });
                 survey.set(state).then(() => {});
                 setState(s => ({
                   ...s,

@@ -4,6 +4,12 @@ const Name = {
   question: `Пожалуйста, представьтесь:`
 };
 
+const Img = {
+  name: "photo",
+  type: "photo",
+  question: `Пожалуйста, загрузите ваше фото:`
+};
+
 const Age = {
   name: "age",
   type: "radio",
@@ -23,6 +29,7 @@ const SkincareType = {
     "Жирная"
   ]
 };
+
 const SkincareProducts = {
   name: "skincareProducts",
   type: "text",
@@ -228,10 +235,14 @@ const Expectations = {
   question: `Какой результат вы ожидаете от занятия?`
 };
 
+export const Result = [
+  { name: "Основа", questions: [MakeupBase, Foundation, FoundationPreference] }
+];
+
 export const QuestionaryList = [
   {
     name: "",
-    questions: [Name, Age]
+    questions: [Name, Age, Img]
   },
   {
     name: "Уход за кожей: ",
