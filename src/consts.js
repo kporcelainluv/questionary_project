@@ -2,7 +2,7 @@ const Name = {
   name: "name",
   type: "text",
   question: `Пожалуйста, представьтесь:`,
-  label: ""
+  description: ""
 };
 
 const Age = {
@@ -10,7 +10,7 @@ const Age = {
   type: "radio",
   question: `Укажите ваш возраст:`,
   options: ["до 18", "18-25", "25-35", "35-45", "45+"],
-  label: "Возраст"
+  description: "Возраст"
 };
 
 const SkincareType = {
@@ -24,20 +24,20 @@ const SkincareType = {
     "Комбинированная",
     "Жирная"
   ],
-  label: "Тип кожи"
+  description: "Тип кожи"
 };
 
 const SkincareProducts = {
   name: "skincareProducts",
   type: "text",
   question: `Какими уходовыми средствами вы пользуетесь до макияжа?`,
-  label: "До макияжа использует"
+  description: "До макияжа использует"
 };
 const SkincareCleanser = {
   name: "skincareCleanser",
   type: "text",
   question: `Какими средствами вы очищаете кожу от макияжа?`,
-  label: "Очищает кожу от макияжа"
+  description: "Очищает кожу от макияжа"
 };
 
 const MakeupBase = {
@@ -45,7 +45,7 @@ const MakeupBase = {
   type: "radio",
   question: `Используете ли вы базу до макияжа?`,
   options: ["Да", "Нет"],
-  label: "Использует базу до макияжа"
+  description: "Использует базу до макияжа"
 };
 
 const Foundation = {
@@ -53,7 +53,7 @@ const Foundation = {
   type: "radio",
   question: `Используете ли вы тональный крем?`,
   options: ["Да", "Нет"],
-  label: "Использует тональный крем"
+  description: "Использует тональный крем"
 };
 
 const FoundationPreference = {
@@ -61,14 +61,14 @@ const FoundationPreference = {
   type: "checkbox",
   question: `Какое тональное средство вы предпочитаете?`,
   options: ["легкое", "среднее", "плотное"],
-  label: "Предпочитаемая плотность тонального крема"
+  description: "Предпочитаемая плотность тонального крема"
 };
 
 const FoundationNotUsed = {
   name: "foundationNotUsed",
   type: "text",
   question: `Расскажите, пожалуйста, почему`,
-  label: "Причина"
+  description: "Причина"
 };
 
 const FoundationTest = {
@@ -83,14 +83,14 @@ const Concealer = {
   type: "radio",
   question: `Используете ли вы консилер?`,
   options: ["Да", "Нет"],
-  label: "Использует консилер"
+  description: "Использует консилер"
 };
 
 const concealerNotUsed = {
   name: "concealerNotUsed",
   type: "text",
   question: `Расскажите, пожалуйста, почему?`,
-  label: "Причина"
+  description: "Причина"
 };
 
 const ConcealerTest = {
@@ -105,7 +105,7 @@ const Powder = {
   type: "radio",
   question: `Используете ли вы пудру?`,
   options: ["Да", "Нет"],
-  label: "Использует пудру"
+  description: "Использует пудру"
 };
 
 const PowderPreference = {
@@ -113,14 +113,14 @@ const PowderPreference = {
   type: "checkbox",
   question: `Какую пудру вы используете?`,
   options: ["компактная", "рассыпчатая"],
-  label: "Предпочитаемая пудра"
+  description: "Предпочитаемая пудра"
 };
 
 const PowderNotUsed = {
   name: "powderNotUsed",
   type: "text",
   question: `Расскажите, пожалуйста, почему?`,
-  label: "Причина"
+  description: "Причина"
 };
 
 const PowderTest = {
@@ -135,7 +135,7 @@ const Blush = {
   type: "radio",
   question: `Используете ли вы румяна?`,
   options: ["Да", "Нет"],
-  label: "Использует румяна"
+  description: "Использует румяна"
 };
 
 const BlushPreference = {
@@ -143,14 +143,14 @@ const BlushPreference = {
   type: "checkbox",
   question: `Какие румяна вам нравятся?`,
   options: ["кремовые", "сухие"],
-  label: "Предпочитаемые румяна"
+  description: "Предпочитаемые румяна"
 };
 
 const BlushNotUsed = {
   name: "blushNotUsed",
   type: "text",
   question: `Расскажите, пожалуйста, почему?`,
-  label: "Причина"
+  description: "Причина"
 };
 
 const BlushTest = {
@@ -165,21 +165,21 @@ const Contour = {
   type: "radio",
   question: `Используете ли вы средства для контурирования лица?`,
   options: ["Да", "Нет"],
-  label: "Использует контуринг"
+  description: "Использует контуринг"
 };
 
 const contourNotUsed = {
   name: "contourNotUsed",
   type: "text",
   question: `Расскажите, пожалуйста, почему?`,
-  label: "Причина"
+  description: "Причина"
 };
 
 const contourPreference = {
   name: "contourPreference",
   type: "text",
   question: `Какими контурирующими средствами вы пользуетесь?`,
-  label: "Предпочитаемые продукты для контуринга"
+  description: "Предпочитаемые продукты для контуринга"
 };
 
 const ContourTest = {
@@ -199,7 +199,7 @@ const Lipstick = {
     "Всегда нюдовые оттенки",
     "Не использую помаду"
   ],
-  label: "Использует помады"
+  description: "Использует помады"
 };
 
 const Highlighter = {
@@ -207,21 +207,21 @@ const Highlighter = {
   type: "radio",
   question: `Используете ли вы хайлайтер?`,
   options: ["Да", "Нет"],
-  label: "Использует хайлайтер"
+  description: "Использует хайлайтер"
 };
 
 const highlighterNotUsed = {
   name: "highlighterNotUsed",
   type: "text",
   question: `Расскажите, пожалуйста, почему?`,
-  label: "Причина"
+  description: "Причина"
 };
 const highlighterPreference = {
   name: "highlighterPreference",
   type: "checkbox",
   question: `Какой хайлайтер вы любите?`,
   options: ["Сухой", "Кремовый"],
-  label: "Предпочитает хайлайтеры"
+  description: "Предпочитает хайлайтеры"
 };
 
 const HighlighterTest = {
@@ -236,7 +236,7 @@ const BrowsPreference = {
   type: "checkbox",
   question: `Какие продукты для бровей вы используете?`,
   options: ["Карандаш", "Тени", "Гель для бровей", "Ничего"],
-  label: "Использует продукты для бровей"
+  description: "Использует продукты для бровей"
 };
 
 const EyesPreference = {
@@ -251,7 +251,7 @@ const EyesPreference = {
     "Подводка",
     "Не использую ничего"
   ],
-  label: "Использует продукты для глаз"
+  description: "Использует продукты для глаз"
 };
 
 const ToolsPreference = {
@@ -259,29 +259,29 @@ const ToolsPreference = {
   type: "checkbox",
   question: `Какие инструменты для макияжа вы используете?`,
   options: ["Кисти", "Спонж", "Керлер", "Ничего не использую"],
-  label: "Использует инструменты"
+  description: "Использует инструменты"
 };
 
 const PricePreference = {
   name: "userOwnedProducts",
   type: "text",
   question: `В каком сегменте вы приобретаете косметику? Можно перечислить 3-5 брендов вашей косметички.`,
-  label: "В косметичке уже есть"
+  description: "В косметичке уже есть"
 };
 const Frequency = {
   name: "frequency",
   type: "text",
   question: `Как часто вы делаете макияж?`,
-  label: "Как часто делает макияж"
+  description: "Как часто делает макияж"
 };
 const Expectations = {
   name: "expectations",
   type: "text",
   question: `Какой результат вы ожидаете от занятия?`,
-  label: "От занятия ожидает"
+  description: "От занятия ожидает"
 };
 
-export const QuestionaryList = [
+export const Questionary = [
   {
     name: "",
     questions: [Name, Age]
@@ -354,8 +354,7 @@ export const QuestionType = {
   TEST: "test"
 };
 
-export const Result = [
-  // { name: "", questions: [Name, Age] },
+export const UserProfile = [
   {
     name: "Уход за кожей",
     questions: [SkincareType, SkincareProducts, SkincareCleanser]

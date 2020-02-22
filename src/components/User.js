@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, Fragment } from "react";
 import firebase from "firebase";
 import styled from "styled-components";
 
-import { MediaWidth, Result } from "../consts";
+import { MediaWidth, UserProfile } from "../consts";
 import { Loader } from "./Loader";
 import { AuthContext } from "./Auth";
 import { Redirect } from "react-router";
@@ -132,7 +132,7 @@ export const User = ({ id }) => {
         <Fragment>
           <h1>{user.name}</h1>
           {user.age && <h2>Возвраст: {user.age}</h2>}
-          {Result.map((res, index) => {
+          {UserProfile.map((res, index) => {
             return (
               <div key={index}>
                 <h3>{res.name}</h3>

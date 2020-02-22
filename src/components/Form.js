@@ -4,7 +4,7 @@ import firebase from "firebase";
 import nanoid from "nanoid";
 
 import {
-  QuestionaryList,
+  Questionary,
   MediaWidth,
   QuestionResponse,
   QuestionType
@@ -12,7 +12,7 @@ import {
 import { Text } from "./Question";
 import { Radio } from "./Question";
 import { Checkbox } from "./Question";
-import { FormCompletion } from "./formCompletion";
+import { FormCompletion } from "./FormCompletion";
 
 const Container = styled.section`
   display: flex;
@@ -189,7 +189,7 @@ export const Form = () => {
               }));
             }}
           >
-            {QuestionaryList.map(section => {
+            {Questionary.map(section => {
               return (
                 <fieldset key={section.name}>
                   <legend>{section.name}</legend>
