@@ -1,10 +1,11 @@
 import React from "react";
+import "firebase/auth";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
 import { Form } from "./Form";
 import { List } from "./List";
 import { User } from "./User";
 import { AuthProvider } from "./Auth";
-import "firebase/auth";
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import Login from "./Login";
 
 export const App = () => {
