@@ -35,6 +35,26 @@ const LabelText = styled.label`
   }
 `;
 
+const Label = styled.label`
+  font-size: 16px;
+  font-family: "Montserrat", "PT Sans", sans-serif;
+  margin-bottom: 10px;
+  cursor: pointer;
+  padding: 10px;
+  input {
+    font-size: 18px;
+  }
+  span {
+    padding-left: 20px;
+    max-width: 280px;
+    margin-bottom: 13px;
+    @media (min-width: ${MediaWidth.TABLET}) {
+      max-width: 650px;
+      height: 50px;
+    }
+  }
+`;
+
 export const Text = ({ question, updateStateValue }) => {
   const { name } = question;
   return (
@@ -48,27 +68,6 @@ export const Text = ({ question, updateStateValue }) => {
   );
 };
 
-const LabelRadio = styled.label`
-  font-size: 16px;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  padding: 10px;
-  cursor: pointer;
-
-  input {
-    font-size: 18px;
-  }
-
-  span {
-    padding-left: 20px;
-    max-width: 280px;
-    margin-bottom: 13px;
-    @media (min-width: ${MediaWidth.TABLET}) {
-      max-width: 650px;
-      height: 50px;
-    }
-  }
-`;
-
 export const Radio = ({ question, updateStateValue }) => {
   return (
     <Fragment>
@@ -79,7 +78,7 @@ export const Radio = ({ question, updateStateValue }) => {
         const id = name + index;
 
         return (
-          <LabelRadio key={key} htmlFor={id}>
+          <Label key={key} htmlFor={id}>
             <input
               type="radio"
               id={id}
@@ -88,31 +87,12 @@ export const Radio = ({ question, updateStateValue }) => {
               onChange={() => updateStateValue(name, option)}
             />
             <span>{option}</span>
-          </LabelRadio>
+          </Label>
         );
       })}
     </Fragment>
   );
 };
-
-const LabelCheckbox = styled.label`
-  font-size: 16px;
-  margin-bottom: 10px;
-  padding: 10px;
-  cursor: pointer;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  input{
-  font-size: 16px;
-  }
-  span{
-  padding-left: 20px;
-  max-width: 280px;
-  margin-bottom: 10px;
-  @media (min-width: ${MediaWidth.TABLET}) {
-    max-width: 650px;
-    height: 50px;
-  }
-`;
 
 export const Checkbox = ({ question, updateCheckboxValue }) => {
   return (
@@ -124,7 +104,7 @@ export const Checkbox = ({ question, updateCheckboxValue }) => {
         const id = name + index;
 
         return (
-          <LabelCheckbox key={key} htmlFor={id}>
+          <Label key={key} htmlFor={id}>
             <input
               type="checkbox"
               id={id}
@@ -134,7 +114,7 @@ export const Checkbox = ({ question, updateCheckboxValue }) => {
               }}
             />
             <span>{option}</span>
-          </LabelCheckbox>
+          </Label>
         );
       })}
     </Fragment>

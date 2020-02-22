@@ -4,7 +4,7 @@ import * as firebase from "firebase/app";
 import styled from "styled-components";
 
 import { firebaseApp } from "../base";
-import { AuthContext } from "../Auth.js";
+import { AuthContext } from "./Auth.js";
 import { MediaWidth } from "../consts";
 
 const Container = styled.div`

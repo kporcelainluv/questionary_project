@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { MediaWidth, Result } from "../consts";
 import { Loader } from "./Loader";
-import { AuthContext } from "../Auth";
+import { AuthContext } from "./Auth";
 import { Redirect } from "react-router";
 import { Error } from "./Error";
 

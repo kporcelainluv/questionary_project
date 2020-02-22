@@ -1,11 +1,11 @@
 import React from "react";
-import { Form } from "./components/Form";
-import { List } from "./components/List";
-import { User } from "./components/User";
+import { Form } from "./Form";
+import { List } from "./List";
+import { User } from "./User";
 import { AuthProvider } from "./Auth";
 import "firebase/auth";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Login from "./components/Login";
+import Login from "./Login";
 
 export const App = () => {
   return (

@@ -8,7 +8,7 @@ import formatDistance from "date-fns/formatDistance";
 import styled from "styled-components";
 import differenceInDays from "date-fns/differenceInDays";
 
-import { AuthContext } from "../Auth";
+import { AuthContext } from "./Auth";
 import { Loader } from "./Loader";
 import { Error } from "./Error";
 
