@@ -1,5 +1,6 @@
-import React, { Fragment } from "react";
+import React from "react";
 import styled from "styled-components";
+
 import { MediaWidth } from "../../consts";
 
 const Label = styled.label`
@@ -33,27 +34,16 @@ const Label = styled.label`
     }
   }
 `;
-const Question = ({ question, name, updateStateValue }) => {
+
+export const QuestionaryText = ({ question, updateStateValue }) => {
+  const { name } = question;
   return (
     <Label htmlFor={name}>
-      <span>{question}</span>
+      <span>{question.question}</span>
       <textarea
         name={name}
         onChange={e => updateStateValue(name, e.target.value)}
       />
     </Label>
-  );
-};
-
-export const QuestionaryText = ({ question, updateStateValue, index }) => {
-  return (
-    <Fragment>
-      <Question
-        key={`${question.name}-${index}`}
-        name={question.name}
-        question={question.question}
-        updateStateValue={updateStateValue}
-      />
-    </Fragment>
   );
 };

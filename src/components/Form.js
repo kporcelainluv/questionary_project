@@ -9,9 +9,9 @@ import {
   QuestionResponse,
   QuestionType
 } from "../consts";
-import { QuestionaryText } from "./questionary-components/questionaryText";
-import { QuestionaryRadio } from "./questionary-components/questionaryRadio";
-import { QuestionaryCheckbox } from "./questionary-components/questionaryCheckbox";
+import { Text } from "./Question";
+import { Radio } from "./Question";
+import { Checkbox } from "./Question";
 import { FormCompletion } from "./formCompletion";
 
 const Container = styled.section`
@@ -95,7 +95,7 @@ const Question = ({
 }) => {
   if (question.type === QuestionType.TEXT) {
     return (
-      <QuestionaryText
+      <Text
         key={question.name}
         question={question}
         updateStateValue={updateStateValue}
@@ -103,7 +103,7 @@ const Question = ({
     );
   } else if (question.type === QuestionType.RADIO) {
     return (
-      <QuestionaryRadio
+      <Radio
         key={question.name}
         question={question}
         updateStateValue={updateStateValue}
@@ -111,7 +111,7 @@ const Question = ({
     );
   } else if (question.type === QuestionType.CHECKBOX) {
     return (
-      <QuestionaryCheckbox
+      <Checkbox
         key={question.name}
         question={question}
         updateCheckboxValue={updateCheckboxValue}
@@ -195,9 +195,8 @@ export const Form = () => {
                   <legend>{section.name}</legend>
                   <ol>
                     {section.questions.map(question => {
-                      console.log({ question });
                       return (
-                        <li key={question.question}>
+                        <li key={question.name + question.type}>
                           <Question
                             question={question}
                             state={state}
