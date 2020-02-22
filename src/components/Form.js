@@ -13,7 +13,6 @@ import { QuestionaryText } from "./questionary-components/questionaryText";
 import { QuestionaryRadio } from "./questionary-components/questionaryRadio";
 import { QuestionaryCheckbox } from "./questionary-components/questionaryCheckbox";
 import { FormCompletion } from "./formCompletion";
-import { UploadButton } from "./questionary-components/UploadButton";
 
 const Container = styled.section`
   display: flex;
@@ -118,13 +117,6 @@ const Question = ({
         updateCheckboxValue={updateCheckboxValue}
       />
     );
-  } else if (question.type === "photo") {
-    return (
-      <div key={question.name}>
-        <p style={{ marginLeft: 0 }}>{question.question}</p>
-        <UploadButton updateStateValue={updateStateValue} />
-      </div>
-    );
   } else if (
     question.type === QuestionType.TEST &&
     state[question.name] === QuestionResponse.TRUE
@@ -157,8 +149,7 @@ export const Form = () => {
   const [state, setState] = useState({
     id: nanoid(),
     date: new Date(),
-    formIsCompleted: false,
-    img: null
+    formIsCompleted: false
   });
 
   const updateStateValue = (name, value) => {
@@ -176,7 +167,6 @@ export const Form = () => {
   };
 
   const survey = firebase.firestore().doc(`survey-results/${state.id}`);
-  const storageRef = firebase.storage().ref();
 
   console.log({ state });
   return (
@@ -192,9 +182,6 @@ export const Form = () => {
           <form
             onSubmit={e => {
               e.preventDefault();
-              // storageRef.put(state.img.files[0].name).then(function(snapshot) {
-              //   console.log("Uploaded a blob or file!");
-              // })
               survey.set(state).then(() => {});
               setState(s => ({
                 ...s,

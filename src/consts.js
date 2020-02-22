@@ -5,13 +5,6 @@ const Name = {
   label: ""
 };
 
-const Img = {
-  name: "photo",
-  type: "photo",
-  question: `Пожалуйста, загрузите ваше фото:`,
-  label: "Фото"
-};
-
 const Age = {
   name: "age",
   type: "radio",
@@ -291,7 +284,7 @@ const Expectations = {
 export const QuestionaryList = [
   {
     name: "",
-    questions: [Name, Age, Img]
+    questions: [Name, Age]
   },
   {
     name: "Уход за кожей: ",
