@@ -9,9 +9,7 @@ import {
   QuestionResponse,
   QuestionType
 } from "../consts";
-import { Text } from "./Question";
-import { Radio } from "./Question";
-import { Checkbox } from "./Question";
+import { Text, Checkbox, Radio } from "./Questions";
 import { FormCompletion } from "./FormCompletion";
 
 const Container = styled.section`
@@ -168,7 +166,6 @@ export const Form = () => {
 
   const survey = firebase.firestore().doc(`survey-results/${state.id}`);
 
-  console.log({ state });
   return (
     <div>
       {state.formIsCompleted && <FormCompletion />}

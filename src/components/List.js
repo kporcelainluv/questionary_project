@@ -29,7 +29,6 @@ const getLinkToUserProfile = id => {
 };
 
 const Container = styled.div`
-  // TODO: move to App
   max-width: 600px;
   margin: 50px auto;
   color: #181919;
@@ -129,7 +128,6 @@ export const List = () => {
   if (!currentUser && !isUserLoading) {
     return <Redirect to="/login" />;
   }
-  console.log(state.error);
   if (state.error) {
     return (
       <Container>

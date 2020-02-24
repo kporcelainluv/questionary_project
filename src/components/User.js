@@ -60,23 +60,20 @@ const Container = styled.div`
   }
 `;
 
-const Question = ({ label, value }) => {
-  if (!value) {
-    return true;
-  }
-  return (
-    <div>
-      <p>{label}:</p>
-      <span>{typeof value === "object" ? value.join(", ") : value}</span>
-    </div>
-  );
-};
-
 const Block = ({ questions }) => {
   return (
     <ul>
-      {questions.map(q => {
-        return <Question value={q.value} label={q.label} key={q.label} />;
+      {questions.map(question => {
+        const { heading, value } = question;
+        if (!value) {
+          return true;
+        }
+        return (
+          <div key={value}>
+            <p>{heading}:</p>
+            <span>{typeof value === "object" ? value.join(", ") : value}</span>
+          </div>
+        );
       })}
     </ul>
   );
@@ -137,9 +134,8 @@ export const User = ({ id }) => {
               <div key={index}>
                 <h3>{res.name}</h3>
                 <Block
-                  key={index}
                   questions={res.questions.map(q => {
-                    return { label: q.label, value: user[q.name] };
+                    return { label: q.heading, value: user[q.name] };
                   })}
                 />
               </div>
