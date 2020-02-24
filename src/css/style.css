@@ -1,0 +1,259 @@
+html {
+  color: #181919;
+  display: flex;
+  flex-direction: column;
+  margin: 50px auto;
+  max-width: 350px;
+  line-height: 32px;
+  font-family: "Montserrat", "PT Sans", sans-serif;
+}
+@media (min-width: 750px) {
+  html {
+    max-width: 600px;
+    margin: auto;
+  }
+}
+/*form*/
+.form_heading {
+  display: flex;
+  margin-top: 40px;
+  padding: 10px;
+  justify-content: center;
+}
+.form_paragraph {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  line-height: 25px;
+  text-align: center;
+  max-width: 310px;
+}
+@media (min-width: 750px) {
+  .form_paragraph {
+    max-width: 650px;
+    margin: auto;
+  }
+}
+.button-long {
+  background-color: #181919;
+  height: 50px;
+  display: flex;
+  margin: 20px auto 50px;
+  justify-content: center;
+  color: white;
+  border-radius: 25px;
+  border: 3px solid white;
+  width: 300px;
+  font-size: 18px;
+}
+.button-long:hover {
+  background-color: #454747;
+}
+@media (min-width: 750px) {
+  .button-long {
+    width: 567px;
+    height: 55px;
+  }
+}
+
+.button-short {
+  background-color: #181919;
+  cursor: pointer;
+  width: 300px;
+  height: 50px;
+  display: flex;
+  margin: 20px auto 50px;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  border-radius: 25px;
+  border: 3px solid white;
+}
+.button-short:hover {
+  background-color: #454747;
+}
+.form_subparagraph {
+  padding-left: 20px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+fieldset {
+  border: none;
+  margin-bottom: 20px;
+}
+legend {
+  font-weight: 600;
+  margin: 20px auto;
+  font-size: 18px;
+  text-align: center;
+}
+ol {
+  padding-left: 0;
+}
+.form_list-element {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  border-radius: 25px;
+}
+
+/*/// list*/
+
+.list__heading {
+  font-weight: 500;
+  text-align: center;
+}
+
+table {
+  display: table;
+  margin: auto;
+}
+tbody {
+  text-align: left;
+  line-height: 30px;
+}
+a {
+  color: #181919;
+  font-size: 18px;
+  font-weight: 400;
+}
+th:last-of-type {
+  font-size: 12px;
+  font-weight: 400;
+  vertical-align: center;
+  padding-left: 20px;
+}
+/*//questions*/
+
+.text-label {
+  font-size: 16px;
+  font-family: "Montserrat", "PT Sans", sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 13px;
+}
+@media (min-width: 750px) {
+  .text-label {
+    margin-bottom: 20px;
+  }
+}
+textarea {
+  padding-left: 10px;
+  font-size: 18px;
+  max-width: 300px;
+  resize: none;
+  border-radius: 25px;
+  border: 1px solid #181919;
+}
+@media (min-width: 750px) {
+  textarea {
+    max-width: 650px;
+    height: 50px;
+  }
+}
+
+.text-heading {
+  padding-left: 20px;
+  max-width: 280px;
+  margin-bottom: 10px;
+}
+@media (min-width: 750px) {
+  .text-heading {
+    max-width: 567px;
+    margin-bottom: 10px;
+  }
+}
+
+.input-label {
+  font-size: 16px;
+  font-family: "Montserrat", "PT Sans", sans-serif;
+  margin-bottom: 10px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.input-choice {
+  font-size: 18px;
+}
+.input-heading {
+  padding-left: 20px;
+  max-width: 280px;
+  margin-bottom: 13px;
+}
+@media (min-width: 750px) {
+  .input-heading {
+    max-width: 650px;
+    height: 50px;
+  }
+}
+/*form-completion*/
+.form-completion__section {
+  width: 340px;
+  margin: 30% auto;
+  background-color: #f9f9f9;
+}
+@media (min-width: 750px) {
+  .form-completion__section {
+    margin-top: 10%;
+  }
+}
+
+.form-completion__heading {
+  color: #181919;
+  font-weight: 400;
+  text-align: center;
+}
+/*login*/
+.login_heading {
+  color: #181919;
+  font-weight: 500;
+  text-align: center;
+  margin: 50px auto 20px;
+  max-width: 300px;
+}
+/*user*/
+.user_heading {
+  text-align: center;
+  margin: 50px auto 20px;
+  max-width: 300px;
+}
+.user_subheading {
+  font-size: 16px;
+  text-align: center;
+}
+.user_list {
+  padding-left: 20px;
+  list-style-type: none;
+}
+.user_list-element {
+  color: #808080;
+  font-size: 20px;
+  list-style-type: none;
+  max-width: 315px;
+  padding-left: 16px;
+  margin-bottom: 10px;
+}
+@media (min-width: 750px) {
+  .user_list-element {
+    max-width: 350px;
+  }
+}
+.user_paragraph {
+  color: #808080;
+  font-size: 20px;
+  list-style-type: none;
+  max-width: 315px;
+  margin: 0;
+  padding: 0;
+}
+@media (min-width: 750px) {
+  .user_paragraph {
+    max-width: 350px;
+  }
+}
+.user_subparagraph {
+  font-size: 20px;
+  color: #181919;
+}

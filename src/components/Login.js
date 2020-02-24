@@ -1,41 +1,9 @@
 import React, { useCallback, useContext } from "react";
 import { withRouter, Redirect } from "react-router";
 import * as firebase from "firebase/app";
-import styled from "styled-components";
 
 import { firebaseApp } from "../base";
 import { AuthContext } from "./Auth.js";
-import { MediaWidth } from "../consts";
-
-const Container = styled.div`
-  margin: auto;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-
-  h2 {
-    color: #181919;
-    font-weight: 500;
-    text-align: center;
-    margin: 50px auto 20px;
-    max-width: 300px;
-  }
-  button {
-    background-color: #181919;
-    height: 50px;
-    display: flex;
-    margin: 20px auto 50px;
-    justify-content: center;
-    color: white;
-    border-radius: 25px;
-    border: 3px solid white;
-    width: 300px;
-    font-size: 18px;
-
-    @media ${MediaWidth.TABLET} {
-      width: 567px;
-      height: 55px;
-    }
-  }
-`;
 
 const Login = ({ history }) => {
   useCallback(
@@ -92,10 +60,14 @@ const Login = ({ history }) => {
   }
 
   return (
-    <Container>
-      <h2>Авторизуйтесь в Google для получения доступа</h2>
-      <button onClick={handleGoogleAuth}>Авторизоваться в Google</button>
-    </Container>
+    <section>
+      <h2 className="login_heading">
+        Авторизуйтесь в Google для получения доступа
+      </h2>
+      <button className="button-long " onClick={handleGoogleAuth}>
+        Авторизоваться в Google
+      </button>
+    </section>
   );
 };
 

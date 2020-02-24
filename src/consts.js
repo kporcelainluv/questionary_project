@@ -146,7 +146,6 @@ const Blush = {
   type: "radio",
   question: `Используете ли вы румяна?`,
   options: ["Да", "Нет"],
-
   heading: "Использует румяна"
 };
 

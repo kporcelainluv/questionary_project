@@ -1,89 +1,10 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import firebase from "firebase";
 import nanoid from "nanoid";
 
-import {
-  Questionary,
-  MediaWidth,
-  QuestionResponse,
-  QuestionType
-} from "../consts";
+import { Questionary, QuestionResponse, QuestionType } from "../consts";
 import { Text, Checkbox, Radio } from "./Questions";
 import { FormCompletion } from "./FormCompletion";
-
-const Container = styled.section`
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  color: #181919;
-  max-width: 350px;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-
-  @media (min-width: ${MediaWidth.TABLET}) {
-    max-width: 650px;
-    margin: auto;
-  }
-  h2 {
-    display: flex;
-    margin-top: 40px;
-    padding: 10px;
-    justify-content: center;
-  }
-  p {
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-    line-height: 25px;
-    text-align: center;
-    max-width: 310px;
-    @media (min-width: ${MediaWidth.TABLET}) {
-      max-width: 650px;
-      margin: auto;
-    }
-  }
-  button {
-    background-color: #181919;
-    height: 50px;
-    display: flex;
-    margin: 20px auto 50px;
-    justify-content: center;
-    color: white;
-    border-radius: 25px;
-    border: 3px solid white;
-    width: 300px;
-    font-size: 18px;
-    @media (min-width: ${MediaWidth.TABLET}) {
-      width: 567px;
-      height: 55px;
-    }
-  }
-  fieldset {
-    border: none;
-    margin-bottom: 20px;
-  }
-  legend {
-    font-weight: 600;
-    margin: 20px auto;
-    font-size: 18px;
-    text-align: center;
-  }
-  ol {
-    padding-left: 0;
-  }
-  li {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-    border-radius: 25px;
-  }
-  span {
-    padding-left: 20px;
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-`;
 
 const Question = ({
   question,
@@ -170,9 +91,9 @@ export const Form = () => {
     <div>
       {state.formIsCompleted && <FormCompletion />}
       {!state.formIsCompleted && (
-        <Container>
-          <h2>Форма знакомства</h2>
-          <p>
+        <section>
+          <h2 className="form_heading">Форма знакомства</h2>
+          <p className="form_paragraph">
             Перед нашей встречей мне бы хотелось познакомиться с вами и вашей
             косметичкой. Тогда занятие произойдет наиболее плодотворно.
           </p>
@@ -193,7 +114,10 @@ export const Form = () => {
                   <ol>
                     {section.questions.map(question => {
                       return (
-                        <li key={question.name + question.type}>
+                        <li
+                          key={question.name + question.type}
+                          className="form_list-element"
+                        >
                           <Question
                             question={question}
                             state={state}
@@ -207,9 +131,11 @@ export const Form = () => {
                 </fieldset>
               );
             })}
-            <button type="submit">Отправить</button>
+            <button className="button-long" type="submit">
+              Отправить
+            </button>
           </form>
-        </Container>
+        </section>
       )}
     </div>
   );

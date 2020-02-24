@@ -7,6 +7,7 @@ import { List } from "./List";
 import { User } from "./User";
 import { AuthProvider } from "./Auth";
 import Login from "./Login";
+import "../css/style.css";
 
 export const App = () => {
   return (

@@ -1,78 +1,27 @@
 import React, { useContext, useEffect, useState, Fragment } from "react";
 import firebase from "firebase";
-import styled from "styled-components";
 
-import { MediaWidth, UserProfile } from "../consts";
+import { UserProfile } from "../consts";
 import { Loader } from "./Loader";
 import { AuthContext } from "./Auth";
 import { Redirect } from "react-router";
 import { Error } from "./Error";
 
-const Container = styled.div`
-  max-width: 350px;
-  margin: 50px auto;
-  color: #181919;
-  line-height: 32px;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  @media (min-width: ${MediaWidth.TABLET}) {
-    max-width: 600px;
-  }
-  h1 {
-    text-align: center;
-    margin: 50px auto 20px;
-    max-width: 300px;
-  }
-  h2 {
-    font-size: 16px;
-    text-align: center;
-  }
-  h3 {
-    text-align: center;
-  }
-  ul {
-    padding-left: 10px;
-  }
-  li {
-    color: #808080;
-    font-size: 20px;
-    list-style-type: none;
-    max-width: 315px;
-    padding-left: 16px;
-    margin-bottom: 10px;
-    @media (min-width: ${MediaWidth.TABLET}) {
-      max-width: 350px;
-    }
-  }
-  span {
-    font-size: 20px;
-    color: #181919;
-  }
-  p {
-    color: #808080;
-    font-size: 20px;
-    list-style-type: none;
-    max-width: 315px;
-    margin: 0;
-    padding: 0;
-    @media (min-width: ${MediaWidth.TABLET}) {
-      max-width: 350px;
-    }
-  }
-`;
-
 const Block = ({ questions }) => {
   return (
-    <ul>
+    <ul className="user_list">
       {questions.map(question => {
         const { heading, value } = question;
         if (!value) {
           return true;
         }
         return (
-          <div key={value}>
-            <p>{heading}:</p>
-            <span>{typeof value === "object" ? value.join(", ") : value}</span>
-          </div>
+          <li key={value}>
+            <p className="user_paragraph">{heading}:</p>
+            <span className="user_subparagraph">
+              {typeof value === "object" ? value.join(", ") : value}
+            </span>
+          </li>
         );
       })}
     </ul>
@@ -115,27 +64,29 @@ export const User = ({ id }) => {
 
   if (state.error) {
     return (
-      <Container>
+      <section>
         <Error />
-      </Container>
+      </section>
     );
   }
 
   return (
-    <Container>
+    <section>
       {state.isLoading ? (
         <Loader />
       ) : (
         <Fragment>
-          <h1>{user.name}</h1>
-          {user.age && <h2>Возвраст: {user.age}</h2>}
+          <h1 className="user_heading">{user.name}</h1>
+          {user.age && (
+            <h2 className="user_subheading">Возвраст: {user.age}</h2>
+          )}
           {UserProfile.map((res, index) => {
             return (
-              <div key={index}>
-                <h3>{res.name}</h3>
+              <div key={res.name + index}>
+                <h3 style={{ textAlign: "center" }}>{res.name}</h3>
                 <Block
                   questions={res.questions.map(q => {
-                    return { label: q.heading, value: user[q.name] };
+                    return { heading: q.heading, value: user[q.name] };
                   })}
                 />
               </div>
@@ -143,6 +94,6 @@ export const User = ({ id }) => {
           })}
         </Fragment>
       )}
-    </Container>
+    </section>
   );
 };

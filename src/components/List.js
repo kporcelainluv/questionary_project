@@ -5,7 +5,6 @@ import format from "date-fns/format";
 import fromUnixTime from "date-fns/fromUnixTime";
 import ru from "date-fns/locale/ru";
 import formatDistance from "date-fns/formatDistance";
-import styled from "styled-components";
 import differenceInDays from "date-fns/differenceInDays";
 
 import { AuthContext } from "./Auth";
@@ -27,53 +26,6 @@ const formatCompletionDate = timestamp => {
 const getLinkToUserProfile = id => {
   return `${window.location.origin}/user/${id}`;
 };
-
-const Container = styled.div`
-  max-width: 600px;
-  margin: 50px auto;
-  color: #181919;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-
-  h2 {
-    font-weight: 500;
-    text-align: center;
-  }
-  button {
-    background-color: #181919;
-    cursor: pointer;
-    width: 300px;
-    height: 50px;
-    display: flex;
-    margin: 20px auto 50px;
-    justify-content: center;
-    color: white;
-    font-size: 18px;
-    border-radius: 25px;
-    border: 3px solid white;
-    &:hover {
-      background-color: #454747;
-    }
-  }
-  table {
-    display: table;
-    margin: auto;
-  }
-  tbody {
-    text-align: left;
-    line-height: 30px;
-  }
-  a {
-    color: #181919;
-    font-size: 18px;
-    font-weight: 400;
-  }
-  th:last-of-type {
-    font-size: 12px;
-    font-weight: 400;
-    vertical-align: center;
-    padding-left: 20px;
-  }
-`;
 
 const getUsersWhoCompletedSurvey = ({ startAfter, perPage }) => {
   return firebase
@@ -130,19 +82,19 @@ export const List = () => {
   }
   if (state.error) {
     return (
-      <Container>
+      <section>
         <Error />
-      </Container>
+      </section>
     );
   }
 
   return (
-    <Container>
+    <section>
       {isUserLoading ? (
         <Loader />
       ) : (
         <Fragment>
-          <h2>Список заполнивших форму</h2>
+          <h2 className="list__heading">Список заполнивших форму</h2>
           <table>
             <tbody>
               {state.users.map(user => {
@@ -161,6 +113,7 @@ export const List = () => {
           </table>
           {!state.noMoreData && (
             <button
+              className="button-short"
               onClick={() => {
                 setState(s => ({ ...s, page: s.page + 1 }));
               }}
@@ -170,6 +123,6 @@ export const List = () => {
           )}
         </Fragment>
       )}
-    </Container>
+    </section>
   );
 };
