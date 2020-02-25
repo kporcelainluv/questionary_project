@@ -1,9 +1,9 @@
 import React from "react";
-import "../css/Loader.css";
+import "../css/loader.css";
 
-export const Loader = () => {
+export const Loader = ({ size = "large" }) => {
   return (
-    <div className="lds-ring">
+    <div className={"loader" + size}>
       <div></div>
       <div></div>
       <div></div>
