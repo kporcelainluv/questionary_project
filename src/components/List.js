@@ -59,18 +59,26 @@ export const List = () => {
     error: false,
     noMoreData: false
   });
+
   useEffect(() => {
     getUsersWhoCompletedSurvey({
       perPage: 5,
       startAfter:
         state.page === 1 ? new Date() : state.users[state.users.length - 1].date
-    }).then(surveyResult => {
-      if (surveyResult.length < 5) {
-        setState(s => ({ ...s, noMoreData: true, users: surveyResult }));
-      } else {
+    })
+      .then(surveyResult => {
+        if (surveyResult.length < 5) {
+          setState(s => ({
+            ...s,
+            noMoreData: true
+          }));
+        }
         setState(s => ({ ...s, users: [...state.users, ...surveyResult] }));
-      }
-    });
+      })
+      .catch(e => {
+        console.log("ОШИБКА", { e });
+        setState(s => ({ ...s, error: true }));
+      });
 
     document.title = "Список пользователей";
   }, [state.page]);
@@ -114,9 +122,7 @@ export const List = () => {
           {!state.noMoreData && (
             <button
               className="button-short"
-              onClick={() => {
-                setState(s => ({ ...s, page: s.page + 1 }));
-              }}
+              onClick={() => setState(s => ({ ...s, page: s.page + 1 }))}
             >
               Загрузить еще
             </button>

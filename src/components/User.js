@@ -53,7 +53,7 @@ export const User = ({ id }) => {
           }));
         }
       })
-      .catch(() => setState(s => ({ ...s, error: true })));
+      .catch(() => setState(s => ({ ...s, submitError: true })));
 
     document.title = "Страница пользователя";
   }, []);
