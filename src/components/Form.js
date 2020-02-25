@@ -2,9 +2,38 @@ import React, { useState } from "react";
 import firebase from "firebase";
 import nanoid from "nanoid";
 
-import { Questionary, QuestionResponse, QuestionType } from "../consts";
+import { Sections, QuestionResponse, QuestionType } from "../consts";
 import { Text, Checkbox, Radio } from "./Questions";
 import { FormCompletion } from "./FormCompletion";
+
+const Section = ({
+  name,
+  questions,
+  state,
+  updateStateValue,
+  updateCheckboxValue
+}) => {
+  return (
+    <fieldset key={name}>
+      <legend>{name}</legend>
+      <ol>
+        {questions.map(question => {
+          const { name, type } = question;
+          return (
+            <li key={name + type} className="form_list-element">
+              <Question
+                question={question}
+                state={state}
+                updateStateValue={updateStateValue}
+                updateCheckboxValue={updateCheckboxValue}
+              />
+            </li>
+          );
+        })}
+      </ol>
+    </fieldset>
+  );
+};
 
 const Question = ({
   question,
@@ -79,13 +108,28 @@ export const Form = () => {
   };
 
   const updateCheckboxValue = (name, value) => {
-    setState(s => ({
-      ...s,
-      [name]: [...(s[name] || []), value]
-    }));
+    setState(s => {
+      const prevValue = s[name] || [];
+
+      return {
+        ...s,
+        [name]: [...prevValue, value]
+      };
+    });
   };
 
-  const survey = firebase.firestore().doc(`survey-results/${state.id}`);
+  const handleSubmit = e => {
+    e.preventDefault();
+    const survey = firebase.firestore().doc(`survey-results/${state.id}`);
+    // TODO: add catch with state.error
+    // TODO: add loading and button disabling
+    survey.set(state).then(() =>
+      setState(s => ({
+        ...s,
+        formIsCompleted: true
+      }))
+    );
+  };
 
   return (
     <div>
@@ -97,38 +141,17 @@ export const Form = () => {
             Перед нашей встречей мне бы хотелось познакомиться с вами и вашей
             косметичкой. Тогда занятие произойдет наиболее плодотворно.
           </p>
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              survey.set(state).then(() => {});
-              setState(s => ({
-                ...s,
-                formIsCompleted: true
-              }));
-            }}
-          >
-            {Questionary.map(section => {
+          <form onSubmit={handleSubmit}>
+            {Sections.map(section => {
               return (
-                <fieldset key={section.name}>
-                  <legend>{section.name}</legend>
-                  <ol>
-                    {section.questions.map(question => {
-                      return (
-                        <li
-                          key={question.name + question.type}
-                          className="form_list-element"
-                        >
-                          <Question
-                            question={question}
-                            state={state}
-                            updateStateValue={updateStateValue}
-                            updateCheckboxValue={updateCheckboxValue}
-                          />
-                        </li>
-                      );
-                    })}
-                  </ol>
-                </fieldset>
+                <Section
+                  key={section.name}
+                  name={section.name}
+                  questions={section.questions}
+                  state={state}
+                  updateStateValue={updateStateValue}
+                  updateCheckboxValue={updateCheckboxValue}
+                />
               );
             })}
             <button className="button-long" type="submit">
