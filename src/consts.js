@@ -122,7 +122,6 @@ const PowderPreference = {
   type: "checkbox",
   question: `Какую пудру вы используете?`,
   options: ["компактная", "рассыпчатая"],
-
   heading: "Предпочитаемая пудра"
 };
 
@@ -137,7 +136,7 @@ const PowderNotUsed = {
 const PowderTest = {
   type: "test",
   name: "powderUsage",
-  yes: PowderPreference,
+  true: PowderPreference,
   false: PowderNotUsed
 };
 
