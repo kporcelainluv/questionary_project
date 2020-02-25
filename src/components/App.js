@@ -20,7 +20,7 @@ export const App = () => {
           <Route
             exact
             path="/user/:id"
-            render={props => <User {...props.match.params} />}
+            render={props => <User id={props.match.params.id} />}
           />
           <Route exact path={"/login"} component={Login} />
         </div>
