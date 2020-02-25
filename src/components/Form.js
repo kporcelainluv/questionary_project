@@ -6,6 +6,7 @@ import { Sections, QuestionResponse, QuestionType } from "../consts";
 import { Text, Checkbox, Radio } from "./Questions";
 import { FormCompletion } from "./FormCompletion";
 import { Error } from "./Error";
+import { Loader } from "./Loader";
 
 const Section = ({
   name,
@@ -68,7 +69,8 @@ const Question = ({
     );
   } else if (
     question.type === QuestionType.TEST &&
-    state[question.name] === QuestionResponse.TRUE
+    state[question.name] === QuestionResponse.TRUE &&
+    question.true
   ) {
     return (
       <Question
@@ -80,7 +82,8 @@ const Question = ({
     );
   } else if (
     question.type === QuestionType.TEST &&
-    state[question.name] === QuestionResponse.FALSE
+    state[question.name] === QuestionResponse.FALSE &&
+    question.false
   ) {
     return (
       <Question
@@ -98,8 +101,9 @@ export const Form = () => {
   const [state, setState] = useState({
     id: nanoid(),
     date: new Date(),
-    formIsCompleted: false,
-    error: undefined
+    submitted: false,
+    submitting: false,
+    submitError: null
   });
 
   const updateStateValue = (name, value) => {
@@ -122,23 +126,19 @@ export const Form = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    setState(s => ({ ...s, submitting: true }));
     const survey = firebase.firestore().doc(`survey-results/${state.id}`);
-    // TODO: add loading and button disabling
     survey
       .set(state)
       .then(() =>
         setState(s => ({
           ...s,
-          formIsCompleted: true
+          submitted: true
         }))
       )
-      .catch(e =>
-        setState(s => {
-          return { ...s, error: true };
-        })
-      );
+      .catch(() => setState(s => ({ ...s, submitError: true })));
   };
-  if (state.error) {
+  if (state.submitError) {
     return (
       <section>
         <Error />
@@ -148,8 +148,8 @@ export const Form = () => {
 
   return (
     <div>
-      {state.formIsCompleted && <FormCompletion />}
-      {!state.formIsCompleted && (
+      {state.submitted && <FormCompletion />}
+      {!state.submitted && (
         <section>
           <h2 className="form_heading">Форма знакомства</h2>
           <p className="form_paragraph">
@@ -169,7 +169,13 @@ export const Form = () => {
                 />
               );
             })}
-            <button className="button-long" type="submit">
+
+            {state.submitting && <Loader size={" small"} />}
+            <button
+              className="button-long"
+              type="submit"
+              disabled={state.submitting}
+            >
               Отправить
             </button>
           </form>
