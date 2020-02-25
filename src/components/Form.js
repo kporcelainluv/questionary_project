@@ -1,262 +1,186 @@
-import React from "react";
-import { QuestionaryList, MediaWidth } from "../consts";
-import { QuestionaryItem } from "./questionary-components/questionaryItem";
-import { QuestionaryRadio } from "./questionary-components/questionaryRadio";
-import { QuestionaryCheckbox } from "./questionary-components/questionaryCheckbox";
-import { FormCompletion } from "./formCompletion";
-import styled from "styled-components";
+import React, { useState } from "react";
 import firebase from "firebase";
 import nanoid from "nanoid";
 
-const Container = styled.section`
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  color: #181919;
-  @media ${MediaWidth.MOBILE} {
-    max-width: 350px;
-    margin: auto;
-  }
-  @media ${MediaWidth.TABLET} {
-    max-width: 650px;
-    margin: auto;
-  }
-`;
+import { Sections, QuestionResponse, QuestionType } from "../consts";
+import { Text, Checkbox, Radio } from "./Questions";
+import { FormCompletion } from "./FormCompletion";
+import { Error } from "./Error";
+import { Loader } from "./Loader";
 
-const Heading = styled.h2`
-  display: flex;
-  margin-top: 40px;
-  padding: 10px;
-  justify-content: center;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  color: #181919;
-`;
-
-const Subheading = styled.p`
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-  line-height: 25px;
-  text-align: center;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  color: #181919;
-  max-width: 310px;
-  @media ${MediaWidth.TABLET} {
-    max-width: 650px;
-    margin: auto;
-  }
-`;
-
-const FormSubmit = styled.input`
-  background-color: #181919;
-  height: 50px;
-  display: flex;
-  margin: 20px auto 50px;
-  justify-content: center;
-  color: white;
-  border-radius: 25px;
-  border: 3px solid white;
-  width: 300px;
-  font-size: 18px;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  @media ${MediaWidth.TABLET} {
-    width: 567px;
-    height: 55px;
-  }
-`;
-const FieldsetLegend = styled.legend`
-  color: #181919;
-  font-weight: 600;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  margin: 20px auto;
-  font-size: 18px;
-  text-align: center;
-`;
-const List = styled.li`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  border-radius: 25px;
-  position: relative;
-`;
-
-const QuestionWrap = styled.span`
-  padding-left: 20px;
-  font-size: 16px;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  margin-bottom: 10px;
-`;
-
-export class Form extends React.Component {
-  constructor() {
-    super();
-  }
-
-  state = {
-    id: undefined,
-    name: null,
-    age: null,
-    skincareType: null,
-    skincareProducts: null,
-    skincareCleanser: null,
-    base: null,
-    foundation: null,
-    foundationPreference: null,
-    foundationNotUsed: null,
-    concealerUsage: null,
-    concealerNotUsed: null,
-    powderUsage: null,
-    powderNotUsed: null,
-    powderPreference: null,
-    blush: null,
-    blushNotUsed: null,
-    blushPreference: null,
-    contour: null,
-    contourNotUsed: null,
-    contourPreference: null,
-    lipstick: null,
-    highlighterUsage: null,
-    highlighterNotUsed: null,
-    highlighterPreference: null,
-    browsPreference: null,
-    eyesPreference: null,
-    toolsPreference: null,
-    userOwnedProducts: null,
-    frequency: null,
-    expectations: null,
-    date: new Date(),
-    formIsCompleted: false
-  };
-
-  handleRadioButtonChoice = (name, value) => {
-    if (value === "Да") {
-      this.setState({ [name]: true });
-    } else if (value === "Нет") {
-      this.setState({ [name]: false });
-    } else {
-      this.setState({ [name]: value });
-    }
-  };
-
-  handleCheckboxChoice = (name, value) => {
-    if (this.state[name]) {
-      const list = this.state[name].concat(" " + value);
-      this.setState({ [name]: list });
-    } else {
-      this.setState({ [name]: value });
-    }
-  };
-
-  handleTextareaChoice = (name, value) => {
-    this.setState({ [name]: value });
-  };
-
-  componentDidMount() {
-    const id = nanoid();
-    console.log(id);
-    this.setState({ id: id });
-  }
-
-  render() {
-    const firestore = firebase.firestore();
-    const docRef = firestore.doc(`survey-results/${this.state.id}`);
-
-    return (
-      <div>
-        {this.state.formIsCompleted && <FormCompletion />}
-        {!this.state.formIsCompleted && (
-          <Container>
-            <Heading>Форма знакомства</Heading>
-            <Subheading>
-              Перед нашей встречей мне бы хотелось познакомиться с вами и вашей
-              косметичкой. Тогда занятие произойдет наиболее плодотворно.
-            </Subheading>
-            <form action="">
-              {QuestionaryList.map(section => {
-                return (
-                  <fieldset
-                    key={section.name}
-                    style={{ border: "none", marginBottom: "20px" }}
-                  >
-                    <FieldsetLegend>{section.name}</FieldsetLegend>
-                    <ol style={{ paddingLeft: 0 }}>
-                      {/* eslint-disable-next-line array-callback-return */}
-                      {section.questions.map((question, index) => {
-                        if (question.type === "test") {
-                          if (this.state[question.name] === null) {
-                            return null;
-                          } else if (this.state[question.name] === true) {
-                            question = question.yes;
-                          } else if (this.state[question.name] === false) {
-                            question = question.no;
-                          }
-                        }
-                        if (question.type === "text") {
-                          return (
-                            <List key={question.name}>
-                              <QuestionaryItem
-                                key={`${question.name}-${index}`}
-                                name={question.name}
-                                question={question.question}
-                                handleOnClick={this.handleTextareaChoice}
-                              />
-                            </List>
-                          );
-                        } else if (question.type === "radio") {
-                          return (
-                            <List key={question.name}>
-                              <QuestionWrap> {question.question} </QuestionWrap>
-                              {question.options.map((option, index) => {
-                                return (
-                                  <QuestionaryRadio
-                                    key={`${question.name}${index}`}
-                                    id={`${question.name}${index}`}
-                                    name={question.name}
-                                    value={option}
-                                    handleOnClick={this.handleRadioButtonChoice}
-                                  />
-                                );
-                              })}
-                            </List>
-                          );
-                        } else if (question.type === "checkbox") {
-                          return (
-                            <List key={question.name}>
-                              <QuestionWrap> {question.question} </QuestionWrap>
-                              {question.options.map((option, index) => {
-                                return (
-                                  <QuestionaryCheckbox
-                                    key={`${question.name}-${index}`}
-                                    id={`${option}-${index}`}
-                                    heading={option}
-                                    name={question.name}
-                                    handleOnClick={this.handleCheckboxChoice}
-                                  />
-                                );
-                              })}
-                            </List>
-                          );
-                        }
-                      })}
-                    </ol>
-                  </fieldset>
-                );
-              })}
-              <FormSubmit
-                type="submit"
-                value="Отправить"
-                className="on-form-submit"
-                onClick={e => {
-                  e.preventDefault();
-                  docRef.set(this.state).then(() => {});
-                  this.setState({ formIsCompleted: true });
-                }}
+const Section = ({
+  name,
+  questions,
+  state,
+  updateStateValue,
+  updateCheckboxValue
+}) => {
+  return (
+    <fieldset key={name}>
+      <legend>{name}</legend>
+      <ol>
+        {questions.map(question => {
+          const { name, type } = question;
+          return (
+            <li key={name + type} className="form_list-element">
+              <Question
+                question={question}
+                state={state}
+                updateStateValue={updateStateValue}
+                updateCheckboxValue={updateCheckboxValue}
               />
-            </form>
-          </Container>
-        )}
-      </div>
+            </li>
+          );
+        })}
+      </ol>
+    </fieldset>
+  );
+};
+
+const Question = ({
+  question,
+  state,
+  updateStateValue,
+  updateCheckboxValue
+}) => {
+  if (question.type === QuestionType.TEXT) {
+    return (
+      <Text
+        key={question.name}
+        question={question}
+        updateStateValue={updateStateValue}
+      />
+    );
+  } else if (question.type === QuestionType.RADIO) {
+    return (
+      <Radio
+        key={question.name}
+        question={question}
+        updateStateValue={updateStateValue}
+      />
+    );
+  } else if (question.type === QuestionType.CHECKBOX) {
+    return (
+      <Checkbox
+        key={question.name}
+        question={question}
+        updateCheckboxValue={updateCheckboxValue}
+      />
+    );
+  } else if (
+    question.type === QuestionType.TEST &&
+    state[question.name] === QuestionResponse.TRUE &&
+    question.true
+  ) {
+    return (
+      <Question
+        question={question.true}
+        state={state}
+        updateCheckboxValue={updateCheckboxValue}
+        updateStateValue={updateStateValue}
+      />
+    );
+  } else if (
+    question.type === QuestionType.TEST &&
+    state[question.name] === QuestionResponse.FALSE &&
+    question.false
+  ) {
+    return (
+      <Question
+        question={question.false}
+        state={state}
+        updateCheckboxValue={updateCheckboxValue}
+        updateStateValue={updateStateValue}
+      />
     );
   }
-}
+  return null;
+};
+
+export const Form = () => {
+  const [state, setState] = useState({
+    id: nanoid(),
+    date: new Date(),
+    submitted: false,
+    submitting: false,
+    submitError: null
+  });
+
+  const updateStateValue = (name, value) => {
+    setState(s => ({
+      ...s,
+      [name]: value
+    }));
+  };
+
+  const updateCheckboxValue = (name, value) => {
+    setState(s => {
+      const prevValue = s[name] || [];
+
+      return {
+        ...s,
+        [name]: [...prevValue, value]
+      };
+    });
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    setState(s => ({ ...s, submitting: true }));
+    const survey = firebase.firestore().doc(`survey-results/${state.id}`);
+    survey
+      .set(state)
+      .then(() =>
+        setState(s => ({
+          ...s,
+          submitted: true
+        }))
+      )
+      .catch(() => setState(s => ({ ...s, submitError: true })));
+  };
+  if (state.submitError) {
+    return (
+      <section>
+        <Error />
+      </section>
+    );
+  }
+
+  return (
+    <div>
+      {state.submitted && <FormCompletion />}
+      {!state.submitted && (
+        <section>
+          <h2 className="form_heading">Форма знакомства</h2>
+          <p className="form_paragraph">
+            Перед нашей встречей мне бы хотелось познакомиться с вами и вашей
+            косметичкой. Тогда занятие произойдет наиболее плодотворно.
+          </p>
+          <form onSubmit={handleSubmit}>
+            {Sections.map(section => {
+              return (
+                <Section
+                  key={section.name}
+                  name={section.name}
+                  questions={section.questions}
+                  state={state}
+                  updateStateValue={updateStateValue}
+                  updateCheckboxValue={updateCheckboxValue}
+                />
+              );
+            })}
+
+            {state.submitting && <Loader size={" small"} />}
+            <button
+              className="button-long"
+              type="submit"
+              disabled={state.submitting}
+            >
+              Отправить
+            </button>
+          </form>
+        </section>
+      )}
+    </div>
+  );
+};

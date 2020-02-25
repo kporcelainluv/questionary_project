@@ -1,94 +1,30 @@
-import React, { useCallback, useContext } from "react";
+import React, { useContext, useState } from "react";
 import { withRouter, Redirect } from "react-router";
 import * as firebase from "firebase/app";
-import styled from "styled-components";
 
-import { firebaseApp } from "../base";
-import { AuthContext } from "../Auth.js";
-import { MediaWidth } from "../consts";
+import { AuthContext } from "./Auth.js";
+import { Error } from "./Error";
 
-const Button = styled.button`
-  background-color: #181919;
-  height: 50px;
-  display: flex;
-  margin: 20px auto 50px;
-  justify-content: center;
-  color: white;
-  border-radius: 25px;
-  border: 3px solid white;
-  width: 300px;
-  font-size: 18px;
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  @media ${MediaWidth.TABLET} {
-    width: 567px;
-    height: 55px;
-  }
-`;
-const Heading = styled.h2`
-  font-family: "Montserrat", "PT Sans", sans-serif;
-  color: #181919;
-  font-weight: 500;
-  text-align: center;
-  margin: 50px auto 20px;
-  max-width: 300px;
-`;
+const allowedUsers = ["zhukovaksusha@gmail.com", "muazhukova@gmail.com"];
 
-const Login = ({ history }) => {
-  const handleLogin = useCallback(
-    async event => {
-      event.preventDefault();
-      const { email, password } = event.target.elements;
-
-      console.log({
-        email,
-        password
-      });
-      try {
-        await firebaseApp
-          .auth()
-          .signInWithEmailAndPassword(email.value, password.value);
-        history.push("/");
-      } catch (error) {
-        alert(error);
-      }
-    },
-    [history]
-  );
-
+export const Login = withRouter(() => {
+  const [error, setError] = useState(false);
   const handleGoogleAuth = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
 
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then(function(result) {
-        const token = result.credential.accessToken;
+      .then(result => {
         const user = result.user;
-        console.log({ token, user });
-        console.log(user.email);
-        if (
-          user.email !== "zhukovaksusha@gmail.com" &&
-          user.email !== "muazhukova@gmail.com"
-        ) {
+        if (!allowedUsers.includes(user.email)) {
           firebase
             .auth()
             .signOut()
-            .then(
-              function() {
-                console.log("Signed Out");
-              },
-              function(error) {
-                console.error("Sign Out Error", error);
-              }
-            );
+            .catch(console.error);
         }
       })
-      .catch(function(error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        const credential = error.credential;
-      });
+      .catch(() => setError(true));
   };
 
   const { currentUser } = useContext(AuthContext);
@@ -97,12 +33,20 @@ const Login = ({ history }) => {
     return <Redirect from="*" to="/list/" />;
   }
 
-  return (
-    <div>
-      <Heading>Авторизуйтесь в Google для получения доступа</Heading>
-      <Button onClick={handleGoogleAuth}>Авторизоваться в Google</Button>
-    </div>
-  );
-};
+  if (error) {
+    return (
+      <section>
+        <Error />
+      </section>
+    );
+  }
 
-export default withRouter(Login);
+  return (
+    <section>
+      <h2 className="login_heading">Авторизуйтесь для получения доступа</h2>
+      <button className="button-long" onClick={handleGoogleAuth}>
+        Авторизоваться в Google
+      </button>
+    </section>
+  );
+});

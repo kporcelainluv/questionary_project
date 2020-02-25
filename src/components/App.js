@@ -1,12 +1,13 @@
 import React from "react";
-import { Form } from "./components/Form";
-import { List } from "./components/List";
-import { User } from "./components/User";
-import { AuthProvider } from "./Auth";
-import { firebaseApp } from "./base";
 import "firebase/auth";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Login from "./components/Login";
+
+import { Form } from "./Form";
+import { List } from "./List";
+import { User } from "./User";
+import { AuthProvider } from "./Auth";
+import { Login } from "./Login";
+import "../css/style.css";
 
 export const App = () => {
   return (
@@ -19,7 +20,7 @@ export const App = () => {
           <Route
             exact
             path="/user/:id"
-            render={props => <User {...props.match.params} />}
+            render={props => <User id={props.match.params.id} />}
           />
           <Route exact path={"/login"} component={Login} />
         </div>
