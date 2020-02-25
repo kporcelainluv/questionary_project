@@ -7,24 +7,28 @@ import { AuthContext } from "./Auth";
 import { Redirect } from "react-router";
 import { Error } from "./Error";
 
-const Block = ({ questions }) => {
+const Block = ({ section, user }) => {
   return (
-    <ul className="user_list">
-      {questions.map(question => {
-        const { heading, value } = question;
-        if (!value) {
-          return true;
-        }
-        return (
-          <li key={value}>
-            <p className="user_paragraph">{heading}:</p>
-            <span className="user_subparagraph">
-              {typeof value === "object" ? value.join(", ") : value}
-            </span>
-          </li>
-        );
-      })}
-    </ul>
+    <div>
+      <h3 className="user-block__heading">{section.name}</h3>
+      <ul className="user_list">
+        {section.questions.map(question => {
+          const heading = question.heading;
+          const value = user[question.name];
+          if (!value) {
+            return true;
+          }
+          return (
+            <li key={value}>
+              <p className="user_paragraph">{heading}:</p>
+              <span className="user_subparagraph">
+                {typeof value === "object" ? value.join(", ") : value}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 
@@ -80,16 +84,9 @@ export const User = ({ id }) => {
           {user.age && (
             <h2 className="user_subheading">Возвраст: {user.age}</h2>
           )}
-          {UserProfile.map((res, index) => {
+          {UserProfile.map((section, index) => {
             return (
-              <div key={res.name + index}>
-                <h3 style={{ textAlign: "center" }}>{res.name}</h3>
-                <Block
-                  questions={res.questions.map(q => {
-                    return { heading: q.heading, value: user[q.name] };
-                  })}
-                />
-              </div>
+              <Block key={section.name + index} section={section} user={user} />
             );
           })}
         </Fragment>
