@@ -5,6 +5,7 @@ import nanoid from "nanoid";
 import { Sections, QuestionResponse, QuestionType } from "../consts";
 import { Text, Checkbox, Radio } from "./Questions";
 import { FormCompletion } from "./FormCompletion";
+import { Error } from "./Error";
 
 const Section = ({
   name,
@@ -97,7 +98,8 @@ export const Form = () => {
   const [state, setState] = useState({
     id: nanoid(),
     date: new Date(),
-    formIsCompleted: false
+    formIsCompleted: false,
+    error: undefined
   });
 
   const updateStateValue = (name, value) => {
@@ -121,15 +123,28 @@ export const Form = () => {
   const handleSubmit = e => {
     e.preventDefault();
     const survey = firebase.firestore().doc(`survey-results/${state.id}`);
-    // TODO: add catch with state.error
     // TODO: add loading and button disabling
-    survey.set(state).then(() =>
-      setState(s => ({
-        ...s,
-        formIsCompleted: true
-      }))
-    );
+    survey
+      .set(state)
+      .then(() =>
+        setState(s => ({
+          ...s,
+          formIsCompleted: true
+        }))
+      )
+      .catch(e =>
+        setState(s => {
+          return { ...s, error: true };
+        })
+      );
   };
+  if (state.error) {
+    return (
+      <section>
+        <Error />
+      </section>
+    );
+  }
 
   return (
     <div>
