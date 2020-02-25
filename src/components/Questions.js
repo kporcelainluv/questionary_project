@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 export const Text = ({ question, updateStateValue }) => {
   const { name } = question;
@@ -15,7 +15,7 @@ export const Text = ({ question, updateStateValue }) => {
 
 export const Radio = ({ question, updateStateValue }) => {
   return (
-    <Fragment>
+    <div className="question-block">
       <span> {question.question} </span>
       {question.options.map((option, index) => {
         const { name } = question;
@@ -36,13 +36,13 @@ export const Radio = ({ question, updateStateValue }) => {
           </label>
         );
       })}
-    </Fragment>
+    </div>
   );
 };
 
 export const Checkbox = ({ question, updateCheckboxValue }) => {
   return (
-    <Fragment>
+    <div className="question-block">
       <span> {question.question} </span>
       {question.options.map((option, index) => {
         const { name } = question;
@@ -57,13 +57,13 @@ export const Checkbox = ({ question, updateCheckboxValue }) => {
               id={id}
               name={name}
               onChange={() => {
-                return updateCheckboxValue(name, option);
+                updateCheckboxValue(name, option);
               }}
             />
             <span className="input-heading">{option}</span>
           </label>
         );
       })}
-    </Fragment>
+    </div>
   );
 };
