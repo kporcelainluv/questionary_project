@@ -306,7 +306,7 @@ const Expectations = {
   heading: "От занятия ожидает"
 };
 
-export const Questionary = [
+export const Sections = [
   {
     name: "",
     questions: [Name, Age]
@@ -360,12 +360,6 @@ export const Questionary = [
     questions: [PricePreference, Frequency, Expectations]
   }
 ];
-
-export const MediaWidth = {
-  MOBILE: `320px`,
-  TABLET: `750px`,
-  LAPTOP: `950px`
-};
 
 export const QuestionResponse = {
   TRUE: "Да",

@@ -50,6 +50,9 @@ html {
 .button-long:hover {
   background-color: #454747;
 }
+.button-long:disabled {
+  background-color: #dcdcdc;
+}
 @media (min-width: 750px) {
   .button-long {
     width: 567px;
@@ -81,7 +84,6 @@ html {
 
 fieldset {
   border: none;
-  margin-bottom: 20px;
 }
 legend {
   font-weight: 600;
@@ -146,6 +148,7 @@ textarea {
   resize: none;
   border-radius: 25px;
   border: 1px solid #181919;
+  outline: none;
 }
 @media (min-width: 750px) {
   textarea {
@@ -153,7 +156,9 @@ textarea {
     height: 50px;
   }
 }
-
+textarea:focus {
+  box-shadow: 0 0 10px darkgrey;
+}
 .text-heading {
   padding-left: 20px;
   max-width: 280px;
@@ -176,6 +181,12 @@ textarea {
 
 .input-choice {
   font-size: 18px;
+  cursor: pointer;
+  outline: none;
+}
+.input-choice:focus {
+  border-radius: 25%;
+  box-shadow: 0 0 10px darkgrey;
 }
 .input-heading {
   padding-left: 20px;
@@ -214,6 +225,9 @@ textarea {
   max-width: 300px;
 }
 /*user*/
+.user-block__heading {
+  text-align: center;
+}
 .user_heading {
   text-align: center;
   margin: 50px auto 20px;
@@ -256,4 +270,9 @@ textarea {
 .user_subparagraph {
   font-size: 20px;
   color: #181919;
+}
+/*questions*/
+.question-block {
+  display: flex;
+  flex-direction: column;
 }
