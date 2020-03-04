@@ -8,6 +8,7 @@ import { User } from "./User";
 import { AuthProvider } from "./Auth";
 import { Login } from "./Login";
 import "../css/style.css";
+import { ScreenShots } from "./Screenshots";
 
 export const App = () => {
   return (
@@ -23,6 +24,7 @@ export const App = () => {
             render={props => <User id={props.match.params.id} />}
           />
           <Route exact path={"/login"} component={Login} />
+          <Route exact path={"/screens"} component={ScreenShots} />
         </div>
       </Router>
     </AuthProvider>

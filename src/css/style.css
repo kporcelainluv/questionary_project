@@ -276,3 +276,43 @@ textarea:focus {
   display: flex;
   flex-direction: column;
 }
+
+/*screenshots*/
+.screenshots__container {
+  margin: auto;
+  padding-left: 15px;
+}
+.screenshots__container h1 {
+  margin-bottom: 70px;
+}
+.screenshots__list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 50px;
+}
+.screenshots__element {
+  margin: 20px auto 100px;
+}
+.screenshots__element h3 {
+  margin-bottom: 2px;
+}
+
+.screenshots__element img {
+  width: 300px;
+  border: 4px solid black;
+}
+.screenshots__element p {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+@media (min-width: 750px) {
+  .screenshots__element {
+    margin-bottom: 50px;
+  }
+  .screenshots__element img {
+    width: 600px;
+  }
+  .screenshots__element p {
+    margin-bottom: 10px;
+  }
+}
