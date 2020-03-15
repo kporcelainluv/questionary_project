@@ -97,7 +97,7 @@ ol {
 .form_list-element {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   border-radius: 25px;
 }
 
@@ -160,7 +160,7 @@ textarea:focus {
   box-shadow: 0 0 10px darkgrey;
 }
 .text-heading {
-  padding-left: 20px;
+  padding-left: 16px;
   max-width: 280px;
   margin-bottom: 10px;
 }
@@ -275,6 +275,9 @@ textarea:focus {
 .question-block {
   display: flex;
   flex-direction: column;
+}
+.question-block span {
+  padding-left: 16px;
 }
 
 /*screenshots*/

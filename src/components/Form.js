@@ -72,14 +72,17 @@ const Question = ({
     state[question.name] === QuestionResponse.TRUE &&
     question.true
   ) {
-    return (
-      <Question
-        question={question.true}
-        state={state}
-        updateCheckboxValue={updateCheckboxValue}
-        updateStateValue={updateStateValue}
-      />
-    );
+    return question.true.map(elm => {
+      return (
+        <Question
+          key={elm.name}
+          question={elm}
+          state={state}
+          updateCheckboxValue={updateCheckboxValue}
+          updateStateValue={updateStateValue}
+        />
+      );
+    });
   } else if (
     question.type === QuestionType.TEST &&
     state[question.name] === QuestionResponse.FALSE &&

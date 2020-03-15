@@ -84,6 +84,9 @@ export const User = ({ id }) => {
           {user.age && (
             <h2 className="user_subheading">Возвраст: {user.age}</h2>
           )}
+          {user.occupation && (
+            <p className="user_subheading">Специальность: {user.occupation}</p>
+          )}
           {UserProfile.map((section, index) => {
             return (
               <Block key={section.name + index} section={section} user={user} />

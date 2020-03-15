@@ -1,18 +1,23 @@
 const Name = {
   name: "name",
   type: "text",
-  question: `Пожалуйста, представьтесь:`,
+  question: `Пожалуйста, представьтесь`,
   heading: ""
 };
 
 const Age = {
   name: "age",
   type: "radio",
-  question: `Укажите ваш возраст:`,
+  question: `Укажите ваш возраст`,
   options: ["до 18", "18-25", "25-35", "35-45", "45+"],
   heading: "Возраст"
 };
-
+const Occupation = {
+  name: "occupation",
+  type: "text",
+  question: `Если ваша цель - макияж для работы, укажите профессию`,
+  heading: ""
+};
 const SkinType = {
   name: "skinType",
   type: "radio",
@@ -47,8 +52,20 @@ const MakeupBase = {
   type: "radio",
   question: `Используете ли вы базу до макияжа?`,
   options: ["Да", "Нет"],
-
   heading: "Использует базу до макияжа"
+};
+
+const MakeupBaseType = {
+  name: "baseType",
+  type: "text",
+  question: `Какую базу вы используете? (бренд, название, назначение)`,
+  heading: "База"
+};
+
+const MakeupBaseTest = {
+  type: "test",
+  name: "base",
+  true: [MakeupBaseType]
 };
 
 const Foundation = {
@@ -56,31 +73,60 @@ const Foundation = {
   type: "radio",
   question: `Используете ли вы тональный крем?`,
   options: ["Да", "Нет"],
-
   heading: "Использует тональный крем"
 };
 
 const FoundationPreference = {
   name: "foundationPreference",
   type: "checkbox",
-  question: `Какое тональное средство вы предпочитаете?`,
+  question: `Какое покрытие вам нравится?`,
   options: ["легкое", "среднее", "плотное"],
+  heading: "Предпочитаемая плотность"
+};
 
-  heading: "Предпочитаемая плотность тонального крема"
+const foundationBrand = {
+  name: "foundationBrand",
+  type: "text",
+  question: `Какой тональный крем вы используете? (бренд, название)`,
+  heading: "Тональный крем"
+};
+
+const foundationExperience = {
+  name: "foundationExperience",
+  type: "text",
+  question: `Что вам не нравится в вашем тональном креме?`,
+  heading: "Не нравится"
+};
+
+const FoundationResult = {
+  name: "foundationResult",
+  type: "checkbox",
+  question: `Какой эффект от тона на лице вам нравится?`,
+  options: [
+    "интенсивное сияние",
+    "умеренное сияние",
+    "полуматовая кожа",
+    "матовая кожа"
+  ],
+  heading: "Нравится"
 };
 
 const FoundationNotUsed = {
   name: "foundationNotUsed",
   type: "text",
   question: `Расскажите, пожалуйста, почему`,
-
   heading: "Причина"
 };
 
 const FoundationTest = {
   type: "test",
   name: "foundation",
-  true: FoundationPreference,
+  true: [
+    foundationBrand,
+    FoundationResult,
+    foundationExperience,
+    FoundationPreference
+  ],
   false: FoundationNotUsed
 };
 
@@ -89,22 +135,32 @@ const Concealer = {
   type: "radio",
   question: `Используете ли вы консилер?`,
   options: ["Да", "Нет"],
-
   heading: "Использует консилер"
+};
+const concealerBrand = {
+  name: "concealerBrand",
+  type: "text",
+  question: `Какой консилер вы используете? (бренд, название)`,
+  heading: "Бренд"
+};
+const concealerExperience = {
+  name: "concealerExperience",
+  type: "text",
+  question: `Что вам не нравится в вашем консилере?`,
+  heading: "Не нравится"
 };
 
 const concealerNotUsed = {
   name: "concealerNotUsed",
   type: "text",
   question: `Расскажите, пожалуйста, почему?`,
-
   heading: "Причина"
 };
 
 const ConcealerTest = {
   type: "test",
   name: "concealerUsage",
-  true: {},
+  true: [concealerBrand, concealerExperience],
   false: concealerNotUsed
 };
 
@@ -113,14 +169,25 @@ const Powder = {
   type: "radio",
   question: `Используете ли вы пудру?`,
   options: ["Да", "Нет"],
-
   heading: "Использует пудру"
+};
+const PowderBrand = {
+  name: "powderBrand",
+  type: "text",
+  question: `Какую пудру вы используете? (бренд, название)`,
+  heading: "Бренд"
+};
+const PowderExperience = {
+  name: "powderExperience",
+  type: "text",
+  question: "Что вам не нравится в вашей пудре?",
+  heading: "Не нравится"
 };
 
 const PowderPreference = {
   name: "powderPreference",
   type: "checkbox",
-  question: `Какую пудру вы используете?`,
+  question: `Какую пудру вы предпочитаете?`,
   options: ["компактная", "рассыпчатая"],
   heading: "Предпочитаемая пудра"
 };
@@ -129,14 +196,13 @@ const PowderNotUsed = {
   name: "powderNotUsed",
   type: "text",
   question: `Расскажите, пожалуйста, почему?`,
-
   heading: "Причина"
 };
 
 const PowderTest = {
   type: "test",
   name: "powderUsage",
-  true: PowderPreference,
+  true: [PowderBrand, PowderPreference, PowderExperience],
   false: PowderNotUsed
 };
 
@@ -153,8 +219,20 @@ const BlushPreference = {
   type: "checkbox",
   question: `Какие румяна вам нравятся?`,
   options: ["кремовые", "сухие"],
-
   heading: "Предпочитаемые румяна"
+};
+const BlushBrand = {
+  name: "blushBrand",
+  type: "text",
+  question: `Какие румяна вы используете? (бренд, название)`,
+  heading: "Бренд"
+};
+const BlushExperience = {
+  name: "blushExperience",
+  type: "text",
+  question: `Что вам не нравится в ваших румянах?`,
+
+  heading: "Не нравится"
 };
 
 const BlushNotUsed = {
@@ -168,7 +246,7 @@ const BlushNotUsed = {
 const BlushTest = {
   type: "test",
   name: "blush",
-  true: BlushPreference,
+  true: [BlushPreference, BlushBrand, BlushExperience],
   false: BlushNotUsed
 };
 
@@ -189,18 +267,23 @@ const contourNotUsed = {
   heading: "Причина"
 };
 
-const contourPreference = {
-  name: "contourPreference",
+const ContourBrand = {
+  name: "contourBrand",
   type: "text",
-  question: `Какими контурирующими средствами вы пользуетесь?`,
-
-  heading: "Предпочитаемые продукты для контуринга"
+  question: `Какие продукты для контуринга вы используете? (бренд, название)`,
+  heading: "Бренд"
+};
+const ContourExperience = {
+  name: "contourExperience",
+  type: "text",
+  question: `Что вам не нравится в вашем контуринге?`,
+  heading: "Не нравится"
 };
 
 const ContourTest = {
   type: "test",
   name: "contour",
-  true: contourPreference,
+  true: [ContourBrand, ContourExperience],
   false: contourNotUsed
 };
 
@@ -246,7 +329,7 @@ const highlighterPreference = {
 const HighlighterTest = {
   type: "test",
   name: "highlighterUsage",
-  true: highlighterPreference,
+  true: [highlighterPreference],
   false: highlighterNotUsed
 };
 
@@ -271,8 +354,27 @@ const EyesPreference = {
     "Подводка",
     "Не использую ничего"
   ],
-
   heading: "Использует продукты для глаз"
+};
+
+const EyesBrand = {
+  name: "eyesBrand",
+  type: "text",
+  question: `Какие продукты для макияжа глаз вы используете? (бренд, название)`,
+  heading: "Бренд"
+};
+const EyesExperience = {
+  name: "eyesExperience",
+  type: "text",
+  question: `Что вам не нравится в ваших продуктах для глаз?`,
+  heading: "Не нравится"
+};
+
+const EyesChange = {
+  name: "eyesChange",
+  type: "text",
+  question: `Что хотелось бы изменить в макияже глаз?`,
+  heading: "Не нравится"
 };
 
 const ToolsPreference = {
@@ -301,14 +403,14 @@ const Frequency = {
 const Expectations = {
   name: "expectations",
   type: "text",
-  question: `Какой результат вы ожидаете от занятия?`,
+  question: `Какие проблемы вы хотите решить с помощью урока?`,
   heading: "От занятия ожидает"
 };
 
 export const Sections = [
   {
     name: "",
-    questions: [Name, Age]
+    questions: [Name, Age, Occupation]
   },
   {
     name: "Уход за кожей: ",
@@ -316,7 +418,7 @@ export const Sections = [
   },
   {
     name: "Тональный крем: ",
-    questions: [MakeupBase, Foundation, FoundationTest]
+    questions: [MakeupBase, MakeupBaseTest, Foundation, FoundationTest]
   },
   {
     name: "Консилер: ",
@@ -348,7 +450,7 @@ export const Sections = [
   },
   {
     name: "Тени: ",
-    questions: [EyesPreference]
+    questions: [EyesPreference, EyesBrand, EyesExperience, EyesChange]
   },
   {
     name: "Инструменты: ",
@@ -379,23 +481,49 @@ export const UserProfile = [
   },
   {
     name: "Основа",
-    questions: [MakeupBase, Foundation, FoundationNotUsed, FoundationPreference]
+    questions: [
+      MakeupBase,
+      MakeupBaseType,
+      Foundation,
+      FoundationPreference,
+      foundationBrand,
+      foundationExperience,
+      FoundationResult,
+      FoundationNotUsed
+    ]
   },
   {
     name: "Консилер",
-    questions: [Concealer, concealerNotUsed]
+    questions: [
+      Concealer,
+      concealerBrand,
+      concealerExperience,
+      concealerNotUsed
+    ]
   },
   {
     name: "Пудра",
-    questions: [Powder, PowderNotUsed, PowderPreference]
+    questions: [
+      Powder,
+      PowderPreference,
+      PowderBrand,
+      PowderExperience,
+      PowderNotUsed
+    ]
   },
   {
     name: "Румяна",
-    questions: [Blush, BlushPreference, BlushNotUsed]
+    questions: [
+      Blush,
+      BlushPreference,
+      BlushBrand,
+      BlushExperience,
+      BlushNotUsed
+    ]
   },
   {
     name: "Контуринг",
-    questions: [Contour, contourNotUsed, contourPreference]
+    questions: [Contour, ContourBrand, ContourExperience, contourNotUsed]
   },
   {
     name: "Помада",
@@ -411,7 +539,7 @@ export const UserProfile = [
   },
   {
     name: "Глаза",
-    questions: [EyesPreference]
+    questions: [EyesPreference, EyesBrand, EyesExperience, EyesChange]
   },
   {
     name: "Инструменты",
