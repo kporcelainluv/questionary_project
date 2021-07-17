@@ -14,7 +14,7 @@ export const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <div>
+        <div className="page-wrap">
           <Route exact path={"/list"} component={List} />
           <Route exact path={"/"} component={Form} />
           <Route exact path={"/form"} component={Form} />
