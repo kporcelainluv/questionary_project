@@ -7,9 +7,8 @@ const Name = {
 
 const Age = {
   name: "age",
-  type: "radio",
+  type: "text",
   question: `Укажите ваш возраст`,
-  options: ["до 18", "18-25", "25-35", "35-45", "45+"],
   heading: "Возраст"
 };
 const Occupation = {
